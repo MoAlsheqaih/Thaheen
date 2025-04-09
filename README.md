@@ -23,13 +23,13 @@ activities, and participate in leaderboards.
 account and browse the website and its questions, but cannot create or join 
 activities, interact with questions, and participate in leaderboards.
 
-### Setup and Installation Instructions
+## Setup and Installation Instructions
 
 
-### Usage instructions
+## Usage instructions
 
 
-### Team Members
+## Team Members
 
 - Mohammed Al Sheqaih
 - Abdulrahman Ammar
