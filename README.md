@@ -10,6 +10,7 @@ that so do other students.
 **Admin**: Responsible for managing the platform in terms of users and settings. 
 Regulates the website and its services based on his/her knowledge and 
 different statistics provided through a custom dashboard.
+
 **Question Master (QM)**: Also known as the “Content Moderator”, he/she is 
 responsible for maintaining the quality of the questions, checking feedback 
 and ratings, adding questions, and refining existing questions in the database.
