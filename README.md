@@ -4,6 +4,7 @@
 Additionally, it introduces a gamification aspect to the idea by adding events similar to Kahoot!, which could make studying a fun experience. This problem is worth solving as we face it every semester and have found, through a survey and personal interviews, 
 that so do other students.
 
+> **Full UI Design link**: https://www.figma.com/design/rZIB6vp0Wnhnrg7UIujsGG/Thaheen.com?node-id=0-1&t=ndxsxZxhVPzdhFBr-1
 
 ### User Categories
 
