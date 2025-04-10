@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "code": "SWE 206",
+    "name": "Introduction to SWE",
+    "questionsCount": 39,
+    "oldExamsCount": 0,
+    "chapters": [
+      {
+        "id": 1,
+        "name": "V&V",
+        "questionsCount": 10
+      },
+      {
+        "id": 2,
+        "name": "Testing",
+        "questionsCount": 10
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "code": "ICS 321",
+    "name": "Database Systems",
+    "questionsCount": 45,
+    "oldExamsCount": 2,
+    "chapters": [
+      {
+        "id": 1,
+        "name": "Introduction to Database Systems",
+        "questionsCount": 10
+      },
+      {
+        "id": 2,
+        "name": "Relational Model",
+        "questionsCount": 10
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "code": "ICS 343",
+    "name": "Fundamentals of Computer Networks",
+    "questionsCount": 28,
+    "oldExamsCount": 1,
+    "chapters": [
+      {
+        "id": 1,
+        "name": "Introduction to Computer Networks",
+        "questionsCount": 10
+      },
+      {
+        "id": 2,
+        "name": "Network Security",
+        "questionsCount": 10
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "code": "BUS 200",
+    "name": "Introduction to Business",
+    "questionsCount": 10,
+    "oldExamsCount": 0,
+    "chapters": [
+      {
+        "id": 1,
+        "name": "Introduction to Business",
+        "questionsCount": 10
+      },
+      {
+        "id": 2,
+        "name": "Business Environment",
+        "questionsCount": 10
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "code": "IAS 111",
+    "name": "Introduction to IAS",
+    "questionsCount": 10,
+    "oldExamsCount": 0,
+    "chapters": [
+      {
+        "id": 1,
+        "name": "Belief",
+        "questionsCount": 10
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "code": "SWE 206",
+    "name": "Introduction to SWE",
+    "questionsCount": 39,
+    "oldExamsCount": 0,
+    "chapters": [
+      {
+        "id": 1,
+        "name": "V&V",
+        "questionsCount": 10
+      },
+      {
+        "id": 2,
+        "name": "Testing",
+        "questionsCount": 10
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "code": "ICS 321",
+    "name": "Database Systems",
+    "questionsCount": 45,
+    "oldExamsCount": 2,
+    "chapters": [
+      {
+        "id": 1,
+        "name": "Introduction to Database Systems",
+        "questionsCount": 10
+      },
+      {
+        "id": 2,
+        "name": "Relational Model",
+        "questionsCount": 10
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "code": "ICS 343",
+    "name": "Fundamentals of Computer Networks",
+    "questionsCount": 28,
+    "oldExamsCount": 1,
+    "chapters": [
+      {
+        "id": 1,
+        "name": "Introduction to Computer Networks",
+        "questionsCount": 10
+      },
+      {
+        "id": 2,
+        "name": "Network Security",
+        "questionsCount": 10
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "code": "BUS 200",
+    "name": "Introduction to Business",
+    "questionsCount": 10,
+    "oldExamsCount": 0,
+    "chapters": [
+      {
+        "id": 1,
+        "name": "Introduction to Business",
+        "questionsCount": 10
+      },
+      {
+        "id": 2,
+        "name": "Business Environment",
+        "questionsCount": 10
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "code": "IAS 111",
+    "name": "Introduction to IAS",
+    "questionsCount": 10,
+    "oldExamsCount": 0,
+    "chapters": [
+      {
+        "id": 1,
+        "name": "Belief",
+        "questionsCount": 10
+      }
+    ]
+  }
+]

@@ -1,68 +1,12 @@
 import { useState } from "react";
+
 import CourseCard from "./CourseCard";
+
+// TODO: Replace with actual data source
+import courses from "../../courses.json";
 
 function Courses({ search }) {
   const [showAll, setShowAll] = useState(false);
-
-  // Example courses data - replace with your actual data source
-  const courses = [
-    {
-      code: "SWE 206",
-      name: "Introduction to SWE",
-      questionsCount: 39,
-      oldExamsCount: 0
-    },
-    {
-      code: "ICS 321",
-      name: "Database Systems",
-      questionsCount: 45,
-      oldExamsCount: 2
-    },
-    {
-      code: "ICS 343",
-      name: "Fundamentals of Computer Networks",
-      questionsCount: 28,
-      oldExamsCount: 1
-    }, {
-      code: "BUS 200",
-      name: "Introduction to Business",
-      questionsCount: 10,
-      oldExamsCount: 0
-    }, {
-      code: "IAS 111",
-      name: "Introduction to IAS",
-      questionsCount: 10,
-      oldExamsCount: 0
-    },
-    {
-      code: "SWE 206",
-      name: "Introduction to SWE",
-      questionsCount: 39,
-      oldExamsCount: 0
-    },
-    {
-      code: "ICS 321",
-      name: "Database Systems",
-      questionsCount: 45,
-      oldExamsCount: 2
-    },
-    {
-      code: "ICS 343",
-      name: "Fundamentals of Computer Networks",
-      questionsCount: 28,
-      oldExamsCount: 1
-    }, {
-      code: "BUS 200",
-      name: "Introduction to Business",
-      questionsCount: 10,
-      oldExamsCount: 0
-    }, {
-      code: "IAS 111",
-      name: "Introduction to IAS",
-      questionsCount: 10,
-      oldExamsCount: 0
-    }
-  ];
 
   // Filter courses based on search term
   const filteredCourses = courses.filter(course =>
@@ -84,9 +28,10 @@ function Courses({ search }) {
   return (
     <div className="flex flex-col items-center gap-8 w-full">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-        {displayedCourses.map((course, index) => (
+        {displayedCourses.map(course => (
           <CourseCard
-            key={index}
+            key={course.id}
+            id={course.id}
             code={course.code}
             name={course.name}
             questionsCount={course.questionsCount}

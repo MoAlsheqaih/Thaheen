@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import happy_fox from "../../assets/happy_fox.svg";
 import searchIcon from "../../assets/search.svg";
 import Courses from "./Courses";
 

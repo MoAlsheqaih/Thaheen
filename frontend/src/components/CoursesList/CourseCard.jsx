@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom";
+
 import course_questions from "../../assets/course_questions.svg";
 import course_old from "../../assets/course_old.svg";
 
-function CourseCard({ code, name, questionsCount, oldExamsCount }) {
+function CourseCard({ id, code, name, questionsCount, oldExamsCount }) {
   return (
-    <div className="bg-[#006F6A] rounded-2xl p-6 cursor-pointer hover:shadow-lg transition-shadow w-full flex flex-col">
+    <Link to={`/course/${id}`} className="bg-[#006F6A] rounded-2xl p-6 cursor-pointer hover:shadow-lg transition-shadow w-full flex flex-col">
       {/* Course code and name */}
       <div className="flex flex-col flex-grow mb-6">
         <h2 className="text-white text-2xl font-bold mb-1">{code}</h2>
@@ -32,7 +34,7 @@ function CourseCard({ code, name, questionsCount, oldExamsCount }) {
           <span className="text-xl">&gt;</span>
         </button>
       </div>
-    </div>
+    </Link>
   );
 }
 
