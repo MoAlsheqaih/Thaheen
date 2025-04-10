@@ -30,23 +30,22 @@ function Carousel({ slides }) {
     return () => clearTimeout(timer);
   }, [currentIndex]);
 
-  // Uncomment this to enable automatic slide transition
-  // useEffect(() => {
-  //   const interval = setInterval(nextSlide, 5000);
-  //   return () => clearInterval(interval);
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(nextSlide, 8000);
+    return () => clearInterval(interval);
+  });
 
   return (
     <div className="relative w-full h-[400px] overflow-hidden">
       {/* Slides container */}
-      <div 
+      <div
         className="absolute top-0 left-0 flex transition-transform duration-300 ease-in-out w-full h-full"
-        style={{ 
+        style={{
           transform: `translateX(-${currentIndex * 100}%)`
         }}
       >
         {slides.map((slide, index) => (
-          <div 
+          <div
             key={index}
             className="w-full h-full flex-shrink-0"
           >
@@ -83,11 +82,7 @@ function Carousel({ slides }) {
                 setCurrentIndex(index);
               }
             }}
-            className={`${
-              index === currentIndex ? "w-6" : "w-2"
-            } h-2 rounded-full transition-all ${
-              index === currentIndex ? "bg-[#FD7B06]" : "bg-gray-300"
-            }`}
+            className={`${index === currentIndex ? "w-6" : "w-2"} h-2 rounded-full transition-all ${index === currentIndex ? "bg-[#FD7B06]" : "bg-gray-300"}`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}

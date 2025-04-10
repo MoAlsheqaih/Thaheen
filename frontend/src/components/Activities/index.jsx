@@ -20,7 +20,7 @@ function Activities() {
         <img
           src={activities}
           alt="Activities fox tail"
-          className="w-48 h-48"
+          className="w-48"
         />
       </div>
     </div>
