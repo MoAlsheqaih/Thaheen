@@ -9,12 +9,12 @@
       {
         "id": 1,
         "name": "V&V",
-        "questionsCount": 10
+        "questionsCount": 19
       },
       {
         "id": 2,
         "name": "Testing",
-        "questionsCount": 10
+        "questionsCount": 20
       }
     ]
   },
@@ -28,12 +28,12 @@
       {
         "id": 1,
         "name": "Introduction to Database Systems",
-        "questionsCount": 10
+        "questionsCount": 15
       },
       {
         "id": 2,
         "name": "Relational Model",
-        "questionsCount": 10
+        "questionsCount": 30
       }
     ]
   },
@@ -52,7 +52,7 @@
       {
         "id": 2,
         "name": "Network Security",
-        "questionsCount": 10
+        "questionsCount": 18
       }
     ]
   },
@@ -60,7 +60,7 @@
     "id": 4,
     "code": "BUS 200",
     "name": "Introduction to Business",
-    "questionsCount": 10,
+    "questionsCount": 20,
     "oldExamsCount": 0,
     "chapters": [
       {
@@ -99,12 +99,12 @@
       {
         "id": 1,
         "name": "V&V",
-        "questionsCount": 10
+        "questionsCount": 19
       },
       {
         "id": 2,
         "name": "Testing",
-        "questionsCount": 10
+        "questionsCount": 20
       }
     ]
   },
@@ -118,12 +118,12 @@
       {
         "id": 1,
         "name": "Introduction to Database Systems",
-        "questionsCount": 10
+        "questionsCount": 15
       },
       {
         "id": 2,
         "name": "Relational Model",
-        "questionsCount": 10
+        "questionsCount": 30
       }
     ]
   },
@@ -142,7 +142,7 @@
       {
         "id": 2,
         "name": "Network Security",
-        "questionsCount": 10
+        "questionsCount": 18
       }
     ]
   },
@@ -150,7 +150,7 @@
     "id": 9,
     "code": "BUS 200",
     "name": "Introduction to Business",
-    "questionsCount": 10,
+    "questionsCount": 20,
     "oldExamsCount": 0,
     "chapters": [
       {

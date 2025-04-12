@@ -36,7 +36,7 @@ function Footer() {
 
           {/* Middle section - Copyright */}
           <div className="flex flex-1 text-white/60 justify-center">
-            <p>© 2024 Thaheen. All rights reserved.</p>
+            <p>© 2025 Thaheen. All rights reserved.</p>
           </div>
 
           {/* TODO: Put actual links */}
