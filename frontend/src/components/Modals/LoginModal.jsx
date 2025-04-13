@@ -18,7 +18,7 @@ function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin  }) {
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-2xl text-gray-400 hover:text-gray-600"
+          className="absolute top-0 right-4 text-2xl text-gray-400 hover:text-gray-600"
         >
           &times;
         </button>
