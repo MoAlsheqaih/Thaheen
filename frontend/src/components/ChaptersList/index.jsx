@@ -13,8 +13,16 @@ function ChaptersList(props) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {props.course.chapters.map((chapter) => (
-        <ChapterCard key={chapter.id} chapter={chapter} courseId={props.course.id} />
+        <ChapterCard key={chapter.id} chapter={chapter} courseId={props.course.id} isEditing={props.isEditing} />
       ))}
+
+      {props.isEditing && (
+        <button className="border border-[#006F6A] text-[#006F6A] p-4 rounded-lg transition-shadow hover:shadow-lg cursor-pointer flex items-center justify-center" onClick={props.onAddChapter}>
+          <div className="w-16 h-16 rounded-full border border-[#006F6A] flex items-center justify-center">
+            <span className="text-2xl font-bold text-[#006F6A]">+</span>
+          </div>
+        </button>
+      )}
     </div>
   );
 }

@@ -46,7 +46,7 @@ const leaderboardData = {
   ]
 }
 
-function Course() {
+function User() {
   return (
     <>
       <Header />
@@ -58,4 +58,4 @@ function Course() {
   );
 }
 
-export default Course; 
+export default User; 

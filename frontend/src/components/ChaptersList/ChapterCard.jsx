@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import bin from "../../assets/bin.png";
+
 function ChapterCard(props) {
   // add the leading zero to the chapter number
   const chapterNumber = String(props.chapter.id).padStart(2, "0");
@@ -9,7 +11,7 @@ function ChapterCard(props) {
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-lg font-bold text-[#006F6A]">{chapterNumber+"."} {props.chapter.name}</h2>
+            <h2 className="text-lg font-bold text-[#006F6A]">{chapterNumber + "."} {props.chapter.name}</h2>
           </div>
           <p className="text-sm text-gray-600 mt-1">Questions: {props.chapter.questionsCount}</p>
         </div>
@@ -38,9 +40,21 @@ function ChapterCard(props) {
               strokeDashoffset={`${2 * Math.PI * 36 * (1 - Math.random())}`}
             />
           </svg>
+
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg font-bold">
             {`${Math.floor(Math.random() * 100)}%`}
           </div>
+
+          {props.isEditing && (
+            <button className="absolute -top-[10px] -right-[10px]" onClick={(e) => {
+              // TODO: Delete chapter
+              e.preventDefault();
+              e.stopPropagation();
+              alert("Deleting chapter: " + props.chapter.id);
+            }}>
+              <img src={bin} alt="bin" className="w-6 h-6" />
+            </button>
+          )}
         </div>
       </div>
     </Link>
