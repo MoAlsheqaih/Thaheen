@@ -9,7 +9,7 @@ function ChapterCard(props) {
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-lg font-bold text-[#006F6A]">{chapterNumber} {props.chapter.name}</h2>
+            <h2 className="text-lg font-bold text-[#006F6A]">{chapterNumber+"."} {props.chapter.name}</h2>
           </div>
           <p className="text-sm text-gray-600 mt-1">Questions: {props.chapter.questionsCount}</p>
         </div>

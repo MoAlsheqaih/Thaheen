@@ -1,39 +1,45 @@
 [
   {
     "id": 1,
-    "code": "SWE 206",
-    "name": "Introduction to SWE",
-    "questionsCount": 39,
+    "code": "SWE 316",
+    "name": "Software Design and Construction",
+    "questionsCount": 0,
     "oldExamsCount": 0,
     "chapters": [
       {
         "id": 1,
-        "name": "V&V",
-        "questionsCount": 19
+        "name": "Introduction to Design",
+        "questionsCount": 0
       },
       {
         "id": 2,
-        "name": "Testing",
-        "questionsCount": 20
-      }
-    ]
-  },
-  {
-    "id": 2,
-    "code": "ICS 321",
-    "name": "Database Systems",
-    "questionsCount": 45,
-    "oldExamsCount": 2,
-    "chapters": [
-      {
-        "id": 1,
-        "name": "Introduction to Database Systems",
-        "questionsCount": 15
+        "name": "OO Design I - Classes and Objects",
+        "questionsCount": 0
       },
       {
-        "id": 2,
-        "name": "Relational Model",
-        "questionsCount": 30
+        "id": 3,
+        "name": "Main OO Concepts",
+        "questionsCount": 0
+      },
+      {
+        "id": 4,
+        "name": "Principles of Class Design",
+        "questionsCount": 0
+      },
+      {
+        "id": 5,
+        "name": "Good Design",
+        "questionsCount": 0
+      },
+      {
+        "id": 6,
+        "name": "Introduction to Design Patterns",
+        "questionsCount": 0
+      },
+      {
+        "id": 7,
+        "name": "Singleton Design Pattern",
+        "questionsCount": 0
       }
     ]
   },

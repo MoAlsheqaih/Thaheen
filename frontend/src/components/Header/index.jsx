@@ -1,12 +1,12 @@
-<<<<<<< HEAD
+
 import { Link } from "react-router-dom";
 
-=======
+
 import { useState } from "react";
 import LoginModal from "../Modals/LoginModal";
 import SignUpModal from "../Modals/SignUpModal";
 import VerifyModal from "../Modals/VerifyModal";
->>>>>>> get-started
+
 import DarkModeToggle from "./DarkModeToggle";
 import logo from "../../assets/logo.svg";
 import CTA from "./CTA";
@@ -18,13 +18,11 @@ function Header() {
   return (
     <header className="bg-[#FFEAD6] w-full py-2 px-5 relative z-10">
       <div className="flex justify-between items-center">
-<<<<<<< HEAD
+
         <Link to="/">
           <img src={logo} alt="logo" className="w-32" />
         </Link>
-=======
-        <img src={logo} alt="logo" className="w-32" />
->>>>>>> get-started
+
 
         <div className="flex items-center gap-2">
           <CTA onClick={() => setShowLogin(true)} />
