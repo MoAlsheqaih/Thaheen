@@ -24,7 +24,7 @@ function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin  }) {
         </button>
 
         {/* Fox image */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="absolute top-[-100] left-1/2 -translate-x-1/2 -translate-y-1/2">
           <img src={foxHead} alt="Fox" className="w-24 h-24" />
         </div>
 
