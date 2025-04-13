@@ -1,9 +1,9 @@
-
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import LoginModal from "../Modals/LoginModal";
-import SignUpModal from "../Modals/SignUpModal";
+
 import VerifyModal from "../Modals/VerifyModal";
+import SignUpModal from "../Modals/SignUpModal";
+import LoginModal from "../Modals/LoginModal";
 import DarkModeToggle from "./DarkModeToggle";
 import logo from "../../assets/logo.svg";
 import CTA from "./CTA";
@@ -12,6 +12,7 @@ function Header() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showVerify, setShowVerify] = useState(false);
+
   return (
     <header className="bg-[#FFEAD6] w-full py-2 px-5 relative z-10">
       <div className="flex justify-between items-center">
@@ -25,6 +26,7 @@ function Header() {
           <DarkModeToggle />
         </div>
       </div>
+      
       {showLogin && (
         <LoginModal
           onClose={() => setShowLogin(false)}

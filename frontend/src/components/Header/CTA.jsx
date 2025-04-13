@@ -1,5 +1,3 @@
-import React from "react";
-
 function CTA({ onClick }) {
   return (
     <button

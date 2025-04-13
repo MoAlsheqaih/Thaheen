@@ -1,12 +1,13 @@
 import { useState } from "react";
+
+import passwordIcon from "../../assets/password.svg";
+import googleIcon from "../../assets/google.svg";
 import foxHead from "../../assets/fox_head.svg";
 import emailIcon from "../../assets/email.svg";
-import passwordIcon from "../../assets/password.svg";
-import eyeIcon from "../../assets/eye.svg";
 import kfupmIcon from "../../assets/kfupm.svg";
-import googleIcon from "../../assets/google.svg";
+import eyeIcon from "../../assets/eye.svg";
 
-function SignUpModal({ onClose, onSwitchToLogin}) {
+function SignUpModal({ onClose, onSwitchToLogin }) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (

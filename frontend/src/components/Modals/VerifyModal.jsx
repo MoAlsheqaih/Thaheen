@@ -1,7 +1,7 @@
 import { useState } from "react";
+
 import passwordIcon from "../../assets/password.svg";
 import eyeIcon from "../../assets/eye.svg";
-
 
 function VerifyModal({ onClose, onBackToLogin }) {
   const [showCode, setShowCode] = useState(false);

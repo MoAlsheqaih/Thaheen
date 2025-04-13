@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
+
+import passwordIcon from "../../assets/password.svg";
+import googleIcon from "../../assets/google.svg";
 import foxHead from "../../assets/fox_head.svg";
 import kfupmIcon from "../../assets/kfupm.svg";
-import googleIcon from "../../assets/google.svg";
 import emailIcon from "../../assets/email.svg";
-import passwordIcon from "../../assets/password.svg";
 import eyeIcon from "../../assets/eye.svg";
 
-
-
-function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin  }) {
+function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin }) {
   const [showPassword, setShowPassword] = useState(false);
-  const [showSignUp, setShowSignUp] = useState(false);
-  const [showVerify, setShowVerify] = useState(false);
+  
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="className= bg-[#FFF3E6] rounded-[32px] px-8 pt-10 pb-8 shadow-2xl max-w-sm w-full relative">
