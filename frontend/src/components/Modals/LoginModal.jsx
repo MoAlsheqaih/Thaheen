@@ -22,7 +22,7 @@ function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin }) {
         </button>
 
         {/* Fox image */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="absolute -top-4 left-1/4 -translate-x-1/2 -translate-y-1/2">
           <img src={foxHead} alt="Fox" className="w-24 h-24" />
         </div>
 
@@ -86,14 +86,14 @@ function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin }) {
 
           <button
             type="submit"
-            className="bg-[#006F6A] text-white rounded-full py-3 font-semibold mt-2 w-full"
+            className="bg-[#006F6A] text-white rounded-lg py-3 font-semibold mt-2 w-full"
           >
             LOG IN
           </button>
         </form>
 
         {/* Sign up link */}
-        <p className="text-sm text-center mt-4">
+        <p className="text-sm text-center mt-2">
           Don’t have an account?{" "}
           <strong className="cursor-pointer" onClick={onSwitchToSignUp}>
             Sign up
@@ -101,7 +101,7 @@ function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin }) {
         </p>
 
         {/* Divider with text*/}
-        <div className="flex items-center gap-2 my-6">
+        <div className="flex items-center gap-2 my-3">
           <div className="flex-grow border-t border-gray-300"></div>
           <span className="text-sm text-gray-400">Or login with</span>
           <div className="flex-grow border-t border-gray-300"></div>
