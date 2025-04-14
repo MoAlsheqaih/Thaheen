@@ -1,6 +1,6 @@
 import fox_second from "../../assets/fox_second.svg";
 import fox_first from "../../assets/fox_first.svg";
-import fox_third from "../../assets/fox_third.svg";
+import fox_third from "../../assets/fox_third.png";
 import streak from "../../assets/streak.svg";
 import medal from "../../assets/medal.svg";
 
