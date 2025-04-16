@@ -9,7 +9,179 @@
       {
         "id": 1,
         "name": "Introduction to Design",
-        "questionsCount": 0
+        "questionsCount": 15,
+        "questions": [
+          {
+            "id": 1,
+            "text": "Sample question 1 about design principles?",
+            "options": [
+              { "id": "A", "text": "Requirement gathering", "count": 38 },
+              { "id": "B", "text": "To gather requirements", "count": 7 },
+              { "id": "C", "text": "To transform requirements into a structured solution", "count": 65 },
+              { "id": "D", "text": "Interface definition", "count": 57 }
+            ],
+            "correctOptionId": "B",
+            "difficulty": "Hard",
+            "type": "AI",
+            "totalSubmissions": 138,
+            "totalRatings": 336,
+            "totalRaters": 84,
+            "explanation": "This is a helpful explanation for question 1 to clarify design intent."
+          },
+          {
+            "id": 2,
+            "text": "Sample question 2 about design principles?",
+            "options": [
+              { "id": "A", "text": "Planning architecture", "count": 12 },
+              { "id": "B", "text": "To gather requirements", "count": 25 },
+              { "id": "C", "text": "System testing", "count": 8 },
+              { "id": "D", "text": "System testing", "count": 28 }
+            ],
+            "correctOptionId": "C",
+            "difficulty": "Medium",
+            "type": "Old Exams",
+            "totalSubmissions": 157,
+            "totalRatings": 375,
+            "totalRaters": 125,
+            "explanation": "This is a helpful explanation for question 2 to clarify design intent."
+          },
+          {
+            "id": 3,
+            "text": "Sample question 3 about design principles?",
+            "options": [
+              { "id": "A", "text": "To gather requirements", "count": 13 },
+              { "id": "B", "text": "Interface definition", "count": 62 },
+              { "id": "C", "text": "To write code", "count": 39 },
+              { "id": "D", "text": "Requirement gathering", "count": 16 }
+            ],
+            "correctOptionId": "A",
+            "difficulty": "Medium",
+            "type": "Old Exams",
+            "totalSubmissions": 129,
+            "totalRatings": 268,
+            "totalRaters": 67,
+            "explanation": "This is a helpful explanation for question 3 to clarify design intent."
+          },
+          {
+            "id": 4,
+            "text": "Sample question 4 about design principles?",
+            "options": [
+              { "id": "A", "text": "User feedback collection", "count": 10 },
+              { "id": "B", "text": "Decomposition of components", "count": 27 },
+              { "id": "C", "text": "Planning architecture", "count": 30 },
+              { "id": "D", "text": "User feedback collection", "count": 50 }
+            ],
+            "correctOptionId": "C",
+            "difficulty": "Easy",
+            "type": "Old Exams",
+            "totalSubmissions": 104,
+            "totalRatings": 350,
+            "totalRaters": 70,
+            "explanation": "This is a helpful explanation for question 4 to clarify design intent."
+          },
+          {
+            "id": 5,
+            "text": "Sample question 5 about design principles?",
+            "options": [
+              { "id": "A", "text": "Decomposition of components", "count": 69 },
+              { "id": "B", "text": "To transform requirements into a structured solution", "count": 36 },
+              { "id": "C", "text": "To gather requirements", "count": 10 },
+              { "id": "D", "text": "To test the software", "count": 22 }
+            ],
+            "correctOptionId": "B",
+            "difficulty": "Medium",
+            "type": "Old Exams",
+            "totalSubmissions": 146,
+            "totalRatings": 411,
+            "totalRaters": 137,
+            "explanation": "This is a helpful explanation for question 5 to clarify design intent."
+          },
+          {
+            "id": 6,
+            "text": "Sample question 6 about design principles?",
+            "options": [
+              { "id": "A", "text": "Requirement gathering", "count": 30 },
+              { "id": "B", "text": "Decomposition of components", "count": 15 },
+              { "id": "C", "text": "To write code", "count": 5 },
+              { "id": "D", "text": "System testing", "count": 10 }
+            ],
+            "correctOptionId": "C",
+            "difficulty": "Hard",
+            "type": "AI",
+            "totalSubmissions": 91,
+            "totalRatings": 174,
+            "totalRaters": 58,
+            "explanation": "This is a helpful explanation for question 6 to clarify design intent."
+          },
+          {
+            "id": 7,
+            "text": "Sample question 7 about design principles?",
+            "options": [
+              { "id": "A", "text": "To write code", "count": 39 },
+              { "id": "B", "text": "Decomposition of components", "count": 63 },
+              { "id": "C", "text": "Planning architecture", "count": 62 },
+              { "id": "D", "text": "Requirement gathering", "count": 37 }
+            ],
+            "correctOptionId": "A",
+            "difficulty": "Easy",
+            "type": "Old Exams",
+            "totalSubmissions": 165,
+            "totalRatings": 360,
+            "totalRaters": 90,
+            "explanation": "This is a helpful explanation for question 7 to clarify design intent."
+          },
+          {
+            "id": 8,
+            "text": "Sample question 8 about design principles?",
+            "options": [
+              { "id": "A", "text": "System testing", "count": 85 },
+              { "id": "B", "text": "To gather requirements", "count": 57 },
+              { "id": "C", "text": "Interface definition", "count": 83 },
+              { "id": "D", "text": "To transform requirements into a structured solution", "count": 91 }
+            ],
+            "correctOptionId": "C",
+            "difficulty": "Easy",
+            "type": "AI",
+            "totalSubmissions": 196,
+            "totalRatings": 475,
+            "totalRaters": 95,
+            "explanation": "This is a helpful explanation for question 8 to clarify design intent."
+          },
+          {
+            "id": 9,
+            "text": "Sample question 9 about design principles?",
+            "options": [
+              { "id": "A", "text": "Interface definition", "count": 9 },
+              { "id": "B", "text": "Requirement gathering", "count": 41 },
+              { "id": "C", "text": "Interface definition", "count": 22 },
+              { "id": "D", "text": "User feedback collection", "count": 34 }
+            ],
+            "correctOptionId": "A",
+            "difficulty": "Hard",
+            "type": "AI",
+            "totalSubmissions": 98,
+            "totalRatings": 360,
+            "totalRaters": 72,
+            "explanation": "This is a helpful explanation for question 9 to clarify design intent."
+          },
+          {
+            "id": 10,
+            "text": "Sample question 10 about design principles?",
+            "options": [
+              { "id": "A", "text": "System testing", "count": 62 },
+              { "id": "B", "text": "Planning architecture", "count": 38 },
+              { "id": "C", "text": "To gather requirements", "count": 60 },
+              { "id": "D", "text": "To test the software", "count": 43 }
+            ],
+            "correctOptionId": "A",
+            "difficulty": "Medium",
+            "type": "Old Exams",
+            "totalSubmissions": 128,
+            "totalRatings": 336,
+            "totalRaters": 84,
+            "explanation": "This is a helpful explanation for question 10 to clarify design intent."
+          }
+        ]
       },
       {
         "id": 2,
