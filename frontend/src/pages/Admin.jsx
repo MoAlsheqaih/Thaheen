@@ -1,11 +1,11 @@
+import MostActiveList from "../components/MostActiveList";
+import SettingsPanel from "../components/SettingsPanel";
+import WelcomeAdmin from "../components/WelcomeAdmin";
+import StatsCards from "../components/Statistics";
+import UsageChart from "../components/UsageChart";
+import TabSection from "../components/TabSection";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import WelcomeAdmin from "../components/WelcomeAdmin/WelcomeAdmin";
-import StatsCards from "../components/StatsCards/StatsCards";
-import UsageChart from "../components/UsageChart/UsageChart";
-import MostActiveList from "../components/MostActiveList/MostActiveList";
-import TabSection from "../components/TabSection/TabSection";
-import SettingsPanel from "../components/SettingsPanel/SettingsPanel";
 
 function Admin() {
   return (

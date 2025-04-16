@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const users = [
   { name: "ALI", points: 400 },
@@ -9,7 +9,7 @@ const users = [
 
 const maxPoints = Math.max(...users.map((u) => u.points));
 
-const MostActiveList = () => {
+function MostActiveList() {
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
@@ -34,15 +34,12 @@ const MostActiveList = () => {
               </div>
               <div className="w-full bg-orange-100 rounded-full h-6 overflow-hidden">
                 <div
-                  className={`h-6 text-xs font-bold text-white flex items-center justify-end pr-2 rounded-full transition-all duration-1000 ease-out ${
-                    animate ? "w-[" + percentage + "%]" : "w-0"
-                  }`}
+                  className={`h-6 text-xs font-bold text-white flex items-center justify-end pr-2 rounded-full transition-all duration-1000 ease-out ${animate ? "w-[" + percentage + "%]" : "w-0"}`}
                   style={{
                     width: animate ? `${percentage}%` : "0%",
                     background: "linear-gradient(to right, #FBBF24, #FDBA74)",
                   }}
                 >
-                  {/* Optional inline score */}
                 </div>
               </div>
             </div>

@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+
 import deleteIcon from "../../assets/delete-icon.png";
 import searchIcon from "../../assets/search-icon.png";
-import saraImg from "../../assets/Sara.png";
+import sheqaihImg from "../../assets/Sheqaih.png";
 import ammarImg from "../../assets/Ammar.png";
 import usamaImg from "../../assets/Usama.png";
-import sheqaihImg from "../../assets/Sheqaih.png";
+import saraImg from "../../assets/Sara.png";
 
 const initialStudents = [
   {
@@ -21,7 +22,7 @@ const initialStudents = [
     name: "Ammar",
     email: "a.mail@com",
     avatar: ammarImg,
-    role: "Regular student",
+    role: "Regular Student",
     isChecked: false,
     products: "95 Products",
   },
@@ -30,7 +31,7 @@ const initialStudents = [
     name: "Usama",
     email: "aliJajami@mcq.com",
     avatar: usamaImg,
-    role: "Regular student",
+    role: "Regular Student",
     isChecked: false,
     products: "120 Products",
   },
@@ -45,7 +46,7 @@ const initialStudents = [
   },
 ];
 
-const StudentTable = () => {
+function StudentsTable() {
   const [students, setStudents] = useState(initialStudents);
   const [menuOpenId, setMenuOpenId] = useState(null);
   const [search, setSearch] = useState("");
@@ -58,7 +59,9 @@ const StudentTable = () => {
         setMenuOpenId(null);
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -77,7 +80,7 @@ const StudentTable = () => {
           ? {
             ...s,
             role:
-                s.role === "Regular student" ? "Question Master" : "Regular student",
+              s.role === "Regular Student" ? "Question Master" : "Regular Student",
           }
           : s
       )
@@ -107,9 +110,7 @@ const StudentTable = () => {
       <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-2">
         <button
           onClick={handleBulkDelete}
-          className={`font-medium flex items-center gap-2 ${
-            anySelected ? "text-red-500" : "text-gray-400 cursor-default"
-          }`}
+          className={`font-medium flex items-center gap-2 ${anySelected ? "text-red-500" : "text-gray-400 cursor-default"}`}
           disabled={!anySelected}
         >
           🗑 Delete all selected
@@ -126,15 +127,13 @@ const StudentTable = () => {
         </div>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-3 overflow-x-auto">
         {visibleStudents.map((student) => (
           <div
             key={student.id}
-            className={`flex flex-wrap sm:flex-nowrap items-center justify-between p-3 rounded-xl shadow-sm border transition-all duration-200 ${
-              student.isChecked ? "border-orange-400" : "border-transparent"
-            } bg-white relative`}
+            className={`flex items-center justify-between p-3 rounded-xl shadow-sm border transition-all duration-200 ${student.isChecked ? "border-orange-400" : "border-transparent"} bg-white relative min-w-max w-full`}
           >
-            <div className="flex items-center gap-3 w-full sm:w-1/4">
+            <div className="flex items-center gap-3 w-64">
               <input
                 type="checkbox"
                 checked={student.isChecked}
@@ -152,31 +151,23 @@ const StudentTable = () => {
               </div>
             </div>
 
-            <div className="text-sm text-gray-500 w-full sm:w-1/4 text-center font-normal">
+            <div className="text-sm text-gray-500 w-40 text-center font-normal">
               {student.products}
             </div>
 
-            <div className="w-full sm:w-1/4 flex justify-center">
+            <div className="w-64 flex justify-center">
               <div className="flex bg-orange-100 rounded-full p-1 w-[200px] justify-between">
                 <button
                   onClick={() => toggleRole(student.id)}
-                  className={`w-1/2 text-sm font-medium py-1 rounded-full transition-all duration-300 ${
-                    student.role === "Question Master"
-                      ? "bg-orange-500 text-white"
-                      : "text-orange-500"
-                  }`}
+                  className={`w-1/2 text-sm font-medium py-1 rounded-full transition-all duration-300 ${student.role === "Question Master" ? "bg-orange-500 text-white" : "text-orange-500"}`}
                 >
                   Question Master
                 </button>
                 <button
                   onClick={() => toggleRole(student.id)}
-                  className={`w-1/2 text-sm font-medium py-1 rounded-full transition-all duration-300 ${
-                    student.role === "Regular student"
-                      ? "bg-orange-500 text-white"
-                      : "text-orange-500"
-                  }`}
+                  className={`w-1/2 text-sm font-medium py-1 rounded-full transition-all duration-300 ${student.role === "Regular Student" ? "bg-orange-500 text-white" : "text-orange-500"}`}
                 >
-                  Regular student
+                  Regular Student
                 </button>
               </div>
             </div>
@@ -225,4 +216,4 @@ const StudentTable = () => {
   );
 };
 
-export default StudentTable;
+export default StudentsTable;

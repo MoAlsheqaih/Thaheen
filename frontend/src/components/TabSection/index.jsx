@@ -1,20 +1,21 @@
-import { Tab } from "@headlessui/react";
-import { Fragment, useState } from "react";
-import CoursesTable from "../CoursesTable/CoursesTable"; // ✅ Fixed path
+import { Tab, TabGroup, TabList, TabPanels, TabPanel } from "@headlessui/react";
+import { useState } from "react";
+
+import StudentsTable from "./StudentsTable";
+import CoursesTable from "./CoursesTable";
 import Activities from "../Activities";
-import StudentTable from "./StudentTable";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const TabSection = () => {
-  const [tabs] = useState(["Student", "Courses", "Activities"]);
+function TabSection() {
+  const [tabs] = useState(["Students", "Courses", "Activities"]);
 
   return (
     <div className="w-full mt-10">
-      <Tab.Group>
-        <Tab.List className="flex space-x-4 rounded-xl bg-[#FFF7EC] p-1 w-fit mx-auto">
+      <TabGroup>
+        <TabList className="flex space-x-4 rounded-xl bg-[#FFF7EC] p-1 w-fit mx-auto">
           {tabs.map((tab, idx) => (
             <Tab
               key={idx}
@@ -30,21 +31,24 @@ const TabSection = () => {
               {tab}
             </Tab>
           ))}
-        </Tab.List>
-        <Tab.Panels className="mt-6">
-          <Tab.Panel>
-            <StudentTable />
-          </Tab.Panel>
-          <Tab.Panel>
+        </TabList>
+
+        <TabPanels className="mt-6">
+          <TabPanel id="students">
+            <StudentsTable />
+          </TabPanel>
+
+          <TabPanel>
             <CoursesTable />
-          </Tab.Panel>
-          <Tab.Panel>
+          </TabPanel>
+
+          <TabPanel>
             <div className="text-center">
               <Activities />
             </div>
-          </Tab.Panel>
-        </Tab.Panels>
-      </Tab.Group>
+          </TabPanel>
+        </TabPanels>
+      </TabGroup>
     </div>
   );
 };

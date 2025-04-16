@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
+
 import usageImage from "../../assets/Widget.png";
 
-const UsageChart = () => {
+function UsageChart() {
   const [timeframe, setTimeframe] = useState("Yearly");
 
   return (
@@ -29,6 +30,8 @@ const UsageChart = () => {
           </select>
         </div>
       </div>
+
+      {/* This is a placeholder for the usage chart image */}
       <img src={usageImage} alt="Usage Chart" className="w-full rounded-md" />
     </div>
   );

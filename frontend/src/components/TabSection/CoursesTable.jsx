@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+
 import deleteIcon from "../../assets/delete-icon.png";
-import editIcon from "../../assets/edit-icon.png";
 import searchIcon from "../../assets/search-icon.png";
+import editIcon from "../../assets/edit-icon.png";
 
 const initialCourses = [
   {
@@ -38,7 +39,7 @@ const initialCourses = [
   },
 ];
 
-const CoursesTable = () => {
+function CoursesTable() {
   const [courses, setCourses] = useState(initialCourses);
   const [menuOpenId, setMenuOpenId] = useState(null);
   const [showAll, setShowAll] = useState(false);
@@ -104,13 +105,12 @@ const CoursesTable = () => {
       <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-2">
         <button
           onClick={handleBulkDelete}
-          className={`font-medium flex items-center gap-2 ${
-            anySelected ? "text-red-500" : "text-gray-400 cursor-default"
-          }`}
+          className={`font-medium flex items-center gap-2 ${anySelected ? "text-red-500" : "text-gray-400 cursor-default"}`}
           disabled={!anySelected}
         >
           🗑 Delete all selected
         </button>
+
         <div className="flex items-center gap-2 bg-[#FFF3DF] px-3 py-1 rounded-full">
           <input
             type="text"
@@ -121,6 +121,7 @@ const CoursesTable = () => {
           />
           <img src={searchIcon} alt="Search" className="w-4 h-4 text-orange-500" />
         </div>
+
         <button
           onClick={() => setShowModal(true)}
           className="bg-orange-500 text-white py-1 px-4 rounded-full text-sm font-medium hover:bg-orange-600 transition"
@@ -129,13 +130,11 @@ const CoursesTable = () => {
         </button>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-3 overflow-x-auto">
         {visibleCourses.map((course) => (
           <div
             key={course.id}
-            className={`flex items-center justify-between p-3 rounded-xl shadow-sm border transition-all duration-200 ${
-              course.isChecked ? "border-orange-400" : "border-transparent"
-            } bg-white relative`}
+            className={`flex items-center justify-between p-3 rounded-xl shadow-sm border transition-all duration-200 ${course.isChecked ? "border-orange-400" : "border-transparent"} bg-white relative min-w-max w-full`}
           >
             <div className="flex items-center gap-3">
               <input
