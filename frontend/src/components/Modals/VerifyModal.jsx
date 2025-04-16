@@ -28,7 +28,7 @@ function VerifyModal({ onClose, onBackToLogin }) {
           An authentication code has been sent to your email.
         </p>
 
-        <div className="relative mb-6">
+        <div className="relative mb-4">
           <img src={passwordIcon} alt="lock" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" />
           <input
             type={showCode ? "text" : "password"}
@@ -46,14 +46,14 @@ function VerifyModal({ onClose, onBackToLogin }) {
 
         <p className="text-sm text-center text-gray-500 mb-4">
           Didn’t receive a code?{" "}
-          <span className="text-[#FF8682] cursor-pointer">Resend</span>
+          <span className="text-[#FD7B06] cursor-pointer">Resend</span>
         </p>
 
-        <button className="bg-[#006F6A] text-white rounded-full py-3 font-semibold w-full">
+        <button className="bg-[#006F6A] text-white rounded-lg py-3 font-semibold w-full">
           VERIFY
         </button>
 
-        <p className="text-sm text-center mt-4 text-gray-600">
+        <p className="text-sm text-center mt-2 text-gray-600">
           Have a problem? <strong className="text-black">Contact us</strong>
         </p>
       </div>

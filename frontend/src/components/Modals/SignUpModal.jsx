@@ -12,7 +12,7 @@ function SignUpModal({ onClose, onSwitchToLogin }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-[#FFF3E6] rounded-[32px] px-8 pt-10 pb-8 shadow-2xl max-w-sm w-full relative">
+      <div className="bg-[#FFF3E6] rounded-[32px] px-8 pt-4 pb-8 shadow-2xl max-w-sm w-full relative">
         {/* Close */}
         <button
           onClick={onClose}
@@ -22,7 +22,7 @@ function SignUpModal({ onClose, onSwitchToLogin }) {
         </button>
 
         {/* Fox image */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="absolute -top-4 left-1/3 -translate-x-1/2 -translate-y-1/2">
           <img src={foxHead} alt="Fox" className="w-24 h-24" />
         </div>
 
@@ -82,7 +82,7 @@ function SignUpModal({ onClose, onSwitchToLogin }) {
               <label className="flex items-center">
                 <input type="checkbox" className="mr-2" />
                 <span>
-                  I agree to all the <span className="text-[#FD7B06] font-semibold">Terms</span> and <span className="text-[#FF8682] font-semibold">Privacy Policies</span>
+                  I agree to all the <span className="text-[#FD7B06] font-semibold">Terms</span> and <span className="text-[#FD7B06] font-semibold">Privacy Policies</span>
                 </span>
               </label>
             </label>
@@ -95,7 +95,7 @@ function SignUpModal({ onClose, onSwitchToLogin }) {
         </form>
 
         {/* Already have an account */}
-        <p className="text-sm text-center mt-4">
+        <p className="text-sm text-center mt-2">
         Already registered?{" "}
           <strong className="cursor-pointer" onClick={onSwitchToLogin}>
             Sign in
@@ -103,9 +103,9 @@ function SignUpModal({ onClose, onSwitchToLogin }) {
         </p>
 
         {/* Divider */}
-        <div className="flex items-center gap-2 my-6">
+        <div className="flex items-center gap-2 my-3">
           <div className="flex-grow border-t border-gray-300"></div>
-          <span className="text-sm text-gray-400">Or login with</span>
+          <span className="text-sm text-gray-400">Or sign up with</span>
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
 
