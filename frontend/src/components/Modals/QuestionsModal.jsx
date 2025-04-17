@@ -8,9 +8,7 @@ function QuestionsModal({ questions, currentIndex, onSelect, onClose, answeredSt
     return [...Array(5)].map((_, i) => (
       <FaStar
         key={i}
-        className={`w-4 h-4 ${
-          i < full || (i === full && half) ? "text-yellow-400" : "text-gray-300"
-        }`}
+        className={`w-4 h-4 ${i < full || (i === full && half) ? "text-yellow-400" : "text-gray-300"}`}
       />
     ));
   };
@@ -38,11 +36,7 @@ function QuestionsModal({ questions, currentIndex, onSelect, onClose, answeredSt
               <button
                 key={q.id}
                 onClick={() => onSelect(idx)}
-                className={`text-left border p-4 rounded-lg transition-all ${
-                  idx === currentIndex
-                    ? "border-[#FD7B06] bg-orange-50"
-                    : "border-gray-200 hover:shadow-sm"
-                }`}
+                className={`text-left border p-4 rounded-lg transition-all ${idx === currentIndex ? "border-[#FD7B06] bg-orange-50" : "border-gray-200 hover:shadow-sm"}`}
               >
                 <div className="flex justify-between items-start mb-2">
                   <span className="text-sm text-gray-800 font-medium">
@@ -50,33 +44,21 @@ function QuestionsModal({ questions, currentIndex, onSelect, onClose, answeredSt
                   </span>
                   <div className="flex flex-col items-end gap-1">
                     <span
-                      className={`text-xs font-bold px-2 py-1 rounded-full ${
-                        q.difficulty === "Easy"
-                          ? "bg-green-100 text-green-700"
-                          : q.difficulty === "Medium"
-                            ? "bg-yellow-100 text-yellow-700"
-                            : "bg-red-100 text-red-700"
-                      }`}
+                      className={`text-xs font-bold px-2 py-1 rounded-full ${q.difficulty === "Easy" ? "bg-green-100 text-green-700" : q.difficulty === "Medium" ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"}`}
                     >
                       {q.difficulty}
                     </span>
                     <span
-                      className={`text-xs px-2 py-0.5 rounded-full ${
-                        answeredStatus?.[idx]
-                          ? "bg-green-100 text-green-600"
-                          : "bg-gray-100 text-gray-500"
-                      }`}
+                      className={`text-xs px-2 py-0.5 rounded-full ${answeredStatus?.[idx] ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-500"}`}
                     >
-                      {answeredStatus?.[idx] ? "Answered" : "Not answered"}
+                      {answeredStatus?.[idx] ? "Answered" : "Unanswered"}
                     </span>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <span
-                    className={`text-xs uppercase font-semibold ${
-                      q.type === "AI" ? "text-[#006F6A]" : "text-[#FD7B06]"
-                    }`}
+                    className={`text-xs uppercase font-semibold ${q.type === "AI" ? "text-[#006F6A]" : "text-[#FD7B06]"}`}
                   >
                     {q.type} Question
                   </span>
