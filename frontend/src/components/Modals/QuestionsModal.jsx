@@ -1,6 +1,7 @@
+import { IoBookmark } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
 
-function QuestionsModal({ questions, currentIndex, onSelect, onClose, answeredStatus }) {
+function QuestionsModal({ questions, currentIndex, onSelect, onClose, answeredStatus, bookmarkedStatus }) {
   const renderStars = (rating) => {
     const full = Math.floor(rating);
     const half = rating % 1 >= 0.5;
@@ -36,11 +37,14 @@ function QuestionsModal({ questions, currentIndex, onSelect, onClose, answeredSt
               <button
                 key={q.id}
                 onClick={() => onSelect(idx)}
-                className={`text-left border p-4 rounded-lg transition-all ${idx === currentIndex ? "border-[#FD7B06] bg-orange-50" : "border-gray-200 hover:shadow-sm"}`}
+                className={`text-left border p-4 rounded-lg transition-all relative ${idx === currentIndex ? "border-[#FD7B06] bg-orange-50" : "border-gray-200 hover:shadow-sm"}`}
               >
+                <div className="absolute -top-1 left-1">
+                  {bookmarkedStatus?.[idx] && <IoBookmark className="fill-[#FD7B06] text-[#FD7B06]" />}
+                </div>
                 <div className="flex justify-between items-start mb-2">
                   <span className="text-sm text-gray-800 font-medium">
-                    Q{idx + 1}: {q.text.slice(0, 50)}...
+                    Q{idx + 1}: {q.text.length > 50 ? `${q.text.slice(0, 50)}...` : q.text}
                   </span>
                   <div className="flex flex-col items-end gap-1">
                     <span

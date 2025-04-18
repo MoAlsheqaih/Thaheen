@@ -15,10 +15,26 @@
             "id": 1,
             "text": "Sample question 1 about design principles?",
             "options": [
-              { "id": "A", "text": "Requirement gathering", "count": 38 },
-              { "id": "B", "text": "To gather requirements", "count": 7 },
-              { "id": "C", "text": "To transform requirements into a structured solution", "count": 65 },
-              { "id": "D", "text": "Interface definition", "count": 57 }
+              {
+                "id": "A",
+                "text": "Requirement gathering",
+                "count": 38
+              },
+              {
+                "id": "B",
+                "text": "To gather requirements",
+                "count": 7
+              },
+              {
+                "id": "C",
+                "text": "To transform requirements into a structured solution",
+                "count": 65
+              },
+              {
+                "id": "D",
+                "text": "Interface definition",
+                "count": 57
+              }
             ],
             "correctOptionId": "B",
             "difficulty": "Hard",
@@ -32,10 +48,26 @@
             "id": 2,
             "text": "Sample question 2 about design principles?",
             "options": [
-              { "id": "A", "text": "Planning architecture", "count": 12 },
-              { "id": "B", "text": "To gather requirements", "count": 25 },
-              { "id": "C", "text": "System testing", "count": 8 },
-              { "id": "D", "text": "System testing", "count": 28 }
+              {
+                "id": "A",
+                "text": "Planning architecture",
+                "count": 12
+              },
+              {
+                "id": "B",
+                "text": "To gather requirements",
+                "count": 25
+              },
+              {
+                "id": "C",
+                "text": "System testing",
+                "count": 8
+              },
+              {
+                "id": "D",
+                "text": "System testing",
+                "count": 28
+              }
             ],
             "correctOptionId": "C",
             "difficulty": "Medium",
@@ -49,10 +81,26 @@
             "id": 3,
             "text": "Sample question 3 about design principles?",
             "options": [
-              { "id": "A", "text": "To gather requirements", "count": 13 },
-              { "id": "B", "text": "Interface definition", "count": 62 },
-              { "id": "C", "text": "To write code", "count": 39 },
-              { "id": "D", "text": "Requirement gathering", "count": 16 }
+              {
+                "id": "A",
+                "text": "To gather requirements",
+                "count": 13
+              },
+              {
+                "id": "B",
+                "text": "Interface definition",
+                "count": 62
+              },
+              {
+                "id": "C",
+                "text": "To write code",
+                "count": 39
+              },
+              {
+                "id": "D",
+                "text": "Requirement gathering",
+                "count": 16
+              }
             ],
             "correctOptionId": "A",
             "difficulty": "Medium",
@@ -66,10 +114,26 @@
             "id": 4,
             "text": "Sample question 4 about design principles?",
             "options": [
-              { "id": "A", "text": "User feedback collection", "count": 10 },
-              { "id": "B", "text": "Decomposition of components", "count": 27 },
-              { "id": "C", "text": "Planning architecture", "count": 30 },
-              { "id": "D", "text": "User feedback collection", "count": 50 }
+              {
+                "id": "A",
+                "text": "User feedback collection",
+                "count": 10
+              },
+              {
+                "id": "B",
+                "text": "Decomposition of components",
+                "count": 27
+              },
+              {
+                "id": "C",
+                "text": "Planning architecture",
+                "count": 30
+              },
+              {
+                "id": "D",
+                "text": "User feedback collection",
+                "count": 50
+              }
             ],
             "correctOptionId": "C",
             "difficulty": "Easy",
@@ -83,10 +147,26 @@
             "id": 5,
             "text": "Sample question 5 about design principles?",
             "options": [
-              { "id": "A", "text": "Decomposition of components", "count": 69 },
-              { "id": "B", "text": "To transform requirements into a structured solution", "count": 36 },
-              { "id": "C", "text": "To gather requirements", "count": 10 },
-              { "id": "D", "text": "To test the software", "count": 22 }
+              {
+                "id": "A",
+                "text": "Decomposition of components",
+                "count": 69
+              },
+              {
+                "id": "B",
+                "text": "To transform requirements into a structured solution",
+                "count": 36
+              },
+              {
+                "id": "C",
+                "text": "To gather requirements",
+                "count": 10
+              },
+              {
+                "id": "D",
+                "text": "To test the software",
+                "count": 22
+              }
             ],
             "correctOptionId": "B",
             "difficulty": "Medium",
@@ -100,10 +180,26 @@
             "id": 6,
             "text": "Sample question 6 about design principles?",
             "options": [
-              { "id": "A", "text": "Requirement gathering", "count": 30 },
-              { "id": "B", "text": "Decomposition of components", "count": 15 },
-              { "id": "C", "text": "To write code", "count": 5 },
-              { "id": "D", "text": "System testing", "count": 10 }
+              {
+                "id": "A",
+                "text": "Requirement gathering",
+                "count": 30
+              },
+              {
+                "id": "B",
+                "text": "Decomposition of components",
+                "count": 15
+              },
+              {
+                "id": "C",
+                "text": "To write code",
+                "count": 5
+              },
+              {
+                "id": "D",
+                "text": "System testing",
+                "count": 10
+              }
             ],
             "correctOptionId": "C",
             "difficulty": "Hard",
@@ -117,10 +213,26 @@
             "id": 7,
             "text": "Sample question 7 about design principles?",
             "options": [
-              { "id": "A", "text": "To write code", "count": 39 },
-              { "id": "B", "text": "Decomposition of components", "count": 63 },
-              { "id": "C", "text": "Planning architecture", "count": 62 },
-              { "id": "D", "text": "Requirement gathering", "count": 37 }
+              {
+                "id": "A",
+                "text": "To write code",
+                "count": 39
+              },
+              {
+                "id": "B",
+                "text": "Decomposition of components",
+                "count": 63
+              },
+              {
+                "id": "C",
+                "text": "Planning architecture",
+                "count": 62
+              },
+              {
+                "id": "D",
+                "text": "Requirement gathering",
+                "count": 37
+              }
             ],
             "correctOptionId": "A",
             "difficulty": "Easy",
@@ -134,10 +246,26 @@
             "id": 8,
             "text": "Sample question 8 about design principles?",
             "options": [
-              { "id": "A", "text": "System testing", "count": 85 },
-              { "id": "B", "text": "To gather requirements", "count": 57 },
-              { "id": "C", "text": "Interface definition", "count": 83 },
-              { "id": "D", "text": "To transform requirements into a structured solution", "count": 91 }
+              {
+                "id": "A",
+                "text": "System testing",
+                "count": 85
+              },
+              {
+                "id": "B",
+                "text": "To gather requirements",
+                "count": 57
+              },
+              {
+                "id": "C",
+                "text": "Interface definition",
+                "count": 83
+              },
+              {
+                "id": "D",
+                "text": "To transform requirements into a structured solution",
+                "count": 91
+              }
             ],
             "correctOptionId": "C",
             "difficulty": "Easy",
@@ -151,10 +279,26 @@
             "id": 9,
             "text": "Sample question 9 about design principles?",
             "options": [
-              { "id": "A", "text": "Interface definition", "count": 9 },
-              { "id": "B", "text": "Requirement gathering", "count": 41 },
-              { "id": "C", "text": "Interface definition", "count": 22 },
-              { "id": "D", "text": "User feedback collection", "count": 34 }
+              {
+                "id": "A",
+                "text": "Interface definition",
+                "count": 9
+              },
+              {
+                "id": "B",
+                "text": "Requirement gathering",
+                "count": 41
+              },
+              {
+                "id": "C",
+                "text": "Interface definition",
+                "count": 22
+              },
+              {
+                "id": "D",
+                "text": "User feedback collection",
+                "count": 34
+              }
             ],
             "correctOptionId": "A",
             "difficulty": "Hard",
@@ -168,10 +312,26 @@
             "id": 10,
             "text": "Sample question 10 about design principles?",
             "options": [
-              { "id": "A", "text": "System testing", "count": 62 },
-              { "id": "B", "text": "Planning architecture", "count": 38 },
-              { "id": "C", "text": "To gather requirements", "count": 60 },
-              { "id": "D", "text": "To test the software", "count": 43 }
+              {
+                "id": "A",
+                "text": "System testing",
+                "count": 62
+              },
+              {
+                "id": "B",
+                "text": "Planning architecture",
+                "count": 38
+              },
+              {
+                "id": "C",
+                "text": "To gather requirements",
+                "count": 60
+              },
+              {
+                "id": "D",
+                "text": "To test the software",
+                "count": 43
+              }
             ],
             "correctOptionId": "A",
             "difficulty": "Medium",
@@ -186,32 +346,38 @@
       {
         "id": 2,
         "name": "OO Design I - Classes and Objects",
-        "questionsCount": 0
+        "questionsCount": 0,
+        "questions": []
       },
       {
         "id": 3,
         "name": "Main OO Concepts",
-        "questionsCount": 0
+        "questionsCount": 0,
+        "questions": []
       },
       {
         "id": 4,
         "name": "Principles of Class Design",
-        "questionsCount": 0
+        "questionsCount": 0,
+        "questions": []
       },
       {
         "id": 5,
         "name": "Good Design",
-        "questionsCount": 0
+        "questionsCount": 0,
+        "questions": []
       },
       {
         "id": 6,
         "name": "Introduction to Design Patterns",
-        "questionsCount": 0
+        "questionsCount": 0,
+        "questions": []
       },
       {
         "id": 7,
         "name": "Singleton Design Pattern",
-        "questionsCount": 0
+        "questionsCount": 0,
+        "questions": []
       }
     ]
   },
@@ -225,12 +391,14 @@
       {
         "id": 1,
         "name": "V&V",
-        "questionsCount": 19
+        "questionsCount": 19,
+        "questions": []
       },
       {
         "id": 2,
         "name": "Testing",
-        "questionsCount": 20
+        "questionsCount": 20,
+        "questions": []
       }
     ]
   },
@@ -244,12 +412,14 @@
       {
         "id": 1,
         "name": "Introduction to Computer Networks",
-        "questionsCount": 10
+        "questionsCount": 10,
+        "questions": []
       },
       {
         "id": 2,
         "name": "Network Security",
-        "questionsCount": 18
+        "questionsCount": 18,
+        "questions": []
       }
     ]
   },
@@ -263,12 +433,14 @@
       {
         "id": 1,
         "name": "Introduction to Business",
-        "questionsCount": 10
+        "questionsCount": 10,
+        "questions": []
       },
       {
         "id": 2,
         "name": "Business Environment",
-        "questionsCount": 10
+        "questionsCount": 10,
+        "questions": []
       }
     ]
   },
@@ -282,7 +454,8 @@
       {
         "id": 1,
         "name": "Belief",
-        "questionsCount": 10
+        "questionsCount": 10,
+        "questions": []
       }
     ]
   },
@@ -296,12 +469,14 @@
       {
         "id": 1,
         "name": "V&V",
-        "questionsCount": 19
+        "questionsCount": 19,
+        "questions": []
       },
       {
         "id": 2,
         "name": "Testing",
-        "questionsCount": 20
+        "questionsCount": 20,
+        "questions": []
       }
     ]
   },
@@ -315,12 +490,14 @@
       {
         "id": 1,
         "name": "Introduction to Database Systems",
-        "questionsCount": 15
+        "questionsCount": 15,
+        "questions": []
       },
       {
         "id": 2,
         "name": "Relational Model",
-        "questionsCount": 30
+        "questionsCount": 30,
+        "questions": []
       }
     ]
   },
@@ -334,12 +511,14 @@
       {
         "id": 1,
         "name": "Introduction to Computer Networks",
-        "questionsCount": 10
+        "questionsCount": 10,
+        "questions": []
       },
       {
         "id": 2,
         "name": "Network Security",
-        "questionsCount": 18
+        "questionsCount": 18,
+        "questions": []
       }
     ]
   },
@@ -353,12 +532,14 @@
       {
         "id": 1,
         "name": "Introduction to Business",
-        "questionsCount": 10
+        "questionsCount": 10,
+        "questions": []
       },
       {
         "id": 2,
         "name": "Business Environment",
-        "questionsCount": 10
+        "questionsCount": 10,
+        "questions": []
       }
     ]
   },
@@ -372,7 +553,8 @@
       {
         "id": 1,
         "name": "Belief",
-        "questionsCount": 10
+        "questionsCount": 10,
+        "questions": []
       }
     ]
   }

@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { IoBookmarkOutline, IoBookmark } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
+import { useState } from "react";
 
 function QuestionCard({
   question,
   selectedAnswerId,
   userRating,
   submitted,
+  bookmarked,
   onSelectAnswer,
   onRate,
-  onSubmit
+  onSubmit,
+  onBookmark,
+  progressText,
+  progressPercentage
 }) {
   const [showExplanation, setShowExplanation] = useState(false);
 
@@ -19,9 +24,7 @@ function QuestionCard({
   };
 
   const handleRate = (ratingValue) => {
-    if (!submitted) {
-      onRate(ratingValue);
-    }
+    onRate(ratingValue);
   };
 
   const handleSubmit = () => {
@@ -37,34 +40,50 @@ function QuestionCard({
   };
 
   const averageRating = question.totalRaters
-    ? (question.totalRatings / question.totalRaters).toFixed(2)
+    ? ((question.totalRatings + (userRating ? userRating : 0)) / (question.totalRaters + (userRating ? 1 : 0))).toFixed(2)
     : "0.0";
 
   return (
     <div className="bg-white p-6 rounded-2xl shadow-md">
-      {/* Question text */}
+      {/* Progress indicator */}
+      <div className="mb-4">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-medium text-sm text-black">{progressText}</span>
+        </div>
+        <div className="h-2 bg-gray-200 rounded-full">
+          <div
+            className="h-full bg-[#FD7B06] rounded-full transition-all"
+            style={{ width: `${progressPercentage}%` }}
+          />
+        </div>
+      </div>
+
+      {/* Bookmark and Tags */}
       <div className="flex justify-between items-center mb-4">
-        <h3 className="font-semibold text-teal-800">{question.text}</h3>
+        <div className="cursor-pointer text-2xl">
+          {bookmarked ? (
+            <IoBookmark className="fill-[#FD7B06] text-[#FD7B06]" onClick={onBookmark} />
+          ) : (
+            <IoBookmarkOutline className="text-[#FD7B06]" onClick={onBookmark} />
+          )}
+        </div>
         <div className="flex gap-2">
           <span
-            className={`text-xs font-bold px-2 py-1 rounded-full ${question.type === "AI"
-              ? "bg-teal-100 text-teal-700"
-              : "bg-orange-100 text-orange-700"
-            }`}
+            className={`text-xs font-bold px-2 py-1 rounded-full ${question.type === "AI" ? "bg-teal-100 text-teal-700" : "bg-orange-100 text-orange-700"}`}
           >
             {question.type}
           </span>
           <span
-            className={`text-xs font-bold px-2 py-1 rounded-full ${question.difficulty === "Easy"
-              ? "bg-green-100 text-green-700"
-              : question.difficulty === "Medium"
-                ? "bg-yellow-100 text-yellow-700"
-                : "bg-red-100 text-red-700"
-            }`}
+            className={`text-xs font-bold px-2 py-1 rounded-full ${question.difficulty === "Easy" ? "bg-green-100 text-green-700" : question.difficulty === "Medium" ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"}`}
           >
             {question.difficulty}
           </span>
         </div>
+      </div>
+
+      {/* Question text */}
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="font-semibold text-teal-800 text-wrap">{question.text}</h3>
       </div>
 
       {/* Options */}
@@ -117,14 +136,11 @@ function QuestionCard({
                 <FaStar
                   key={star}
                   onClick={() => handleRate(star)}
-                  className={`cursor-pointer ${star <= userRating
-                    ? "text-yellow-400"
-                    : "text-gray-300"
-                  }`}
+                  className={`cursor-pointer ${star <= userRating ? "text-yellow-400" : "text-gray-300"}`}
                 />
               ))}
               <span className="text-xs text-gray-500">
-                ({averageRating} avg by {question.totalRaters} students)
+                ({averageRating} avg by {question.totalRaters + (userRating ? 1 : 0)} students)
               </span>
             </div>
           </div>
@@ -147,7 +163,7 @@ function QuestionCard({
         <div className="flex justify-end mt-4">
           <button
             onClick={handleSubmit}
-            className="bg-[#006F6A] text-white px-4 py-2 rounded-full font-medium"
+            className="bg-[#FD7B06] hover:bg-[#FD7B06]/80 transition-all text-white px-4 py-2 rounded-lg font-medium"
           >
             Submit
           </button>
