@@ -47,19 +47,19 @@ npm start
 > Alternatively, you can access our live deployment of the latest commit at https://thaheen.vercel.app.
 
 ## Usage Instructions
-1. All pages should be front-end functional, however, since there is no back-end and login functionality at the moment, these pages cannot be accessed from the website without manually entering the URLs:
-<br>
+All pages should be front-end functional, however, since there is no back-end and login functionality at the moment, these pages cannot be accessed from the website without manually entering the URLs:
+<br />
 **User Dasboard:** http://localhost:3000/user OR https://thaheen.vercel.app/user
-<br>
+<br />
 **Admin Dashboard:** http://localhost:3000/admin OR https://thaheen.vercel.app/admin
 
-2. In order to view the OTP verification modal, use these fake credentials:
-<br>
+In order to view the OTP verification modal, use these fake credentials:
+<br />
 **Email:** user@example.com
-<br>
+<br />
 **Password:** 123456
 
-3. The only chapter with questions to view the design is **SWE316 / Introduction to Design** which can be found at http://localhost:3000/course/1/chapter/1 OR https://thaheen.vercel.app/course/1/chapter/1
+The only chapter with questions to view the design is **SWE316 / Introduction to Design** which can be found at http://localhost:3000/course/1/chapter/1 OR https://thaheen.vercel.app/course/1/chapter/1
 
 ## Team Members
 
