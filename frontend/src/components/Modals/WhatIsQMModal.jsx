@@ -10,7 +10,7 @@ function WhatIsQMModal(props) {
         </button>
 
         <h2 className="text-2xl font-bold text-[#FD7B06] mb-2">Question Master</h2>
-        <p className="text-sm text-[#006F6A] mb-6 text-justify">
+        <p className="text-sm text-[#006F6A] text-justify">
           A Question Master is a person who is responsible for creating and managing the questions on Thaheen.
           <br /><br />
           These QMs help us make sure that the questions are of high quality and are aligned with the course content.
