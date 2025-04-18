@@ -9,7 +9,7 @@ import eyeIcon from "../../assets/eye.svg";
 
 function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin }) {
   const [showPassword, setShowPassword] = useState(false);
-  
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="className= bg-[#FFF3E6] rounded-[32px] px-8 pt-10 pb-8 shadow-2xl max-w-sm w-full relative">
@@ -42,9 +42,9 @@ function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin }) {
 
             if (inputEmail === fakeEmail && inputPassword === fakePassword) {
               setTimeout(() => {
-                onClose();         
+                onClose();
                 onSuccessLogin();  // show verification modal
-                
+
               }, 200); // 200ms delay just for smoother transition
             }
           }}>
@@ -79,7 +79,7 @@ function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin }) {
               <input type="checkbox" />
               Remember me
             </label>
-            <button type="button" className="text-[#FF8682]">
+            <button type="button" className="text-[#FD7B06]">
               Forgot Password
             </button>
           </div>
