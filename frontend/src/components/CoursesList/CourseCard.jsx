@@ -1,3 +1,4 @@
+import { FaChevronRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 import course_questions from "../../assets/course_questions.svg";
@@ -31,7 +32,7 @@ function CourseCard({ id, code, name, questionsCount, oldExamsCount }) {
         {/* View Questions Button */}
         <button className="text-white hover:text-[#FD7B06] transition-colors flex items-center gap-1">
           <span>VIEW QUESTIONS</span>
-          <span className="text-xl">&gt;</span>
+          <FaChevronRight />
         </button>
       </div>
     </Link>

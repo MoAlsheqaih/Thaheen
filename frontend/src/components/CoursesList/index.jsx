@@ -22,7 +22,7 @@ function CoursesList() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search for course"
-          className="w-full pl-7 pr-14 py-3 bg-[#FFEAD6] text-slate-700 rounded-full outline-none placeholder:text-gray-500"
+          className="w-full pl-7 pr-14 py-3 bg-[#FFEAD6] dark:bg-[#474646] text-slate-700 dark:text-slate-400 rounded-full outline-none placeholder:text-gray-400"
         />
 
         {/* Search icon */}

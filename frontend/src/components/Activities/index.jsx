@@ -9,7 +9,7 @@ function Activities() {
           <h2 className="text-4xl font-bold text-[#FD7B06] mb-4">
             Activities
           </h2>
-          <p className="text-gray-500 text-lg">
+          <p className="text-gray-500 dark:text-slate-200 text-lg">
             This feature is under development.
           </p>
         </div>

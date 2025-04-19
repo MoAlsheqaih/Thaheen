@@ -7,14 +7,14 @@ import Hero from "../components/Hero";
 
 function LandingPage() {
   return (
-    <>
+    <div className="bg-white dark:bg-[#2C2620]">
       <Header />
       <Hero />
       <CoursesList />
       <QuestionMaster />
       <Activities />
       <Footer />
-    </>
+    </div>
   );
 }
 

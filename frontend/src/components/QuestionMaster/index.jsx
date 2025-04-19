@@ -13,7 +13,7 @@ function QuestionMaster() {
   const [showWhatIsQM, setShowWhatIsQM] = useState(false);
   return (
     <>
-      <div className="w-full bg-[#FFEAD6] flex justify-center py-16 relative">
+      <div className="w-full bg-[#FFEAD6] dark:bg-[#006F6A] flex justify-center py-16 relative">
         <div className="max-w-7xl w-full flex flex-col md:flex-row items-center px-4 md:px-8 gap-8">
           {/* Left side with image */}
           <div className="w-full md:w-1/2 flex items-end justify-center relative">
@@ -36,7 +36,7 @@ function QuestionMaster() {
                 REGISTER NOW
               </button>
 
-              <button onClick={() => setShowLogin(true)} className="w-full bg-white text-[#FD7B06] py-3 px-6 rounded-2xl font-semibold hover:bg-gray-50 transition-colors">
+              <button onClick={() => setShowLogin(true)} className="w-full bg-white dark:bg-[#2C2620] text-[#FD7B06] py-3 px-6 rounded-2xl font-semibold hover:bg-gray-50 dark:hover:bg-[#2C2620]/80 transition-colors">
                 I ALREADY HAVE AN ACCOUNT
               </button>
             </div>

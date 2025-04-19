@@ -20,7 +20,7 @@ function Courses({ search }) {
   if (filteredCourses.length === 0) {
     return (
       <div className="w-full flex justify-center items-center py-8">
-        <p className="text-gray-500 text-lg">No results found</p>
+        <p className="text-gray-500 dark:text-slate-200">No results found</p>
       </div>
     );
   }
