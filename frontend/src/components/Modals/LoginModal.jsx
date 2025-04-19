@@ -12,7 +12,7 @@ function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="className= bg-[#FFF3E6] rounded-[32px] px-8 pt-10 pb-8 shadow-2xl max-w-sm w-full relative">
+      <div className="bg-[#FFF3E6] dark:bg-[#2C2620] rounded-[32px] px-8 pt-10 pb-8 shadow-2xl max-w-sm w-full relative">
         {/* Close button */}
         <button
           onClick={onClose}
@@ -75,7 +75,7 @@ function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin }) {
           </div>
 
           <div className="flex justify-between items-center text-sm">
-            <label className="flex items-center gap-1 text-[#006F6A]">
+            <label className="flex items-center gap-1 text-[#006F6A] dark:text-[#FD7B06]">
               <input type="checkbox" />
               Remember me
             </label>
@@ -86,14 +86,14 @@ function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin }) {
 
           <button
             type="submit"
-            className="bg-[#006F6A] text-white rounded-lg py-3 font-semibold mt-2 w-full"
+            className="bg-[#006F6A] dark:bg-[#F97008] text-white rounded-lg py-3 font-semibold mt-2 w-full"
           >
             LOG IN
           </button>
         </form>
 
         {/* Sign up link */}
-        <p className="text-sm text-center mt-2">
+        <p className="text-sm text-center mt-2 dark:text-slate-200">
           Don’t have an account?{" "}
           <strong className="cursor-pointer" onClick={onSwitchToSignUp}>
             Sign up
@@ -103,7 +103,7 @@ function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin }) {
         {/* Divider with text*/}
         <div className="flex items-center gap-2 my-3">
           <div className="flex-grow border-t border-gray-300"></div>
-          <span className="text-sm text-gray-400">Or login with</span>
+          <span className="text-sm text-gray-400 dark:text-slate-200">Or login with</span>
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
 

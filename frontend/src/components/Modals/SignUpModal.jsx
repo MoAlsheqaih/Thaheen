@@ -12,7 +12,7 @@ function SignUpModal({ onClose, onSwitchToLogin }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-[#FFF3E6] rounded-[32px] px-8 pt-4 pb-8 shadow-2xl max-w-sm w-full relative">
+      <div className="bg-[#FFF3E6] dark:bg-[#2C2620] rounded-[32px] px-8 pt-4 pb-8 shadow-2xl max-w-sm w-full relative">
         {/* Close */}
         <button
           onClick={onClose}
@@ -79,7 +79,7 @@ function SignUpModal({ onClose, onSwitchToLogin }) {
           {/* Checkbox */}
           <div className="text-sm text-[#666]">
             <label>
-              <label className="flex items-center">
+              <label className="flex items-center dark:text-slate-200">
                 <input type="checkbox" className="mr-2" />
                 <span>
                   I agree to all the <span className="text-[#FD7B06] font-semibold">Terms</span> and <span className="text-[#FD7B06] font-semibold">Privacy Policies</span>
@@ -89,14 +89,14 @@ function SignUpModal({ onClose, onSwitchToLogin }) {
           </div>
 
           {/* Submit */}
-          <button type="submit" className="bg-[#006F6A] text-white rounded-lg py-3 font-semibold mt-2 w-full">
+          <button type="submit" className="bg-[#006F6A] dark:bg-[#F97008] text-white rounded-lg py-3 font-semibold mt-2 w-full">
             SIGN UP
           </button>
         </form>
 
         {/* Already have an account */}
-        <p className="text-sm text-center mt-2">
-        Already registered?{" "}
+        <p className="text-sm text-center mt-2 dark:text-slate-200">
+          Already registered?{" "}
           <strong className="cursor-pointer" onClick={onSwitchToLogin}>
             Sign in
           </strong>
@@ -105,7 +105,7 @@ function SignUpModal({ onClose, onSwitchToLogin }) {
         {/* Divider */}
         <div className="flex items-center gap-2 my-3">
           <div className="flex-grow border-t border-gray-300"></div>
-          <span className="text-sm text-gray-400">Or sign up with</span>
+          <span className="text-sm text-gray-400 dark:text-slate-200">Or sign up with</span>
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
 

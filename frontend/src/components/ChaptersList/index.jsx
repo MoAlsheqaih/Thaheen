@@ -17,9 +17,9 @@ function ChaptersList(props) {
       ))}
 
       {props.isEditing && (
-        <button className="border border-[#006F6A] text-[#006F6A] p-4 rounded-lg transition-shadow hover:shadow-lg cursor-pointer flex items-center justify-center" onClick={props.onAddChapter}>
-          <div className="w-16 h-16 rounded-full border border-[#006F6A] flex items-center justify-center">
-            <span className="text-2xl font-bold text-[#006F6A]">+</span>
+        <button className="border border-[#006F6A] dark:border-[#FD7B06] text-[#006F6A] dark:text-[#FD7B06] p-4 rounded-lg transition-shadow hover:shadow-lg cursor-pointer flex items-center justify-center" onClick={props.onAddChapter}>
+          <div className="w-16 h-16 rounded-full border border-[#006F6A] dark:border-[#FD7B06] flex items-center justify-center">
+            <span className="text-2xl font-bold text-[#006F6A] dark:text-[#FD7B06]">+</span>
           </div>
         </button>
       )}
