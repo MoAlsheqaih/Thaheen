@@ -57,7 +57,7 @@ function Carousel({ slides }) {
       {/* Navigation buttons */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-700 text-2xl hover:text-gray-900 transition-colors"
+        className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-700 dark:text-gray-200 text-2xl hover:text-gray-900 transition-colors"
         aria-label="Previous slide"
       >
         ‹
@@ -65,7 +65,7 @@ function Carousel({ slides }) {
 
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-700 text-2xl hover:text-gray-900 transition-colors"
+        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-700 dark:text-gray-200 text-2xl hover:text-gray-900 transition-colors"
         aria-label="Next slide"
       >
         ›

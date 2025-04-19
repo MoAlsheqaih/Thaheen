@@ -41,13 +41,13 @@ function Hero() {
         <h2 className="text-2xl md:text-4xl font-bold mb-4 text-center text-[#FD7B06]">Enjoy Studying!</h2>
         <img src={happy_fox} alt="happy_fox" className="w-10 h-10 md:w-14 md:h-14" />
       </div>
-      <p className="text-lg md:text-xl text-[#006F6A] text-center">Thaheen is on a mission to make education exciting, effortless, and accessible to every student, everywhere!</p>
+      <p className="text-lg md:text-xl text-[#006F6A] dark:text-[#FFEAD6] text-center">Thaheen is on a mission to make education exciting, effortless, and accessible to every student, everywhere!</p>
     </div>,
 
     <div className="w-full h-full flex items-center justify-center px-12 md:px-24 flex-col-reverse gap-2 md:gap-0 md:flex-row">
       <div className="flex flex-col items-center md:items-start justify-center md:flex-1">
         <h2 className="text-2xl md:text-4xl font-bold mb-4 text-[#FD7B06] text-center md:text-left">Why Thaheen?</h2>
-        <p className="text-lg md:text-xl text-[#006F6A] text-center md:text-justify">Access comprehensive study materials, practice tests, and track your progress all in one place.</p>
+        <p className="text-lg md:text-xl text-[#006F6A] dark:text-[#FFEAD6] text-center md:text-justify">Access comprehensive study materials, practice tests, and track your progress all in one place.</p>
       </div>
       <div className="md:flex-1 flex justify-end">
         <img src={group} alt="group" className="w-16 h-16 md:w-64 md:h-64" />
@@ -56,7 +56,7 @@ function Hero() {
   ];
 
   return (
-    <div className="bg-[#FFEAD6] w-full flex justify-center items-center py-10">
+    <div className="bg-[#FFEAD6] dark:bg-[#006F6A] w-full flex justify-center items-center py-10">
       <div className="max-w-7xl w-full">
         <Carousel slides={slides} />
       </div>

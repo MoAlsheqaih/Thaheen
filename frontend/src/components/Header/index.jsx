@@ -14,19 +14,19 @@ function Header() {
   const [showVerify, setShowVerify] = useState(false);
 
   return (
-    <header className="bg-[#FFEAD6] w-full py-2 px-5 relative z-10">
+    <header className="bg-[#FFEAD6] dark:bg-[#006F6A] w-full py-2 px-5 relative z-10">
       <div className="flex justify-between items-center">
 
         <Link to="/">
           <img src={logo} alt="logo" className="w-32" />
         </Link>
-        
+
         <div className="flex items-center gap-2">
           <CTA onClick={() => setShowLogin(true)} />
           <DarkModeToggle />
         </div>
       </div>
-      
+
       {showLogin && (
         <LoginModal
           onClose={() => setShowLogin(false)}
