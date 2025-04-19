@@ -43,7 +43,7 @@ function TabSection() {
           </TabPanel>
 
           <TabPanel>
-            <div className="text-center">
+            <div className="text-center md:text-left">
               <Activities />
             </div>
           </TabPanel>
