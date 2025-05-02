@@ -24,7 +24,7 @@ function QMQuestionCard({ question: initialQuestion, showReported = false, onDel
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      const response = await fetch(`http://localhost:3001/api/courses/${courseId}/chapters/${chapterId}/questions/${question._id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/courses/${courseId}/chapters/${chapterId}/questions/${question._id}`, {
         method: "DELETE",
         headers: {
           "x-auth-token": localStorage.getItem("token")

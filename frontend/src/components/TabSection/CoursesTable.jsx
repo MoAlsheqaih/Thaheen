@@ -20,7 +20,7 @@ function CoursesTable() {
     const fetchCourses = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:3001/api/courses", {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/courses`, {
           headers: {
             "x-auth-token": token,
           },
@@ -64,7 +64,7 @@ function CoursesTable() {
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:3001/api/courses/${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/courses/${id}`, {
         method: "DELETE",
         headers: {
           "x-auth-token": token,
@@ -87,7 +87,7 @@ function CoursesTable() {
     const selectedCourses = courses.filter((c) => c.isChecked);
     const token = localStorage.getItem("token");
     const deletePromises = selectedCourses.map((course) =>
-      fetch(`http://localhost:3001/api/courses/${course.id}`, {
+      fetch(`${process.env.REACT_APP_API_URL}/api/courses/${course.id}`, {
         method: "DELETE",
         headers: {
           "x-auth-token": token,
@@ -115,7 +115,7 @@ function CoursesTable() {
     setAddError("");
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:3001/api/courses", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/courses`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -31,7 +31,7 @@ function QMAddAIQuestionModal({ onClose }) {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3001/api/courses/${courseId}/chapters/${chapterId}/questions`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/courses/${courseId}/chapters/${chapterId}/questions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

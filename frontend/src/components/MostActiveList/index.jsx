@@ -7,7 +7,7 @@ function MostActiveList() {
 
   useEffect(() => {
     const fetchMostActiveUsers = async () => {
-      const response = await fetch("http://localhost:3001/api/admin/most-active");
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/most-active`);
       const data = await response.json();
       setUsers(data);
       setMaxPoints(Math.max(...data.map((user) => user.totalPoints)));

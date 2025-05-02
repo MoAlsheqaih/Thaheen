@@ -33,7 +33,7 @@ function QMEditModal({ question, onClose, onSave }) {
     e.preventDefault();
     setError(null);
     try {
-      const response = await fetch(`http://localhost:3001/api/courses/${courseId}/chapters/${chapterId}/questions/${editedQuestion._id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/courses/${courseId}/chapters/${chapterId}/questions/${editedQuestion._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

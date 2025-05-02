@@ -47,7 +47,7 @@ function StatsCards() {
 
   useEffect(() => {
     const fetchStats = async () => {
-      const response = await fetch("http://localhost:3001/api/admin/statistics");
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/statistics`);
       const data = await response.json();
 
       setStats(cardData.map((card) => {

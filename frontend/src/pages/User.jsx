@@ -44,7 +44,7 @@ function User() {
       }
 
       try {
-        const response = await fetch("http://localhost:3001/api/auth/status", {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/status`, {
           headers: {
             "x-auth-token": token,
           },
@@ -56,7 +56,7 @@ function User() {
           setIsAuthenticated(true);
 
           // Fetch leaderboard data
-          const leaderboardResponse = await fetch("http://localhost:3001/api/leaderboard", {
+          const leaderboardResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/leaderboard`, {
             headers: {
               "x-auth-token": token,
             },

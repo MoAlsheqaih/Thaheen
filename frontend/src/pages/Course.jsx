@@ -15,7 +15,7 @@ function Course() {
 
   useEffect(() => {
     const fetchCourse = async () => {
-      const response = await fetch(`http://localhost:3001/api/courses/${id}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/courses/${id}`);
       const course = await response.json();
 
       if (response.ok) setCourse(course);
@@ -26,7 +26,7 @@ function Course() {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const response = await fetch("http://localhost:3001/api/auth/status", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/status`, {
         headers: {
           "x-auth-token": token
         }

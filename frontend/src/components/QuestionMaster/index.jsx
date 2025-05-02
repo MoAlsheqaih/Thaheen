@@ -16,7 +16,7 @@ function QuestionMaster() {
   const [showButton, setShowButton] = useState(false);
 
   const checkStatus = async () => {
-    const response = await fetch("http://localhost:3001/api/auth/status", {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/status`, {
       headers: {
         "x-auth-token": localStorage.getItem("token")
       }

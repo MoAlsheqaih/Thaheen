@@ -15,7 +15,7 @@ function VerifyModal({ onClose, onBackToLogin, email, onSuccessVerify }) {
       return;
     }
 
-    const response = await fetch("http://localhost:3001/api/auth/verify-otp", {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/verify-otp`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

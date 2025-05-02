@@ -13,7 +13,7 @@ function StudentsTable() {
     const fetchStudents = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:3001/api/admin/users", {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/users`, {
           headers: {
             "x-auth-token": token,
           },
@@ -45,7 +45,7 @@ function StudentsTable() {
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:3001/api/admin/users/${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/users/${id}`, {
         method: "DELETE",
         headers: {
           "x-auth-token": token,
@@ -67,7 +67,7 @@ function StudentsTable() {
     const selectedStudents = students.filter((s) => s.isChecked);
     const token = localStorage.getItem("token");
     const deletePromises = selectedStudents.map((student) =>
-      fetch(`http://localhost:3001/api/admin/users/${student._id}`, {
+      fetch(`${process.env.REACT_APP_API_URL}/api/admin/users/${student._id}`, {
         method: "DELETE",
         headers: {
           "x-auth-token": token,
@@ -96,7 +96,7 @@ function StudentsTable() {
       const newRole = student.role === "regular" ? "master" : "regular";
 
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:3001/api/admin/users/${id}/role`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/users/${id}/role`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

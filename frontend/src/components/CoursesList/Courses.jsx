@@ -8,7 +8,7 @@ function Courses({ search }) {
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const response = await fetch("http://localhost:3001/api/courses");
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/courses`);
       const data = await response.json();
       setCourses(data);
     };

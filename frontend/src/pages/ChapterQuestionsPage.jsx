@@ -27,7 +27,7 @@ function ChapterQuestionsPage() {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/api/courses/${courseId}`);
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/courses/${courseId}`);
         if (!response.ok) {
           navigate("/");
           return;
@@ -49,7 +49,7 @@ function ChapterQuestionsPage() {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const response = await fetch("http://localhost:3001/api/auth/status", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/status`, {
         headers: {
           "x-auth-token": token
         }
@@ -157,7 +157,7 @@ function ChapterQuestionsPage() {
       if (!token) return;
 
       try {
-        const response = await fetch("http://localhost:3001/api/progress", {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/progress`, {
           headers: {
             "x-auth-token": token
           }
@@ -225,7 +225,7 @@ function ChapterQuestionsPage() {
       });
 
       if (Object.keys(questions).length > 0) {
-        await fetch("http://localhost:3001/api/progress", {
+        await fetch(`${process.env.REACT_APP_API_URL}/api/progress`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

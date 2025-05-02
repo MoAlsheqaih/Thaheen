@@ -9,7 +9,7 @@ function ChaptersList(props) {
 
   const handleDeleteChapter = async (chapterId) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/courses/${props.course.id}/chapters/${chapterId}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/courses/${props.course.id}/chapters/${chapterId}`, {
         method: "DELETE",
         headers: {
           "x-auth-token": localStorage.getItem("token")
@@ -26,7 +26,7 @@ function ChaptersList(props) {
 
   const handleAddChapter = async (chapterName) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/courses/${props.course.id}/chapters`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/courses/${props.course.id}/chapters`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
