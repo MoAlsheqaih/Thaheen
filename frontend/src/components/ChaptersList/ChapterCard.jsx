@@ -13,7 +13,7 @@ function ChapterCard(props) {
           <div className="flex items-center gap-2">
             <h2 className="text-lg font-bold text-[#006F6A] dark:text-[#FD7B06]">{chapterNumber + "."} {props.chapter.name}</h2>
           </div>
-          <p className="text-sm text-gray-600 dark:text-slate-200 mt-1">Questions: {props.chapter.questionsCount}</p>
+          <p className="text-sm text-gray-600 dark:text-slate-200 mt-1">Questions: {props.chapter.questionIds.length}</p>
         </div>
 
         <div className="relative w-24 h-24">
@@ -47,10 +47,9 @@ function ChapterCard(props) {
 
           {props.isEditing && (
             <button className="absolute -top-[10px] -right-[10px]" onClick={(e) => {
-              // TODO: Delete chapter
               e.preventDefault();
               e.stopPropagation();
-              alert("Deleting chapter: " + props.chapter.id);
+              props.onDelete(props.chapter.id);
             }}>
               <img src={bin} alt="bin" className="w-6 h-6" />
             </button>

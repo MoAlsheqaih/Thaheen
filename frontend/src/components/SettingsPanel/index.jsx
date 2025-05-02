@@ -3,9 +3,9 @@ import { useState } from "react";
 import SettingToggle from "./SettingToggle";
 
 const SettingsPanel = () => {
-  const [allowGroupActivities, setAllowGroupActivities] = useState(true);
-  const [aiGeneratedQuestions, setAiGeneratedQuestions] = useState(false);
-  const [maintenanceMode, setMaintenanceMode] = useState(true);
+  const [allowGroupActivities, setAllowGroupActivities] = useState(false);
+  const [aiGeneratedQuestions, setAiGeneratedQuestions] = useState(true);
+  const [maintenanceMode, setMaintenanceMode] = useState(false);
 
   return (
     <div className="bg-[#FFF7EC] rounded-xl p-6 mt-10 shadow-md mb-32">

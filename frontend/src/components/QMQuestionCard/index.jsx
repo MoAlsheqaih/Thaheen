@@ -1,20 +1,50 @@
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
+import { useParams } from "react-router-dom";
 import { useState } from "react";
 
 import QMEditModal from "../Modals/QMEditModal";
 
-function QMQuestionCard({ question, showReported = false }) {
+function QMQuestionCard({ question: initialQuestion, showReported = false, onDelete }) {
+  const [question, setQuestion] = useState(initialQuestion);
   const [viewEditModal, setViewEditModal] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Calculate the solved percentage
   const correctOption = question.options.find(option => option.id === question.correctOptionId);
-  const solvedPercentage = ((correctOption.count / question.totalSubmissions) * 100).toFixed(1);
+  const solvedPercentage = question.totalSubmissions > 0 ? ((correctOption.count / question.totalSubmissions) * 100).toFixed(1) : "0.0";
 
   // Calculate average rating
   const averageRating = question.totalRaters > 0
     ? (question.totalRatings / question.totalRaters).toFixed(1)
     : "0.0";
+
+  const { courseId, chapterId } = useParams();
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      const response = await fetch(`http://localhost:3001/api/courses/${courseId}/chapters/${chapterId}/questions/${question._id}`, {
+        method: "DELETE",
+        headers: {
+          "x-auth-token": localStorage.getItem("token")
+        }
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to delete question");
+      }
+
+      if (onDelete) {
+        onDelete(question._id);
+      }
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   return (
     <>
@@ -71,10 +101,9 @@ function QMQuestionCard({ question, showReported = false }) {
               <FaPencilAlt />
             </button>
             <button
-              onClick={() => {
-                alert(`Deleting question ${question.id}`)
-              }}
-              className="p-2 text-sm font-medium text-red-600 border border-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all"
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className={`p-2 text-sm font-medium text-red-600 border border-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all ${isDeleting ? "opacity-50 cursor-not-allowed" : ""}`}
             >
               <FaTrash />
             </button>
@@ -90,7 +119,7 @@ function QMQuestionCard({ question, showReported = false }) {
       </div>
 
       {viewEditModal && <QMEditModal question={selectedQuestion} onClose={() => setViewEditModal(false)} onSave={updatedQuestion => {
-        alert(`Updating question ${updatedQuestion.id}`);
+        setQuestion(updatedQuestion);
       }} />}
     </>
   );

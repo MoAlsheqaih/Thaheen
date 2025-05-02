@@ -10,6 +10,38 @@ import eyeIcon from "../../assets/eye.svg";
 function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin }) {
   const [showPassword, setShowPassword] = useState(false);
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      setError("Please enter email and password");
+      return;
+    }
+
+    const response = await fetch("http://localhost:3001/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (response.ok) {
+      onSuccessLogin(email);
+    }
+
+    if (response.status === 400) {
+      const data = await response.json();
+      setError(data.message);
+    }
+
+    if (response.status === 500) {
+      setError("Something went wrong");
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="bg-[#FFF3E6] dark:bg-[#2C2620] rounded-[32px] px-8 pt-10 pb-8 shadow-2xl max-w-sm w-full relative">
@@ -35,24 +67,15 @@ function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin }) {
         <form className="flex flex-col gap-4"
           onSubmit={(e) => {
             e.preventDefault();
-            const fakeEmail = "user@example.com";
-            const fakePassword = "123456";
-            const inputEmail = e.target.email.value;
-            const inputPassword = e.target.password.value;
-
-            if (inputEmail === fakeEmail && inputPassword === fakePassword) {
-              setTimeout(() => {
-                onClose();
-                onSuccessLogin();  // show verification modal
-
-              }, 200); // 200ms delay just for smoother transition
-            }
+            handleLogin();
           }}>
           <div className="relative">
             <img src={emailIcon} className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" alt="Email" />
             <input
               name="email"
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
               className="w-full pl-12 pr-4 py-3 rounded-xl bg-white border border-gray-200 text-sm"
             />
@@ -62,6 +85,8 @@ function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin }) {
             <input
               name="password"
               type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
               className="w-full pl-12 pr-10 py-3 rounded-xl bg-white border border-gray-200 text-sm"
             />
@@ -84,6 +109,8 @@ function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin }) {
             </button>
           </div>
 
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+
           <button
             type="submit"
             className="bg-[#006F6A] dark:bg-[#F97008] text-white rounded-lg py-3 font-semibold mt-2 w-full"
@@ -94,7 +121,7 @@ function LoginModal({ onClose, onSwitchToSignUp, onSuccessLogin }) {
 
         {/* Sign up link */}
         <p className="text-sm text-center mt-2 dark:text-slate-200">
-          Don’t have an account?{" "}
+          Don't have an account?{" "}
           <strong className="cursor-pointer" onClick={onSwitchToSignUp}>
             Sign up
           </strong>

@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import { useState } from "react";
 
 function QMAddOldQuestionModal({ onClose }) {
@@ -5,12 +6,33 @@ function QMAddOldQuestionModal({ onClose }) {
   const [options, setOptions] = useState(["", "", "", ""]);
   const [correctOption, setCorrectOption] = useState("");
   const [explanation, setExplanation] = useState("");
+  const [difficulty, setDifficulty] = useState("Easy");
 
-  const handleSubmit = (e) => {
+  const [error, setError] = useState("");
+
+  const { courseId, chapterId } = useParams();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement the logic to save the question
-    alert("Saving question");
-    onClose();
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/courses/${courseId}/chapters/${chapterId}/questions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ type: "Old Exams", question, options, correctOption, explanation, difficulty })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        onClose(data);
+      } else {
+        setError("Failed to save question");
+      }
+    } catch (error) {
+      setError("Failed to save question");
+    }
   };
 
   return (
@@ -88,10 +110,29 @@ function QMAddOldQuestionModal({ onClose }) {
             />
           </div>
 
+          {/* Difficulty */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Difficulty
+            </label>
+            <select
+              value={difficulty}
+              onChange={(e) => setDifficulty(e.target.value)}
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl bg-white border border-gray-200 text-sm"
+              required
+            >
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
+
+          {error && <p className="text-red-500">{error}</p>}
+
           {/* Save Button */}
           <button
             type="submit"
-            className="w-full bg-[#FD7B06] text-white rounded-lg py-2.5 sm:py-3 font-semibold hover:bg-[#FD7B06]/90 transition-colors"
+            className="w-full bg-[#FD7B06] text-white rounded-lg py-2.5 sm:py-3 font-semibold hover:bg-[#FD7B06]/90 transition-colors mt-2"
           >
             Save Question
           </button>

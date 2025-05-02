@@ -5,10 +5,10 @@ import streak from "../../assets/streak.svg";
 import medal from "../../assets/medal.svg";
 
 function Leaderboard(props) {
-  const { leaderboardData, userData } = props;
+  const { leaderboardData, userId } = props;
 
   const sortedLeaderboardData = leaderboardData.rows.sort((a, b) => b.points - a.points);
-  const userPosition = sortedLeaderboardData.findIndex(user => user.id === userData.id) + 1;
+  const userPosition = sortedLeaderboardData.findIndex(user => user.userId === userId) + 1;
 
   return (
     <div className="max-w-7xl mx-auto w-full flex gap-3 flex-col px-4 md:px-8 pt-16 pb-32">
@@ -63,7 +63,7 @@ function Leaderboard(props) {
               .slice(Math.max(0, userPosition - 3), userPosition - 1)
               .map((user, index) => (
                 <tr key={user.id} className="bg-[#FFF5EB] rounded-xl">
-                  <td className="py-2 px-4 text-[#FD7B06] font-medium rounded-l-xl text-xl">{userPosition - 2 + index}</td>
+                  <td className="py-2 px-4 text-[#FD7B06] font-medium rounded-l-xl text-xl">{userPosition - 1 + index}</td>
                   <td className="py-2 px-4 font-medium">{user.name}</td>
                   <td className="py-2 px-4 text-[#FD7B06]">{user.streak}</td>
                   <td className="py-2 px-4 text-[#FD7B06]">{user.questionsSolved}</td>
@@ -72,10 +72,10 @@ function Leaderboard(props) {
               ))}
             <tr className="bg-[#FD7B06] text-white rounded-xl">
               <td className="py-2 px-4 font-medium rounded-l-xl text-xl">{userPosition}</td>
-              <td className="py-2 px-4 font-medium">{userData.name}</td>
-              <td className="py-2 px-4">{userData.streak}</td>
-              <td className="py-2 px-4">{userData.questionsSolved}</td>
-              <td className="py-2 px-4 rounded-r-xl">{userData.points}</td>
+              <td className="py-2 px-4 font-medium">{leaderboardData.rows.find(user => user.userId === userId).name}</td>
+              <td className="py-2 px-4">{leaderboardData.rows.find(user => user.userId === userId).streak}</td>
+              <td className="py-2 px-4">{leaderboardData.rows.find(user => user.userId === userId).questionsSolved}</td>
+              <td className="py-2 px-4 rounded-r-xl">{leaderboardData.rows.find(user => user.userId === userId).points}</td>
             </tr>
             {sortedLeaderboardData
               .slice(userPosition, userPosition + 2)

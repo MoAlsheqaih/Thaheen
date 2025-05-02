@@ -1,12 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import CourseCard from "./CourseCard";
 
-// TODO: Replace with actual data source
-import courses from "../../courses.json";
-
 function Courses({ search }) {
   const [showAll, setShowAll] = useState(false);
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      const response = await fetch("http://localhost:3001/api/courses");
+      const data = await response.json();
+      setCourses(data);
+    };
+
+    fetchCourses();
+  }, []);
 
   // Filter courses based on search term
   const filteredCourses = courses.filter(course =>
@@ -16,6 +24,14 @@ function Courses({ search }) {
 
   // Determine courses to display based on showAll state
   const displayedCourses = showAll ? filteredCourses : filteredCourses.slice(0, 9);
+
+  if (courses.length === 0) {
+    return (
+      <div className="w-full flex justify-center items-center py-8">
+        <p className="text-gray-500 dark:text-slate-200">Loading...</p>
+      </div>
+    );
+  }
 
   if (filteredCourses.length === 0) {
     return (
@@ -34,8 +50,8 @@ function Courses({ search }) {
             id={course.id}
             code={course.code}
             name={course.name}
-            questionsCount={course.questionsCount}
-            oldExamsCount={course.oldExamsCount}
+            questionsCount={course.chapters.map(c => c.questions.filter(q => q.type === "AI").length).reduce((a, b) => a + b, 0)}
+            oldExamsCount={course.chapters.map(c => c.questions.filter(q => q.type === "Old Exams").length).reduce((a, b) => a + b, 0)}
           />
         ))}
       </div>

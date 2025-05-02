@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 
-const users = [
-  { name: "ALI", points: 400 },
-  { name: "NASSER", points: 250 },
-  { name: "MOHAMMED", points: 220 },
-  { name: "SALAH", points: 180 },
-];
-
-const maxPoints = Math.max(...users.map((u) => u.points));
-
 function MostActiveList() {
+  const [users, setUsers] = useState([]);
+  const [maxPoints, setMaxPoints] = useState(0);
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
+    const fetchMostActiveUsers = async () => {
+      const response = await fetch("http://localhost:3001/api/admin/most-active");
+      const data = await response.json();
+      setUsers(data);
+      setMaxPoints(Math.max(...data.map((user) => user.totalPoints)));
+    };
+
+    fetchMostActiveUsers();
+
     const timeout = setTimeout(() => {
       setAnimate(true);
     }, 300); // slight delay for animation
@@ -24,13 +26,13 @@ function MostActiveList() {
       <h2 className="text-lg font-semibold text-orange-500 mb-4">Most Active</h2>
       <div className="space-y-3">
         {users.map((user, idx) => {
-          const percentage = (user.points / maxPoints) * 100;
+          const percentage = (user.totalPoints / maxPoints) * 100;
 
           return (
             <div key={idx}>
               <div className="flex justify-between mb-1">
-                <span className="font-semibold text-sm text-[#444]">{user.name}</span>
-                <span className="text-sm text-gray-600">{user.points}</span>
+                <span className="font-semibold text-sm text-[#444]">{user.name.first}</span>
+                <span className="text-sm text-gray-600">{user.totalPoints}</span>
               </div>
               <div className="w-full bg-orange-100 rounded-full h-6 overflow-hidden">
                 <div

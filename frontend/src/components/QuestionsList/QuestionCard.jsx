@@ -13,23 +13,32 @@ function QuestionCard({
   onSubmit,
   onBookmark,
   progressText,
-  progressPercentage
+  progressPercentage,
+  canSolve
 }) {
   const [showExplanation, setShowExplanation] = useState(false);
 
   const handleSelect = (optionId) => {
-    if (!submitted) {
+    if (!submitted && canSolve) {
       onSelectAnswer(optionId);
     }
   };
 
   const handleRate = (ratingValue) => {
-    onRate(ratingValue);
+    if (canSolve) {
+      onRate(ratingValue);
+    }
   };
 
   const handleSubmit = () => {
-    if (selectedAnswerId && !submitted) {
+    if (selectedAnswerId && !submitted && canSolve) {
       onSubmit();
+    }
+  };
+
+  const handleBookmark = () => {
+    if (canSolve) {
+      onBookmark();
     }
   };
 
@@ -60,11 +69,11 @@ function QuestionCard({
 
       {/* Bookmark and Tags */}
       <div className="flex justify-between items-center mb-4">
-        <div className="cursor-pointer text-2xl">
+        <div className={`cursor-pointer text-2xl ${!canSolve && "opacity-50"}`}>
           {bookmarked ? (
-            <IoBookmark className="fill-[#FD7B06] text-[#FD7B06]" onClick={onBookmark} />
+            <IoBookmark className="fill-[#FD7B06] text-[#FD7B06]" onClick={handleBookmark} />
           ) : (
-            <IoBookmarkOutline className="text-[#FD7B06]" onClick={onBookmark} />
+            <IoBookmarkOutline className="text-[#FD7B06]" onClick={handleBookmark} />
           )}
         </div>
         <div className="flex gap-2">
@@ -92,8 +101,9 @@ function QuestionCard({
           const isCorrect = option.id === question.correctOptionId;
           const isSelected = option.id === selectedAnswerId;
 
-          const baseStyle = "p-3 rounded-xl border cursor-pointer text-sm font-semibold";
-          let answerStyle = "border-gray-300 bg-white hover:bg-gray-100";
+          const baseStyle = "p-3 rounded-xl border text-sm font-semibold";
+          let answerStyle = "border-gray-300 bg-white";
+          let cursorStyle = canSolve ? "cursor-pointer hover:bg-gray-100" : "cursor-not-allowed";
 
           if (submitted) {
             if (isSelected && isCorrect) {
@@ -112,7 +122,7 @@ function QuestionCard({
           return (
             <div
               key={option.id}
-              className={`${baseStyle} ${answerStyle}`}
+              className={`${baseStyle} ${answerStyle} ${cursorStyle}`}
               onClick={() => handleSelect(option.id)}
             >
               <span className="font-bold mr-2">{option.id}.</span> {option.text}
@@ -126,6 +136,15 @@ function QuestionCard({
         })}
       </div>
 
+      {/* Login prompt for non-logged-in users */}
+      {!canSolve && !submitted && (
+        <div className="mt-4 p-3 bg-orange-50 rounded-lg text-center">
+          <p className="text-orange-700 font-medium">
+            Please login to solve questions
+          </p>
+        </div>
+      )}
+
       {/* Rating and Explanation */}
       {submitted && (
         <>
@@ -136,7 +155,7 @@ function QuestionCard({
                 <FaStar
                   key={star}
                   onClick={() => handleRate(star)}
-                  className={`cursor-pointer ${star <= userRating ? "text-yellow-400" : "text-gray-300"}`}
+                  className={`${canSolve ? "cursor-pointer" : "cursor-not-allowed"} ${star <= userRating ? "text-yellow-400" : "text-gray-300"}`}
                 />
               ))}
               <span className="text-xs text-gray-500">
@@ -159,7 +178,7 @@ function QuestionCard({
       )}
 
       {/* Submit button */}
-      {!submitted && selectedAnswerId && (
+      {!submitted && selectedAnswerId && canSolve && (
         <div className="flex justify-end mt-4">
           <button
             onClick={handleSubmit}

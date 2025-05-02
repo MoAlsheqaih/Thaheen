@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import WhatIsQMModal from "../Modals/WhatIsQMModal";
 import VerifyModal from "../Modals/VerifyModal";
@@ -11,6 +11,27 @@ function QuestionMaster() {
   const [showSignUp, setShowSignUp] = useState(false);
   const [showVerify, setShowVerify] = useState(false);
   const [showWhatIsQM, setShowWhatIsQM] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const [showButton, setShowButton] = useState(false);
+
+  const checkStatus = async () => {
+    const response = await fetch("http://localhost:3001/api/auth/status", {
+      headers: {
+        "x-auth-token": localStorage.getItem("token")
+      }
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.role !== null) setShowButton(false);
+    else setShowButton(true);
+  };
+
+  useEffect(() => {
+    checkStatus();
+  }, []);
+
   return (
     <>
       <div className="w-full bg-[#FFEAD6] dark:bg-[#006F6A] flex justify-center py-16 relative">
@@ -32,13 +53,17 @@ function QuestionMaster() {
 
             {/* Buttons */}
             <div className="flex flex-col gap-3 w-full max-w-sm">
-              <button onClick={() => setShowSignUp(true)} className="w-full bg-[#FD7B06] text-white py-3 px-6 rounded-2xl font-semibold hover:bg-[#e56e05] transition-colors">
-                REGISTER NOW
-              </button>
+              {showButton && (
+                <>
+                  <button onClick={() => setShowSignUp(true)} className="w-full bg-[#FD7B06] text-white py-3 px-6 rounded-2xl font-semibold hover:bg-[#e56e05] transition-colors">
+                    REGISTER NOW
+                  </button>
 
-              <button onClick={() => setShowLogin(true)} className="w-full bg-white dark:bg-[#2C2620] text-[#FD7B06] py-3 px-6 rounded-2xl font-semibold hover:bg-gray-50 dark:hover:bg-[#2C2620]/80 transition-colors">
-                I ALREADY HAVE AN ACCOUNT
-              </button>
+                  <button onClick={() => setShowLogin(true)} className="w-full bg-white dark:bg-[#2C2620] text-[#FD7B06] py-3 px-6 rounded-2xl font-semibold hover:bg-gray-50 dark:hover:bg-[#2C2620]/80 transition-colors">
+                    I ALREADY HAVE AN ACCOUNT
+                  </button>
+                </>
+              )}
             </div>
 
             {/* What is link */}
@@ -60,7 +85,9 @@ function QuestionMaster() {
           onSuccessLogin={() => {
             setShowLogin(false);
             setShowVerify(true);
+            setEmail(email);
           }}
+
         />
       )}
 
@@ -76,10 +103,15 @@ function QuestionMaster() {
 
       {showVerify && (
         <VerifyModal
+          email={email}
           onClose={() => setShowVerify(false)}
           onSuccess={() => {
             setShowVerify(false);
             setShowLogin(true);
+          }}
+          onSuccessVerify={() => {
+            setShowVerify(false);
+            checkStatus();
           }}
         />
       )}

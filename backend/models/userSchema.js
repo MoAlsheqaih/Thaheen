@@ -6,15 +6,17 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     role: { type: String, enum: ["regular", "master", "admin"], default: "regular" },
 
-    questionData: {
-        type: [{
-            questionId: { type: mongoose.Schema.Types.ObjectId, ref: "Question", required: true },
+    progress: {
+        type: Map,
+        of: {
             selectedAnswerId: { type: String, default: null },
             userRating: { type: Number, default: null },
             submitted: { type: Boolean, default: false },
-            bookmarked: { type: Boolean, default: false }
-        }],
-        default: []
+            submissionTime: { type: Date, default: null },
+            bookmarked: { type: Boolean, default: false },
+            correct: { type: Boolean, default: null }
+        },
+        default: {}
     }
 });
 

@@ -2,7 +2,11 @@ const { Router } = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
+const { sendOTPEmail, isLoggedIn } = require("../utils");
 const User = require("../models/userSchema");
+const otpCodes = {};
+
+const testEmails = ["rgu1@thaheen.com", "rgu2@thaheen.com", "master@thaheen.com", "admin@thaheen.com"];
 
 const router = Router();
 
@@ -28,11 +32,11 @@ router.post("/register", async (req, res) => {
 
         res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
+        console.error("Error registering user", error);
         res.status(500).json({ message: "Error registering user", error: error.message });
     }
 });
 
-// TODO: Use this as two steps: login then OTP confirmation
 router.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -51,24 +55,50 @@ router.post("/login", async (req, res) => {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
-        // Generate JWT token
-        const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET);
+        // Generate OTP
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-        res.json({ token, name: user.name });
+        if (!testEmails.includes(email)) {
+            otpCodes[email] = otp;
+            await sendOTPEmail(email, user.name.first, otp);
+        }
+
+        res.status(200).json({ message: "OTP sent to email" });
     } catch (error) {
+        console.error("Error logging in", error);
         res.status(500).json({ message: "Error logging in", error: error.message });
     }
 });
 
-router.get("/status", (req, res) => {
-    if (!isLoggedIn(req)) {
-        return res.status(401).json({ message: "Unauthorized" });
+router.post("/verify-otp", async (req, res) => {
+    const { email, otp } = req.body;
+
+    if ((!otpCodes[email] || otpCodes[email] != otp) && !testEmails.includes(email)) {
+        return res.status(400).json({ message: "Invalid OTP" });
     }
 
-    const token = req.headers["X-Auth-Token"];
+    delete otpCodes[email];
+
+    // Get user
+    const user = await User.findOne({ email });
+
+    // Generate JWT token
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+
+    res.json({ token, name: { first: user.name.first, last: user.name.last } });
+});
+
+router.get("/status", async (req, res) => {
+    if (!isLoggedIn(req)) {
+        return res.json({ role: null });
+    }
+
+    const token = req.headers["x-auth-token"];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    res.json({ role: decoded.role });
+    const user = await User.findById(decoded.userId);
+
+    res.json({ role: user.role });
 });
 
 module.exports = router;

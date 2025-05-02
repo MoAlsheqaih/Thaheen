@@ -3,6 +3,7 @@
 // Something like "Enter relevant information about the question/material" and "Generate question" button.
 // When the generate question is clicked, it should generate a question and fill the form with the generated question.
 
+import { useParams } from "react-router-dom";
 import { useState } from "react";
 
 function QMAddAIQuestionModal({ onClose }) {
@@ -11,6 +12,10 @@ function QMAddAIQuestionModal({ onClose }) {
   const [correctOption, setCorrectOption] = useState("");
   const [explanation, setExplanation] = useState("");
   const [relevantInfo, setRelevantInfo] = useState("");
+  const [difficulty, setDifficulty] = useState("Easy");
+  const [error, setError] = useState("");
+
+  const { courseId, chapterId } = useParams();
 
   const handleGenerateQuestion = () => {
     // TODO: Implement the logic to generate the question
@@ -22,11 +27,27 @@ function QMAddAIQuestionModal({ onClose }) {
     setExplanation("Paris is the capital of France.");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement the logic to save the question
-    alert("Saving question");
-    onClose();
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/courses/${courseId}/chapters/${chapterId}/questions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ type: "AI", question, options, correctOption, explanation, difficulty })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        onClose(data);
+      } else {
+        setError("Failed to save question");
+      }
+    } catch (error) {
+      setError("Failed to save question");
+    }
   };
 
   return (
@@ -56,7 +77,6 @@ function QMAddAIQuestionModal({ onClose }) {
               rows={3}
               className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl bg-white border border-gray-200 text-sm"
               placeholder="Enter relevant information about the question/material..."
-              required
             />
           </div>
 
@@ -127,6 +147,25 @@ function QMAddAIQuestionModal({ onClose }) {
               required
             />
           </div>
+
+          {/* Difficulty */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Difficulty
+            </label>
+            <select
+              value={difficulty}
+              onChange={(e) => setDifficulty(e.target.value)}
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl bg-white border border-gray-200 text-sm"
+              required
+            >
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
+
+          {error && <p className="text-red-500">{error}</p>}
 
           {/* Save Button */}
           <button

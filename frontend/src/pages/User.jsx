@@ -1,3 +1,6 @@
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+
 import ContinueLearning from "../components/ContinueLearning";
 import WelcomeBack from "../components/WelcomeBack";
 import Leaderboard from "../components/Leaderboard";
@@ -25,34 +28,89 @@ const userData = {
   ]
 }
 
-// TODO: Replace with actual data
-const leaderboardData = {
-  rows: [
-    { id: 1, name: "Usama", streak: 13, points: 174, questionsSolved: 51 },
-    { id: 2, name: "Sarah", streak: 21, points: 315, questionsSolved: 78 },
-    { id: 3, name: "Mohammed", streak: 8, points: 145, questionsSolved: 41 },
-    { id: 4, name: "Fatima", streak: 12, points: 198, questionsSolved: 55 },
-    { id: 5, name: "Omar", streak: 19, points: 287, questionsSolved: 71 },
-    { id: 6, name: "Noor", streak: 7, points: 134, questionsSolved: 38 },
-    { id: 7, name: "Khalid", streak: 16, points: 245, questionsSolved: 64 },
-    { id: 8, name: "Layla", streak: 11, points: 178, questionsSolved: 49 },
-    { id: 9, name: "Hassan", streak: 14, points: 212, questionsSolved: 58 },
-    { id: 10, name: "Aisha", streak: 23, points: 342, questionsSolved: 85 },
-    { id: 11, name: "Yusuf", streak: 9, points: 156, questionsSolved: 44 },
-    { id: 12, name: "Zainab", streak: 17, points: 267, questionsSolved: 68 },
-    { id: 13, name: "Ali", streak: 13, points: 201, questionsSolved: 53 },
-    { id: 14, name: "Mariam", streak: 10, points: 167, questionsSolved: 46 },
-    { id: 15, name: "Ibrahim", streak: 18, points: 278, questionsSolved: 69 }
-  ]
-}
-
 function User() {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [leaderboardData, setLeaderboardData] = useState({ rows: [] });
+  const [userId, setUserId] = useState(null);
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setIsLoading(false);
+        navigate("/");
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:3001/api/auth/status", {
+          headers: {
+            "x-auth-token": token,
+          },
+        });
+
+        const data = await response.json();
+
+        if (response.status === 200 && (data.role === "regular" || data.role === "master")) {
+          setIsAuthenticated(true);
+
+          // Fetch leaderboard data
+          const leaderboardResponse = await fetch("http://localhost:3001/api/leaderboard", {
+            headers: {
+              "x-auth-token": token,
+            },
+          });
+
+          if (leaderboardResponse.ok) {
+            const { leaderboardData, userId } = await leaderboardResponse.json();
+            // Transform the data to match the expected format
+            const transformedData = {
+              rows: leaderboardData.map((user, index) => ({
+                id: index + 1,
+                userId: user.userId,
+                name: user.name,
+                streak: user.streak,
+                points: user.totalPoints,
+                questionsSolved: user.questionsSolved
+              }))
+            };
+
+            setLeaderboardData(transformedData);
+            setUserId(userId);
+          }
+        } else {
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Error checking authentication status:", error);
+        navigate("/");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, [navigate]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#006F6A] dark:border-[#FD7B06]"></div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    navigate("/");
+  }
+
   return (
     <>
       <Header />
-      <WelcomeBack userData={userData} />
+      {leaderboardData.rows.length > 0 && <WelcomeBack userData={leaderboardData.rows.find(user => user.userId === userId)} />}
       <ContinueLearning userData={userData} />
-      <Leaderboard leaderboardData={leaderboardData} userData={userData} />
+      {leaderboardData.rows.length > 0 && <Leaderboard leaderboardData={leaderboardData} userId={userId} />}
       <Footer />
     </>
   );

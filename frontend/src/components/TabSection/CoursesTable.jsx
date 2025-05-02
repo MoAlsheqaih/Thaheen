@@ -1,65 +1,59 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 import deleteIcon from "../../assets/delete-icon.png";
 import searchIcon from "../../assets/search-icon.png";
-import editIcon from "../../assets/edit-icon.png";
-
-const initialCourses = [
-  {
-    id: 1,
-    code: "ICS 321",
-    name: "Database Design",
-    questions: "20 AI questions",
-    exams: "",
-    isChecked: false,
-  },
-  {
-    id: 2,
-    code: "ICS 321",
-    name: "Database Design",
-    questions: "20 AI questions",
-    exams: "30 Old exam",
-    isChecked: false,
-  },
-  {
-    id: 3,
-    code: "ICS 321",
-    name: "Database Design",
-    questions: "20 AI questions",
-    exams: "30 Old exam",
-    isChecked: false,
-  },
-  {
-    id: 4,
-    code: "ICS 321",
-    name: "Database Design",
-    questions: "20 AI questions",
-    exams: "30 Old exam",
-    isChecked: false,
-  },
-];
+// import editIcon from "../../assets/edit-icon.png";
 
 function CoursesTable() {
-  const [courses, setCourses] = useState(initialCourses);
-  const [menuOpenId, setMenuOpenId] = useState(null);
+  const [courses, setCourses] = useState([]);
+  // const [menuOpenId, setMenuOpenId] = useState(null);
   const [showAll, setShowAll] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [newCode, setNewCode] = useState("");
   const [newName, setNewName] = useState("");
   const [search, setSearch] = useState("");
-  const menuRef = useRef(null);
+  const [addError, setAddError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  // const menuRef = useRef(null);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setMenuOpenId(null);
+    const fetchCourses = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch("http://localhost:3001/api/courses", {
+          headers: {
+            "x-auth-token": token,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch courses");
+        }
+
+        const data = await response.json();
+        setCourses(data.map(course => ({ ...course, isChecked: false })));
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+        alert("Failed to load courses. Please try again.");
+      } finally {
+        setIsLoading(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+
+    fetchCourses();
   }, []);
+
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (menuRef.current && !menuRef.current.contains(event.target)) {
+  //       setMenuOpenId(null);
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
 
   const toggleCheck = (id) => {
     setCourses((prev) =>
@@ -67,29 +61,86 @@ function CoursesTable() {
     );
   };
 
-  const handleDelete = (id) => {
-    setCourses((prev) => prev.filter((c) => c.id !== id));
-    setMenuOpenId(null);
+  const handleDelete = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:3001/api/courses/${id}`, {
+        method: "DELETE",
+        headers: {
+          "x-auth-token": token,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete course");
+      }
+
+      setCourses((prev) => prev.filter((c) => c.id !== id));
+      // setMenuOpenId(null);
+    } catch (error) {
+      console.error("Error deleting course:", error);
+      alert("Failed to delete course. Please try again.");
+    }
   };
 
-  const handleBulkDelete = () => {
-    setCourses((prev) => prev.filter((c) => !c.isChecked));
+  const handleBulkDelete = async () => {
+    const selectedCourses = courses.filter((c) => c.isChecked);
+    const token = localStorage.getItem("token");
+    const deletePromises = selectedCourses.map((course) =>
+      fetch(`http://localhost:3001/api/courses/${course.id}`, {
+        method: "DELETE",
+        headers: {
+          "x-auth-token": token,
+        },
+      })
+    );
+
+    try {
+      const responses = await Promise.all(deletePromises);
+      const allSuccessful = responses.every((response) => response.ok);
+
+      if (!allSuccessful) {
+        throw new Error("Some courses failed to delete");
+      }
+
+      setCourses((prev) => prev.filter((c) => !c.isChecked));
+    } catch (error) {
+      console.error("Error deleting courses:", error);
+      alert("Failed to delete some courses. Please try again.");
+    }
   };
 
-  const handleAddCourse = (e) => {
+  const handleAddCourse = async (e) => {
     e.preventDefault();
-    const newCourse = {
-      id: Date.now(),
-      code: newCode,
-      name: newName,
-      questions: "",
-      exams: "",
-      isChecked: false,
-    };
-    setCourses((prev) => [...prev, newCourse]);
-    setNewCode("");
-    setNewName("");
-    setShowModal(false);
+    setAddError("");
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:3001/api/courses", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token,
+        },
+        body: JSON.stringify({
+          code: newCode,
+          name: newName,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to add course");
+      }
+
+      const newCourse = await response.json();
+      setCourses((prev) => [...prev, newCourse]);
+      setNewCode("");
+      setNewName("");
+      setShowModal(false);
+    } catch (error) {
+      console.error("Error adding course:", error);
+      setAddError(error.message || "Failed to add course. Please try again.");
+    }
   };
 
   const anySelected = courses.some((c) => c.isChecked);
@@ -130,52 +181,60 @@ function CoursesTable() {
         </button>
       </div>
 
-      <div className="space-y-3 overflow-x-auto">
-        {visibleCourses.map((course) => (
-          <div
-            key={course.id}
-            className={`flex items-center justify-between p-3 rounded-xl shadow-sm border transition-all duration-200 ${course.isChecked ? "border-orange-400" : "border-transparent"} bg-white relative min-w-max w-full`}
-          >
-            <div className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                checked={course.isChecked}
-                onChange={() => toggleCheck(course.id)}
-                className="accent-orange-500 w-4 h-4"
-              />
-              <p className="font-medium w-20">{course.code}</p>
-              <p className="font-bold text-[#1D1E25] w-64">{course.name}</p>
-              <p className="text-sm text-gray-500 w-40">{course.questions}</p>
-              <p className="text-sm text-gray-500 w-40">{course.exams}</p>
-            </div>
+      {isLoading ? (
+        <div className="flex justify-center items-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+        </div>
+      ) : (
+        <div className="space-y-3 overflow-x-auto">
+          {visibleCourses.map((course) => (
+            <div
+              key={course.id}
+              className={`flex items-center justify-between p-3 rounded-xl shadow-sm border transition-all duration-200 ${course.isChecked ? "border-orange-400" : "border-transparent"} bg-white relative min-w-max w-full`}
+            >
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  checked={course.isChecked}
+                  onChange={() => toggleCheck(course.id)}
+                  className="accent-orange-500 w-4 h-4"
+                />
+                <p className="font-medium w-20">{course.code}</p>
+                <p className="font-bold text-[#1D1E25] w-80 line-clamp-1">{course.name}</p>
+                <p className="text-sm text-gray-500 w-32">{course.chapters.map(c => c.questions.filter(q => q.type === "AI").length).reduce((a, b) => a + b, 0) + course.chapters.map(c => c.questions.filter(q => q.type === "Old Exams").length).reduce((a, b) => a + b, 0)} Questions</p>
+              </div>
 
-            <div className="relative" ref={menuRef}>
-              <button onClick={() => setMenuOpenId(course.id)}>
-                <span className="text-xl text-orange-500">⋮</span>
+              {/* Menu commented out */}
+              {/* <div className="relative" ref={menuRef}>
+                <button onClick={() => setMenuOpenId(course.id)}>
+                  <span className="text-xl text-orange-500">⋮</span>
+                </button>
+
+                {menuOpenId === course.id && (
+                  <div className="absolute right-0 mt-2 bg-white border rounded shadow-md p-2 z-50 w-28">
+                    <button
+                      onClick={() => handleDelete(course.id)}
+                      className="flex items-center gap-2 text-red-500 text-sm font-medium hover:bg-red-100 rounded px-2 py-1 transition"
+                    >
+                      <img src={deleteIcon} alt="delete" className="w-4 h-4" />
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </div> */}
+
+              {/* Direct delete button */}
+              <button
+                onClick={() => handleDelete(course.id)}
+                className="flex items-center gap-2 text-red-500 text-sm font-medium hover:bg-red-100 rounded px-2 py-1 transition"
+              >
+                <img src={deleteIcon} alt="delete" className="w-4 h-4" />
+                Delete
               </button>
-
-              {menuOpenId === course.id && (
-                <div className="absolute right-0 mt-2 bg-white border rounded shadow-md p-2 z-10 w-28">
-                  <button
-                    onClick={() => alert("Edit logic to /QuestionMaster")}
-                    className="flex items-center gap-2 text-teal-700 text-sm font-medium mb-1 hover:bg-teal-100 rounded px-2 py-1 transition"
-                  >
-                    <img src={editIcon} alt="edit" className="w-4 h-4" />
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(course.id)}
-                    className="flex items-center gap-2 text-red-500 text-sm font-medium hover:bg-red-100 rounded px-2 py-1 transition"
-                  >
-                    <img src={deleteIcon} alt="delete" className="w-4 h-4" />
-                    Delete
-                  </button>
-                </div>
-              )}
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {filteredCourses.length > 3 && (
         <div className="text-center mt-4">
@@ -192,6 +251,9 @@ function CoursesTable() {
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-[#FFF7EC] rounded-2xl p-6 w-full max-w-md shadow-md">
             <h3 className="text-lg font-semibold text-orange-500 mb-4">New Course</h3>
+            {addError && (
+              <div className="text-red-500 text-sm mb-4">{addError}</div>
+            )}
             <form onSubmit={handleAddCourse} className="space-y-4">
               <input
                 type="text"

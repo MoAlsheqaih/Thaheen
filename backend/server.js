@@ -1,15 +1,19 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const express = require("express");
-const dotenv = require("dotenv");
 const cors = require("cors");
 
+const leaderboardRoute = require("./routes/leaderboard");
+const progressRoute = require("./routes/progress");
 const coursesRoute = require("./routes/courses");
+const adminRoute = require("./routes/admin");
 const authRoute = require("./routes/auth");
 
 const app = express();
-const PORT = 3000;
-dotenv.config();
+const PORT = 3001;
 
 // Database
 const DB_URI = process.env.DB_URI;
@@ -23,9 +27,11 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Routes
+app.use("/api/leaderboard", leaderboardRoute);
+app.use("/api/progress", progressRoute);
 app.use("/api/courses", coursesRoute);
+app.use("/api/admin", adminRoute);
 app.use("/api/auth", authRoute);
-
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

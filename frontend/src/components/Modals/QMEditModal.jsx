@@ -6,10 +6,12 @@
 // There is a field for the explanation of the question.
 // There is a button to save the changes.
 
+import { useParams } from "react-router-dom";
 import { useState } from "react";
 
 function QMEditModal({ question, onClose, onSave }) {
   const [editedQuestion, setEditedQuestion] = useState(question);
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     setEditedQuestion({ ...editedQuestion, [e.target.name]: e.target.value });
@@ -25,10 +27,39 @@ function QMEditModal({ question, onClose, onSave }) {
     setEditedQuestion({ ...editedQuestion, correctOptionId: editedQuestion.options[index].id });
   };
 
-  const handleSubmit = (e) => {
+  const { courseId, chapterId } = useParams();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSave(editedQuestion);
-    onClose();
+    setError(null);
+    try {
+      const response = await fetch(`http://localhost:3001/api/courses/${courseId}/chapters/${chapterId}/questions/${editedQuestion._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": localStorage.getItem("token")
+        },
+        body: JSON.stringify({
+          text: editedQuestion.text,
+          options: editedQuestion.options.map(option => option.text),
+          correctOption: editedQuestion.options.find(option => option.id === editedQuestion.correctOptionId).text,
+          explanation: editedQuestion.explanation,
+          difficulty: editedQuestion.difficulty,
+          type: editedQuestion.type
+        })
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to update question");
+      }
+
+      const updatedQuestion = await response.json();
+      onSave(updatedQuestion);
+      onClose();
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -103,10 +134,12 @@ function QMEditModal({ question, onClose, onSave }) {
             />
           </div>
 
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+
           {/* Save Button */}
           <button
             type="submit"
-            className="w-full bg-[#006F6A] text-white rounded-lg py-3 font-semibold hover:bg-[#006f6a]/90 transition-colors"
+            className="w-full bg-[#006F6A] text-white rounded-lg py-3 font-semibold hover:bg-[#006f6a]/90 transition-colors mt-2"
           >
             Save Changes
           </button>

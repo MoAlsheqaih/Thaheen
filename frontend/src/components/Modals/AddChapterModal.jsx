@@ -1,7 +1,8 @@
 import { useState } from "react";
 
-function AddChapter(props) {
+function AddChapterModal(props) {
   const [chapterName, setChapterName] = useState("");
+  const [error, setError] = useState(null);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
@@ -28,12 +29,18 @@ function AddChapter(props) {
           />
         </div>
 
+        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+
         <button className="bg-[#006F6A] dark:bg-[#F97008] hover:bg-[#006f6a]/80 dark:hover:bg-[#F97008]/80 transition-all text-white rounded-full py-3 font-semibold w-full" onClick={(e) => {
-          // TODO: Add chapter
           e.preventDefault();
           e.stopPropagation();
-          alert("Adding chapter: " + chapterName);
-          props.onClose();
+
+          if (!chapterName) {
+            setError("Please enter a chapter name");
+            return;
+          }
+
+          props.onAddChapter(chapterName);
         }}>
           ADD CHAPTER
         </button>
@@ -42,5 +49,5 @@ function AddChapter(props) {
   );
 }
 
-export default AddChapter;
+export default AddChapterModal;
 

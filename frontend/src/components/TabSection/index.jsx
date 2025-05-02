@@ -34,7 +34,10 @@ function TabSection() {
         </TabList>
 
         <TabPanels className="mt-6">
-          <TabPanel id="students">
+          <p id="students"></p>
+          <p id="courses"></p>
+
+          <TabPanel>
             <StudentsTable />
           </TabPanel>
 

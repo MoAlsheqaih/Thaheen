@@ -1,5 +1,6 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useDebouncedCallback } from "use-debounce";
 
 import QMAddOldQuestionModal from "../components/Modals/QMAddOldQuestionModal";
 import QMAddAIQuestionModal from "../components/Modals/QMAddAIQuestionModal";
@@ -11,28 +12,72 @@ import course_old from "../assets/course_old.svg";
 import qm_edit from "../assets/qm_edit.png";
 import Header from "../components/Header";
 
-// TODO: Replace with actual data
-import courseData from "../courses.json";
-
 function ChapterQuestionsPage() {
+  const navigate = useNavigate();
   // Editing-related state variables
   const [isEditing, setIsEditing] = useState(false);
   const [viewAddAIQuestionModal, setViewAddAIQuestionModal] = useState(false);
   const [viewAddOldExamQuestionModal, setViewAddOldExamQuestionModal] = useState(false);
+  const [userRole, setUserRole] = useState(null);
 
   const { courseId, chapterId } = useParams();
-  const course = courseData.find((c) => c.id === Number(courseId));
-  const chapter = course?.chapters.find((ch) => ch.id === Number(chapterId));
-  const questions = chapter?.questions;
+  const [course, setCourse] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCourse = async () => {
+      try {
+        const response = await fetch(`http://localhost:3001/api/courses/${courseId}`);
+        if (!response.ok) {
+          navigate("/");
+          return;
+        }
+
+        const course = await response.json();
+        setCourse(course);
+        setChapter(course.chapters.find((ch) => ch.id === Number(chapterId)));
+        setQuestions(course.chapters.find((ch) => ch.id === Number(chapterId)).questions || []);
+        setFilteredQuestions(course.chapters.find((ch) => ch.id === Number(chapterId)).questions || []);
+      } catch (error) {
+        console.error("Error fetching course:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    const fetchUserRole = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const response = await fetch("http://localhost:3001/api/auth/status", {
+        headers: {
+          "x-auth-token": token
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUserRole(data.role);
+      }
+    };
+
+    fetchCourse();
+    fetchUserRole();
+  }, [courseId, chapterId, navigate]);
+
+  const [chapter, setChapter] = useState(null);
+  const [questions, setQuestions] = useState([]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showAllModal, setShowAllModal] = useState(false);
   const [selectedType, setSelectedType] = useState(null);
-  const [filteredQuestions, setFilteredQuestions] = useState(questions);
+  const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [sortType, setSortType] = useState("default");
 
   // Update filtered questions when type or sort changes
   useEffect(() => {
+    if (!questions.length) return;
+
     let newFilteredQuestions = selectedType
       ? questions.filter(q => q.type === selectedType)
       : [...questions];
@@ -57,14 +102,7 @@ function ChapterQuestionsPage() {
   }, [selectedType, sortType, questions]);
 
   // track selected answers and ratings per question using question IDs as keys
-  const [userProgress, setUserProgress] = useState(
-    Object.fromEntries(questions.map(q => [q.id, {
-      selectedAnswerId: null,
-      userRating: null,
-      submitted: false,
-      bookmarked: false
-    }]))
-  );
+  const [userProgress, setUserProgress] = useState({});
 
   const updateUserProgress = (questionId, field, value) => {
     setUserProgress((prev) => ({
@@ -77,11 +115,15 @@ function ChapterQuestionsPage() {
   };
 
   const markSubmitted = (questionId) => {
+    const question = questions.find(q => q.id === questionId);
+
     setUserProgress((prev) => ({
       ...prev,
       [questionId]: {
         ...prev[questionId],
-        submitted: true
+        submitted: true,
+        submissionTime: Date.now(),
+        correct: prev[questionId]?.selectedAnswerId === question.correctOptionId
       }
     }));
   };
@@ -108,6 +150,123 @@ function ChapterQuestionsPage() {
     return filteredQuestions.findIndex(q => q.id === question?.id);
   };
 
+  // Fetch initial progress from backend
+  useEffect(() => {
+    const fetchProgress = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const response = await fetch("http://localhost:3001/api/progress", {
+          headers: {
+            "x-auth-token": token
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          // Map backend progress to frontend format
+          const mappedProgress = {};
+          questions.forEach(question => {
+            const backendProgress = data[question._id];
+            if (backendProgress) {
+              mappedProgress[question.id] = {
+                selectedAnswerId: backendProgress.selectedAnswerId,
+                userRating: backendProgress.userRating,
+                submitted: backendProgress.submitted,
+                bookmarked: backendProgress.bookmarked,
+                submissionTime: backendProgress.submissionTime,
+                correct: backendProgress.correct
+              };
+            } else {
+              // Initialize with default values if no progress exists
+              mappedProgress[question.id] = {
+                selectedAnswerId: null,
+                userRating: null,
+                submitted: false,
+                bookmarked: false,
+                submissionTime: null,
+                correct: null
+              };
+            }
+          });
+          setUserProgress(mappedProgress);
+        }
+      } catch (error) {
+        console.error("Error fetching progress:", error);
+      }
+    };
+
+    if (questions.length > 0) {
+      fetchProgress();
+    }
+  }, [questions]);
+
+  // Create debounced save function (ذي سويتها بحيث تقلل عدد الركوست للباك اند)
+  const saveProgress = useDebouncedCallback(async (progress) => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      // Map frontend progress to backend format
+      const backendProgress = {};
+      questions.forEach(question => {
+        const frontendProgress = progress[question.id];
+        if (frontendProgress) {
+          backendProgress[question._id] = {
+            selectedAnswerId: frontendProgress.selectedAnswerId,
+            userRating: frontendProgress.userRating,
+            submitted: frontendProgress.submitted,
+            bookmarked: frontendProgress.bookmarked,
+            submissionTime: frontendProgress.submissionTime,
+            correct: frontendProgress.correct
+          };
+        }
+      });
+
+      if (Object.keys(questions).length > 0) {
+        await fetch("http://localhost:3001/api/progress", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token
+          },
+          body: JSON.stringify({ progress: backendProgress })
+        });
+      }
+    } catch (error) {
+      console.error("Error saving progress:", error);
+    }
+  }, 5000); // 5 second debounce
+
+  // Save progress when it changes
+  useEffect(() => {
+    if (Object.keys(userProgress).length > 0) {
+      saveProgress(userProgress);
+    }
+  }, [userProgress, saveProgress]);
+
+  // Save progress on unmount
+  useEffect(() => {
+    return () => {
+      // Flush any pending saves
+      saveProgress.flush();
+    };
+  }, [saveProgress]);
+
+  const canSolve = userRole !== null;
+
+  if (isLoading) {
+    return (
+      <>
+        <Header />
+        <div className="flex items-center justify-center h-full">
+          <p className="text-gray-500 dark:text-slate-200">Loading...</p>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <Header />
@@ -118,9 +277,11 @@ function ChapterQuestionsPage() {
               <h1 className="text-xl font-bold text-[#FD7B06]">{course?.code} {course?.name}</h1>
             </Link>
 
-            <button className={`bg-[#006F6A] text-white p-1 rounded-md transition-all ${isEditing ? "bg-opacity-70" : ""}`} onClick={() => setIsEditing(!isEditing)}>
-              <img src={qm_edit} alt="qm_edit" className="w-6 h-6" />
-            </button>
+            {(userRole === "master" || userRole === "admin") && (
+              <button className={`bg-[#006F6A] text-white p-1 rounded-md transition-all ${isEditing ? "bg-opacity-70" : ""}`} onClick={() => setIsEditing(!isEditing)}>
+                <img src={qm_edit} alt="qm_edit" className="w-6 h-6" />
+              </button>
+            )}
           </div>
 
           <p className="text-md text-[#006F6A] mb-4">
@@ -205,6 +366,7 @@ function ChapterQuestionsPage() {
                   onBookmark={() => updateUserProgress(currentQuestion.id, "bookmarked", !currentProgress?.bookmarked)}
                   progressText={`${currentIndex + 1} of ${filteredQuestions.length}`}
                   progressPercentage={totalProgress}
+                  canSolve={canSolve}
                 />
 
                 <div className="flex justify-between mt-8">
@@ -287,7 +449,10 @@ function ChapterQuestionsPage() {
 
               <div className="flex flex-col gap-2">
                 {questions.map((question) => (
-                  <QMQuestionCard key={question.id} question={question} />
+                  <QMQuestionCard key={question.id} question={question} onDelete={() => {
+                    setQuestions(questions.filter(q => q._id !== question._id));
+                    setFilteredQuestions(filteredQuestions.filter(q => q._id !== question._id));
+                  }} />
                 ))}
               </div>
 
@@ -298,8 +463,15 @@ function ChapterQuestionsPage() {
                 <QMQuestionCard key={question.id} question={question} showReported={true} />
               ))}
 
-              {viewAddAIQuestionModal && <QMAddAIQuestionModal onClose={() => setViewAddAIQuestionModal(false)} />}
-              {viewAddOldExamQuestionModal && <QMAddOldQuestionModal onClose={() => setViewAddOldExamQuestionModal(false)} />}
+              {viewAddAIQuestionModal && <QMAddAIQuestionModal onClose={(newQuestion) => {
+                setViewAddAIQuestionModal(false);
+                setQuestions([...questions, newQuestion]);
+              }} />}
+
+              {viewAddOldExamQuestionModal && <QMAddOldQuestionModal onClose={(newQuestion) => {
+                setViewAddOldExamQuestionModal(false);
+                setQuestions([...questions, newQuestion]);
+              }} />}
             </div>
           )}
         </div>
