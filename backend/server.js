@@ -13,7 +13,7 @@ const adminRoute = require("./routes/admin");
 const authRoute = require("./routes/auth");
 
 const app = express();
-const PORT = 3001;
+const PORT = 3000;
 
 // Database
 const DB_URI = process.env.DB_URI;
@@ -33,6 +33,6 @@ app.use("/api/courses", coursesRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api/auth", authRoute);
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on port ${PORT}`);
 });
