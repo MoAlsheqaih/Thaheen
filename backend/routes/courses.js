@@ -1,8 +1,10 @@
 const { Router } = require("express");
+const jwt = require("jsonwebtoken");
 
 const { isQuestionMaster, isAdmin } = require("../utils");
 const Question = require("../models/questionSchema");
 const Course = require("../models/courseSchema");
+const User = require("../models/userSchema");
 
 const router = Router();
 
@@ -33,9 +35,44 @@ router.get("/:id", async (req, res) => {
 
     for (let i = 0; i < course.chapters.length; i++) {
       const chapter = course.chapters[i];
-
       const questions = await Question.find({ _id: { $in: chapter.questionIds } }).lean();
       chapter.questions = questions;
+    }
+
+    // Check for JWT token in header
+    const token = req.headers["x-auth-token"];
+    let userProgress = null;
+    if (token) {
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await User.findById(decoded.userId).lean();
+        if (user && user.progress) {
+          userProgress = user.progress;
+        }
+      } catch (err) {
+        // Invalid token, ignore progress
+      }
+    }
+
+    // If user progress is available, calculate solvedPercentage per chapter
+    if (userProgress) {
+      for (let i = 0; i < course.chapters.length; i++) {
+        const chapter = course.chapters[i];
+        const questionIds = chapter.questionIds.map(id => id.toString());
+        let solvedCount = 0;
+        let totalCount = questionIds.length;
+        if (totalCount > 0) {
+          for (const qid of questionIds) {
+            const progress = userProgress[qid] || userProgress.get && userProgress.get(qid);
+            if (progress && progress.submitted) {
+              solvedCount++;
+            }
+          }
+          chapter.solvedPercentage = Math.round((solvedCount / totalCount) * 100);
+        } else {
+          chapter.solvedPercentage = 0;
+        }
+      }
     }
 
     res.json(course);

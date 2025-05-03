@@ -49,7 +49,7 @@ function QuestionCard({
   };
 
   const averageRating = question.totalRaters
-    ? ((question.totalRatings + (userRating ? userRating : 0)) / (question.totalRaters + (userRating ? 1 : 0))).toFixed(2)
+    ? (question.totalRatings / question.totalRaters).toFixed(2)
     : "0.0";
 
   return (
@@ -159,7 +159,7 @@ function QuestionCard({
                 />
               ))}
               <span className="text-xs text-gray-500">
-                ({averageRating} avg by {question.totalRaters + (userRating ? 1 : 0)} students)
+                ({averageRating} avg by {question.totalRaters} students)
               </span>
             </div>
           </div>

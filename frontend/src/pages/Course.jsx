@@ -15,7 +15,11 @@ function Course() {
 
   useEffect(() => {
     const fetchCourse = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/courses/${id}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/courses/${id}`, {
+        headers: {
+          "x-auth-token": localStorage.getItem("token")
+        }
+      });
       const course = await response.json();
 
       if (response.ok) setCourse(course);

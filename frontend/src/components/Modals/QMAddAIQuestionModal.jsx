@@ -14,17 +14,30 @@ function QMAddAIQuestionModal({ onClose }) {
   const [relevantInfo, setRelevantInfo] = useState("");
   const [difficulty, setDifficulty] = useState("Easy");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const { courseId, chapterId } = useParams();
 
-  const handleGenerateQuestion = () => {
-    // TODO: Implement the logic to generate the question
+  const handleGenerateQuestion = async () => {
+    setIsLoading(true);
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/generate/${courseId}/${chapterId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ relevantInfo })
+    });
 
-    // For now, just fill the form with some dummy data
-    setQuestion("What is the capital of France?");
-    setOptions(["Paris", "London", "Rome", "Madrid"]);
-    setCorrectOption("Paris");
-    setExplanation("Paris is the capital of France.");
+    if (response.ok) {
+      const data = await response.json();
+      setQuestion(data.question.text);
+      setOptions(data.question.options);
+      setCorrectOption(data.question.correctOption);
+      setDifficulty(data.question.difficulty);
+      setExplanation(data.question.explanation);
+    }
+
+    setIsLoading(false);
   };
 
   const handleSubmit = async (e) => {
@@ -54,7 +67,7 @@ function QMAddAIQuestionModal({ onClose }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div className="bg-[#FFF3E6] rounded-[32px] px-4 sm:px-8 py-6 sm:py-10 shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto relative sm:[&::-webkit-scrollbar]:hidden">
         <button
-          onClick={onClose}
+          onClick={() => onClose(null)}
           className="absolute top-4 right-4 text-2xl text-gray-400 hover:text-gray-600"
         >
           &times;
@@ -85,8 +98,9 @@ function QMAddAIQuestionModal({ onClose }) {
             type="button"
             onClick={handleGenerateQuestion}
             className="w-full bg-[#006F6A] text-white rounded-lg py-2.5 sm:py-3 font-semibold hover:bg-[#006f6a]/90 transition-colors"
+            disabled={isLoading}
           >
-            Generate Question
+            {isLoading ? "Generating..." : "Generate Question"}
           </button>
 
           {/* Question Text */}

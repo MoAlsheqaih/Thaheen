@@ -6,6 +6,13 @@ function ChapterCard(props) {
   // add the leading zero to the chapter number
   const chapterNumber = String(props.chapter.id).padStart(2, "0");
 
+  // Use solvedPercentage if available
+  const solvedPercentage = typeof props.chapter.solvedPercentage === "number" ? props.chapter.solvedPercentage : null;
+  const circleRadius = 36;
+  const circleCircumference = 2 * Math.PI * circleRadius;
+  const progress = solvedPercentage !== null ? solvedPercentage / 100 : 0;
+  const strokeDashoffset = solvedPercentage !== null ? circleCircumference * (1 - progress) : circleCircumference;
+
   return (
     <Link to={`/course/${props.courseId}/chapter/${props.chapter.id}`} className="bg-white dark:bg-[#2C2620] rounded-lg border border-[#006F6A] dark:border-[#FD7B06] p-4 transition-shadow hover:shadow-lg cursor-pointer">
       <div className="flex items-center justify-between">
@@ -23,26 +30,27 @@ function ChapterCard(props) {
               strokeWidth="8"
               stroke="currentColor"
               fill="transparent"
-              r="36"
+              r={circleRadius}
               cx="48"
               cy="48"
             />
             <circle
-              className="text-[#006F6A] dark:text-[#FD7B06]"
+              className={solvedPercentage !== null ? "text-[#006F6A] dark:text-[#FD7B06]" : "text-gray-200 dark:text-slate-200"}
               strokeWidth="8"
               strokeLinecap="round"
               stroke="currentColor"
               fill="transparent"
-              r="36"
+              r={circleRadius}
               cx="48"
               cy="48"
-              strokeDasharray={`${2 * Math.PI * 36}`}
-              strokeDashoffset={`${2 * Math.PI * 36 * (1 - Math.random())}`}
+              strokeDasharray={circleCircumference}
+              strokeDashoffset={strokeDashoffset}
+              style={{ transition: "stroke-dashoffset 0.5s" }}
             />
           </svg>
 
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg font-bold dark:text-[#FD7B06]">
-            {`${Math.floor(Math.random() * 100)}%`}
+            {solvedPercentage !== null ? `${solvedPercentage}%` : "N/A"}
           </div>
 
           {props.isEditing && (

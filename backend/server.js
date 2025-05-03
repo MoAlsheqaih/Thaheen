@@ -8,6 +8,7 @@ const cors = require("cors");
 
 const leaderboardRoute = require("./routes/leaderboard");
 const progressRoute = require("./routes/progress");
+const generateRoute = require("./routes/generate");
 const coursesRoute = require("./routes/courses");
 const adminRoute = require("./routes/admin");
 const authRoute = require("./routes/auth");
@@ -29,6 +30,7 @@ app.use(bodyParser.json());
 // Routes
 app.use("/api/leaderboard", leaderboardRoute);
 app.use("/api/progress", progressRoute);
+app.use("/api/generate", generateRoute);
 app.use("/api/courses", coursesRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api/auth", authRoute);

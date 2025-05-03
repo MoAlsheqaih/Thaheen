@@ -101,7 +101,7 @@ function ChapterQuestionsPage() {
     setCurrentIndex(0);
   }, [selectedType, sortType, questions]);
 
-  // track selected answers and ratings per question using question IDs as keys
+  // track selected answers and ratings per question using question _id as keys
   const [userProgress, setUserProgress] = useState({});
 
   const updateUserProgress = (questionId, field, value) => {
@@ -115,7 +115,7 @@ function ChapterQuestionsPage() {
   };
 
   const markSubmitted = (questionId) => {
-    const question = questions.find(q => q.id === questionId);
+    const question = questions.find(q => q._id === questionId);
 
     setUserProgress((prev) => ({
       ...prev,
@@ -129,11 +129,11 @@ function ChapterQuestionsPage() {
   };
 
   const currentQuestion = filteredQuestions[currentIndex];
-  const currentProgress = userProgress[currentQuestion?.id];
+  const currentProgress = userProgress[currentQuestion?._id];
 
   // Calculate total progress based on all questions
   const totalProgress = questions.length > 0
-    ? (Object.values(userProgress).filter(q => q.submitted).length / questions.length) * 100
+    ? (questions.filter(q => userProgress[q._id]?.submitted).length / questions.length) * 100
     : 0;
 
   // Get the current question's index in the full questions array
@@ -165,22 +165,11 @@ function ChapterQuestionsPage() {
 
         if (response.ok) {
           const data = await response.json();
-          // Map backend progress to frontend format
-          const mappedProgress = {};
+          // Use backend progress as is (keyed by _id)
+          const mappedProgress = { ...data };
           questions.forEach(question => {
-            const backendProgress = data[question._id];
-            if (backendProgress) {
-              mappedProgress[question.id] = {
-                selectedAnswerId: backendProgress.selectedAnswerId,
-                userRating: backendProgress.userRating,
-                submitted: backendProgress.submitted,
-                bookmarked: backendProgress.bookmarked,
-                submissionTime: backendProgress.submissionTime,
-                correct: backendProgress.correct
-              };
-            } else {
-              // Initialize with default values if no progress exists
-              mappedProgress[question.id] = {
+            if (!mappedProgress[question._id]) {
+              mappedProgress[question._id] = {
                 selectedAnswerId: null,
                 userRating: null,
                 submitted: false,
@@ -202,38 +191,20 @@ function ChapterQuestionsPage() {
     }
   }, [questions]);
 
-  // Create debounced save function (ذي سويتها بحيث تقلل عدد الركوست للباك اند)
+  // Map frontend progress to backend format (already keyed by _id)
   const saveProgress = useDebouncedCallback(async (progress) => {
     const token = localStorage.getItem("token");
     if (!token) return;
 
     try {
-      // Map frontend progress to backend format
-      const backendProgress = {};
-      questions.forEach(question => {
-        const frontendProgress = progress[question.id];
-        if (frontendProgress) {
-          backendProgress[question._id] = {
-            selectedAnswerId: frontendProgress.selectedAnswerId,
-            userRating: frontendProgress.userRating,
-            submitted: frontendProgress.submitted,
-            bookmarked: frontendProgress.bookmarked,
-            submissionTime: frontendProgress.submissionTime,
-            correct: frontendProgress.correct
-          };
-        }
+      await fetch(`${process.env.REACT_APP_API_URL}/api/progress`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token
+        },
+        body: JSON.stringify({ progress })
       });
-
-      if (Object.keys(questions).length > 0) {
-        await fetch(`${process.env.REACT_APP_API_URL}/api/progress`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": token
-          },
-          body: JSON.stringify({ progress: backendProgress })
-        });
-      }
     } catch (error) {
       console.error("Error saving progress:", error);
     }
@@ -253,6 +224,26 @@ function ChapterQuestionsPage() {
       saveProgress.flush();
     };
   }, [saveProgress]);
+
+  const handleDelete = async (questionId) => {
+    setQuestions(questions.filter(q => q._id !== questionId));
+    setFilteredQuestions(filteredQuestions.filter(q => q._id !== questionId));
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/courses/${courseId}/chapters/${chapterId}/questions/${questionId}`, {
+        method: "DELETE",
+        headers: {
+          "x-auth-token": localStorage.getItem("token")
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete question");
+      }
+    } catch (error) {
+      console.error("Error deleting question:", error);
+    }
+  };
 
   const canSolve = userRole !== null;
 
@@ -357,13 +348,13 @@ function ChapterQuestionsPage() {
                   submitted={currentProgress?.submitted}
                   bookmarked={currentProgress?.bookmarked}
                   onSelectAnswer={(answerId) =>
-                    updateUserProgress(currentQuestion.id, "selectedAnswerId", answerId)
+                    updateUserProgress(currentQuestion._id, "selectedAnswerId", answerId)
                   }
                   onRate={(rating) =>
-                    updateUserProgress(currentQuestion.id, "userRating", rating)
+                    updateUserProgress(currentQuestion._id, "userRating", rating)
                   }
-                  onSubmit={() => markSubmitted(currentQuestion.id)}
-                  onBookmark={() => updateUserProgress(currentQuestion.id, "bookmarked", !currentProgress?.bookmarked)}
+                  onSubmit={() => markSubmitted(currentQuestion._id)}
+                  onBookmark={() => updateUserProgress(currentQuestion._id, "bookmarked", !currentProgress?.bookmarked)}
                   progressText={`${currentIndex + 1} of ${filteredQuestions.length}`}
                   progressPercentage={totalProgress}
                   canSolve={canSolve}
@@ -404,8 +395,8 @@ function ChapterQuestionsPage() {
                         setShowAllModal(false);
                       }
                     }}
-                    answeredStatus={questions.map(q => userProgress[q.id]?.submitted)}
-                    bookmarkedStatus={questions.map(q => userProgress[q.id]?.bookmarked)}
+                    answeredStatus={questions.map(q => userProgress[q._id]?.submitted)}
+                    bookmarkedStatus={questions.map(q => userProgress[q._id]?.bookmarked)}
                     onClose={() => setShowAllModal(false)}
                   />
                 )}
@@ -449,9 +440,8 @@ function ChapterQuestionsPage() {
 
               <div className="flex flex-col gap-2">
                 {questions.map((question) => (
-                  <QMQuestionCard key={question.id} question={question} onDelete={() => {
-                    setQuestions(questions.filter(q => q._id !== question._id));
-                    setFilteredQuestions(filteredQuestions.filter(q => q._id !== question._id));
+                  <QMQuestionCard key={question._id} question={question} onDelete={() => {
+                    handleDelete(question._id);
                   }} />
                 ))}
               </div>
@@ -465,12 +455,18 @@ function ChapterQuestionsPage() {
 
               {viewAddAIQuestionModal && <QMAddAIQuestionModal onClose={(newQuestion) => {
                 setViewAddAIQuestionModal(false);
-                setQuestions([...questions, newQuestion]);
+
+                if (newQuestion) {
+                  setQuestions([...questions, newQuestion]);
+                }
               }} />}
 
               {viewAddOldExamQuestionModal && <QMAddOldQuestionModal onClose={(newQuestion) => {
                 setViewAddOldExamQuestionModal(false);
-                setQuestions([...questions, newQuestion]);
+
+                if (newQuestion) {
+                  setQuestions([...questions, newQuestion]);
+                }
               }} />}
             </div>
           )}

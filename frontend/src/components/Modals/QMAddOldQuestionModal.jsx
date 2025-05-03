@@ -39,7 +39,7 @@ function QMAddOldQuestionModal({ onClose }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div className="bg-[#FFF3E6] rounded-[32px] px-4 sm:px-8 py-6 sm:py-10 shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto relative sm:[&::-webkit-scrollbar]:hidden">
         <button
-          onClick={onClose}
+          onClick={() => onClose(null)}
           className="absolute top-4 right-4 text-2xl text-gray-400 hover:text-gray-600"
         >
           &times;
