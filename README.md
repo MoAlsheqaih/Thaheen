@@ -26,7 +26,7 @@ activities, interact with questions, and participate in leaderboards.
 
 ## Setup and Installation Instructions
 
-> As of milestone 4, only the front-end has been implemented.
+### Frontend
 
 1. Go to the front-end folder
 ```bash
@@ -44,22 +44,127 @@ npm start
 ```
 
 4. Access the website at http://localhost:3000.
+
+### Backend
+
+1. Go to the back-end folder
+```bash
+cd backend
+```
+
+2. Install required packages and dependencies
+```bash
+npm install
+```
+
+3. Run the front-end server
+```bash
+node server.js
+```
+
+4. You may need to modify backend/server.js for PORT.
+
+### Environment Variables
+frontend/.env
+```env
+REACT_APP_API_URL=<the URL of the backend>
+```
+
+backend/.env
+```env
+DB_URI=<mongo database uri>
+
+OPENAI_API_KEY=<key from https://platform.openai.com/ for AI questions>
+RESEND_API_KEY=<key from https://resend.com/ for OTPs>
+
+JWT_SECRET=<secret for signing and unsigning JWT tokens>
+```
+
 > Alternatively, you can access our live deployment of the latest commit at https://thaheen.vercel.app.
 
 ## Usage Instructions
-All pages should be front-end functional, however, since there is no back-end and login functionality at the moment, these pages cannot be accessed from the website without manually entering the URLs:
-<br />
-**User Dasboard:** http://localhost:3000/user OR https://thaheen.vercel.app/user
-<br />
-**Admin Dashboard:** http://localhost:3000/admin OR https://thaheen.vercel.app/admin
+All pages should be functional.
 
-In order to view the OTP verification modal, use these fake credentials:
+### Test Users (DO NOT DELETE THESE):
+**Email:** admin@thaheen.com
 <br />
-**Email:** user@example.com
+**Password:** Thaheen!2025
 <br />
-**Password:** 123456
+**OTP:** Use anything, the system will not send OTPs to test accounts.
+
+**Email:** master@thaheen.com
+<br />
+**Password:** Thaheen!2025
+<br />
+**OTP:** Use anything, the system will not send OTPs to test accounts.
+
+
+**Email:** rgu1@thaheen.com
+<br />
+**Password:** Thaheen!2025
+<br />
+**OTP:** Use anything, the system will not send OTPs to test accounts.
+
+
+**Email:** rgu2@thaheen.com
+<br />
+**Password:** Thaheen!2025
+<br />
+**OTP:** Use anything, the system will not send OTPs to test accounts.
+
+### OTP
+OTPs arrive from the email address thaheen@resend.dev so make sure it's unblocked. You may need to check junk or spam folders.
 
 The only chapter with questions to view the design is **SWE316 / Introduction to Design** which can be found at http://localhost:3000/course/1/chapter/1 OR https://thaheen.vercel.app/course/1/chapter/1
+
+## API Documentation
+The API contains a lot of routes which manage courses, chapters, questions, users, user progress, authentication, and leaderboard.
+
+### Status codes
+200: OK\
+201: Resource created\
+204: Resource deleted
+401: Unauthorized (some routes are restricted to Question Master and Admin)\
+404: Not Found\
+500: Internal Server Error (this could occur due to rate-limiting from MongoDB Atlas or Vercel)
+
+### Routes
+The frontend will almost always send the token in the header `x-auth-token` if available.
+
+/api/admin&ensp;&ensp;restricted to admin only\
+&ensp;&ensp;GET /users (get all users)\
+&ensp;&ensp;DELETE /users/:userId (delete a user)\
+&ensp;&ensp;PUT /users/:userId/role (change a user's role, body `{role: "regular" | "master"}`)\
+&ensp;&ensp;GET /statistics (get statistics; number of courses/users/questions)\
+&ensp;&ensp;GET /most-active (get most active 4 users based on total points)
+
+/api/auth\
+&ensp;&ensp;POST /register (create a user, body `{email, password, firstName, lastName}`)\
+&ensp;&ensp;POST /login (login and receive OTP, body `{email, password}`)\
+&ensp;&ensp;POST /verify-otp (verify OTP, body `{email, otp}`)\
+&ensp;&ensp;GET /status (get user's role)
+
+/api/generate&ensp;&ensp;restricted to QM/admin only\
+&ensp;&ensp;POST /:courseId/:chapterId (generates an AI question, body `{relevantInfo}`)
+
+/api/courses&ensp;&ensp;POST/PUT/DELETE restricted to QM/admin only\
+&ensp;&ensp;GET / (gets all courses)\
+&ensp;&ensp;GET /:id (gets a specific course)\
+&ensp;&ensp;POST / (creates a course, body `{code, name}`)\
+&ensp;&ensp;POST /:id/chapters (creates a chapter in course, body `{name}`)\
+&ensp;&ensp;DELETE /:id/chapters/:chapterId (deletes a chapter)\
+&ensp;&ensp;DELETE /:id (deletes a course)\
+&ensp;&ensp;POST /:id/chapters/:chapterId/questions (adds a question to chapter, body `{type, question, options, correctOption, explanation, difficulty}`)\
+&ensp;&ensp;PUT /:id/chapters/:chapterId/questions/:questionId (updates a question, body `{text, options, correctOption, explanation, difficulty}`)\
+&ensp;&ensp;DELETE /:id/chapters/:chapterId/questions/:questionId (deletes a question from a chapter)
+
+/api/leaderboard&ensp;&ensp;requires login\
+&ensp;&ensp;GET / (retrieves all leaderboard data)
+
+/api/progress&ensp;&ensp;requires login\
+&ensp;&ensp;GET / (gets user progress in all questions)\
+&ensp;&ensp;PUT / (sets user progress in all questions, body `{progress}`)
+
 
 ## Team Members
 
