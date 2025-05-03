@@ -140,14 +140,14 @@ function ChapterQuestionsPage() {
   const getCurrentFullIndex = () => {
     if (!selectedType) return currentIndex;
     const currentQuestion = filteredQuestions[currentIndex];
-    return questions.findIndex(q => q.id === currentQuestion?.id);
+    return questions.findIndex(q => q._id === currentQuestion?._id);
   };
 
   // Get the filtered index from a full questions index
   const getFilteredIndex = (fullIndex) => {
     if (!selectedType) return fullIndex;
     const question = questions[fullIndex];
-    return filteredQuestions.findIndex(q => q.id === question?.id);
+    return filteredQuestions.findIndex(q => q._id === question?._id);
   };
 
   // Fetch initial progress from backend
@@ -341,64 +341,72 @@ function ChapterQuestionsPage() {
                   </div>
                 </div>
 
-                <QuestionCard
-                  question={currentQuestion}
-                  selectedAnswerId={currentProgress?.selectedAnswerId}
-                  userRating={currentProgress?.userRating}
-                  submitted={currentProgress?.submitted}
-                  bookmarked={currentProgress?.bookmarked}
-                  onSelectAnswer={(answerId) =>
-                    updateUserProgress(currentQuestion._id, "selectedAnswerId", answerId)
-                  }
-                  onRate={(rating) =>
-                    updateUserProgress(currentQuestion._id, "userRating", rating)
-                  }
-                  onSubmit={() => markSubmitted(currentQuestion._id)}
-                  onBookmark={() => updateUserProgress(currentQuestion._id, "bookmarked", !currentProgress?.bookmarked)}
-                  progressText={`${currentIndex + 1} of ${filteredQuestions.length}`}
-                  progressPercentage={totalProgress}
-                  canSolve={canSolve}
-                />
-
-                <div className="flex justify-between mt-8">
-                  <button
-                    disabled={currentIndex === 0}
-                    onClick={() => setCurrentIndex(currentIndex - 1)}
-                    className={`px-4 py-2 rounded-lg ${currentIndex === 0 ? "bg-gray-300 cursor-not-allowed" : "bg-[#FD7B06] hover:bg-[#FD7B06]/80 transition-all text-white"}`}
-                  >
-                    Previous
-                  </button>
-
-                  <button
-                    disabled={currentIndex === filteredQuestions.length - 1}
-                    onClick={() => setCurrentIndex(currentIndex + 1)}
-                    className={`px-4 py-2 rounded-lg ${currentIndex === filteredQuestions.length - 1 ? "bg-gray-300 cursor-not-allowed" : "bg-[#FD7B06] hover:bg-[#FD7B06]/80 transition-all text-white"}`}
-                  >
-                    Next
-                  </button>
-                </div>
-
-                {showAllModal && (
-                  <QuestionsModal
-                    questions={questions}
-                    currentIndex={getCurrentFullIndex()}
-                    onSelect={(fullIndex) => {
-                      const filteredIndex = getFilteredIndex(fullIndex);
-                      if (filteredIndex !== -1) {
-                        setCurrentIndex(filteredIndex);
-                        setShowAllModal(false);
-                      } else {
-                        // If selected question is not in filtered list, update filter
-                        const selectedQuestion = questions[fullIndex];
-                        setSelectedType(selectedQuestion.type);
-                        setCurrentIndex(0); // Reset to first question of new filter
-                        setShowAllModal(false);
+                {filteredQuestions.length === 0 ? (
+                  <div className="text-center py-12">
+                    <h2 className="text-2xl font-semibold text-gray-700 mb-2">No questions match this filter.</h2>
+                  </div>
+                ) : (
+                  <>
+                    <QuestionCard
+                      question={currentQuestion}
+                      selectedAnswerId={currentProgress?.selectedAnswerId}
+                      userRating={currentProgress?.userRating}
+                      submitted={currentProgress?.submitted}
+                      bookmarked={currentProgress?.bookmarked}
+                      onSelectAnswer={(answerId) =>
+                        updateUserProgress(currentQuestion._id, "selectedAnswerId", answerId)
                       }
-                    }}
-                    answeredStatus={questions.map(q => userProgress[q._id]?.submitted)}
-                    bookmarkedStatus={questions.map(q => userProgress[q._id]?.bookmarked)}
-                    onClose={() => setShowAllModal(false)}
-                  />
+                      onRate={(rating) =>
+                        updateUserProgress(currentQuestion._id, "userRating", rating)
+                      }
+                      onSubmit={() => markSubmitted(currentQuestion._id)}
+                      onBookmark={() => updateUserProgress(currentQuestion._id, "bookmarked", !currentProgress?.bookmarked)}
+                      progressText={`${currentIndex + 1} of ${filteredQuestions.length}`}
+                      progressPercentage={totalProgress}
+                      canSolve={canSolve}
+                    />
+
+                    <div className="flex justify-between mt-8">
+                      <button
+                        disabled={currentIndex === 0}
+                        onClick={() => setCurrentIndex(currentIndex - 1)}
+                        className={`px-4 py-2 rounded-lg ${currentIndex === 0 ? "bg-gray-300 cursor-not-allowed" : "bg-[#FD7B06] hover:bg-[#FD7B06]/80 transition-all text-white"}`}
+                      >
+                        Previous
+                      </button>
+
+                      <button
+                        disabled={currentIndex === filteredQuestions.length - 1}
+                        onClick={() => setCurrentIndex(currentIndex + 1)}
+                        className={`px-4 py-2 rounded-lg ${currentIndex === filteredQuestions.length - 1 ? "bg-gray-300 cursor-not-allowed" : "bg-[#FD7B06] hover:bg-[#FD7B06]/80 transition-all text-white"}`}
+                      >
+                        Next
+                      </button>
+                    </div>
+
+                    {showAllModal && (
+                      <QuestionsModal
+                        questions={questions}
+                        currentIndex={getCurrentFullIndex()}
+                        onSelect={(fullIndex) => {
+                          const filteredIndex = getFilteredIndex(fullIndex);
+                          if (filteredIndex !== -1) {
+                            setCurrentIndex(filteredIndex);
+                            setShowAllModal(false);
+                          } else {
+                            // If selected question is not in filtered list, update filter
+                            const selectedQuestion = questions[fullIndex];
+                            setSelectedType(selectedQuestion.type);
+                            setCurrentIndex(0); // Reset to first question of new filter
+                            setShowAllModal(false);
+                          }
+                        }}
+                        answeredStatus={questions.map(q => userProgress[q._id]?.submitted)}
+                        bookmarkedStatus={questions.map(q => userProgress[q._id]?.bookmarked)}
+                        onClose={() => setShowAllModal(false)}
+                      />
+                    )}
+                  </>
                 )}
               </>
             )
