@@ -81,6 +81,8 @@ JWT_SECRET=<secret for signing and unsigning JWT tokens>
 ```
 
 > Alternatively, you can access our live deployment of the latest commit at https://thaheen.vercel.app.
+> We recommend running the project locally as Vercel's backend is extremely slow and times out a lot. For ENV variables, you may contact us for ours or use your own.
+
 
 ## Usage Instructions
 All pages should be functional.

@@ -221,6 +221,56 @@ router.post("/:id/chapters/:chapterId/questions", async (req, res) => {
   }
 });
 
+// Bulk add questions to a chapter
+router.post("/:id/chapters/:chapterId/questions/bulk", async (req, res) => {
+  if (!isQuestionMaster(req) && !isAdmin(req)) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  try {
+    const course = await Course.findOne({ id: req.params.id });
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    const chapter = course.chapters.find(chapter => chapter.id === parseInt(req.params.chapterId));
+    if (!chapter) {
+      return res.status(404).json({ message: "Chapter not found" });
+    }
+
+    const { questions } = req.body;
+
+    // Get the last question id in the chapter
+    const lastQuestion = await Question.findOne({ _id: { $in: chapter.questionIds } }).sort({ id: -1 });
+    let nextId = lastQuestion ? lastQuestion.id + 1 : 1;
+
+    const createdQuestions = [];
+    for (const q of questions) {
+      const { question, options, correctOption, explanation, difficulty, type } = q;
+      const newQuestion = await Question.create({
+        id: nextId++,
+        text: question,
+        options: options.map((option, index) => ({
+          id: ["A", "B", "C", "D"][index],
+          text: option,
+          count: 0
+        })),
+        correctOptionId: ["A", "B", "C", "D"][options.indexOf(correctOption)],
+        explanation,
+        difficulty,
+        type
+      });
+      chapter.questionIds.push(newQuestion._id);
+      createdQuestions.push(newQuestion);
+    }
+
+    await course.save();
+    res.json(createdQuestions);
+  } catch (error) {
+    res.status(500).json({ message: "Error adding questions to chapter", error: error.message });
+  }
+});
+
 // Update a question
 router.put("/:id/chapters/:chapterId/questions/:questionId", async (req, res) => {
   if (!isQuestionMaster(req) && !isAdmin(req)) {

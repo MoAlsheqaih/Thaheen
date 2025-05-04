@@ -461,11 +461,11 @@ function ChapterQuestionsPage() {
                 <QMQuestionCard key={question.id} question={question} showReported={true} />
               ))}
 
-              {viewAddAIQuestionModal && <QMAddAIQuestionModal onClose={(newQuestion) => {
+              {viewAddAIQuestionModal && <QMAddAIQuestionModal onClose={(newQuestions) => {
                 setViewAddAIQuestionModal(false);
 
-                if (newQuestion) {
-                  setQuestions([...questions, newQuestion]);
+                if (newQuestions) {
+                  setQuestions([...questions, ...newQuestions]);
                 }
               }} />}
 

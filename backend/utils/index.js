@@ -58,7 +58,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 const sendOTPEmail = async (email, name, otp) => {
     const response = await resend.emails.send({
-        from: "Thaheen <thaheen@resend.dev>",
+        from: "Thaheen <thaheen@uaab.dev>",
         to: [email],
         subject: "Login OTP",
         text: `Hello ${name},\n\nYour OTP is ${otp}.\n\nThank you for using our platform. Good luck!`,
