@@ -80,7 +80,7 @@ function QMAddAIQuestionModal({ onClose }) {
           }))
         );
       } else {
-        if (response.status === 400) {
+        if (response.status === 400 || response.status === 413) {
           const data = await response.json();
           setError(data.error);
         } else {

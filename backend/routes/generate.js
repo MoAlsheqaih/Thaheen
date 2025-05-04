@@ -2,26 +2,19 @@ const { pdf } = require("pdf-to-img");
 const { Router } = require("express");
 const multer = require("multer");
 const axios = require("axios");
-const fs = require("fs");
+// const fs = require("fs");
 
 const { isQuestionMaster, isAdmin } = require("../utils");
 const Course = require("../models/courseSchema");
 
 const router = Router();
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  }
-});
+const storage = multer.memoryStorage(); // Changed to memory storage to make this work on Heroku
 
-const upload = multer({ storage });
+const upload = multer({ storage, limits: { fileSize: 1024 * 1024 * 5 } }); // 5MB limit because Heroku has ~512MB memory
 
-async function extractSlidesAsImages(pdfFilePath, slideStart, slideEnd) {
-  const document = await pdf(pdfFilePath);
+async function extractSlidesAsImages(pdfBuffer, slideStart, slideEnd) {
+  const document = await pdf(pdfBuffer);
 
   if (document.length < slideEnd) {
     throw new RangeError("Slide end is greater than the number of slides in the PDF");
@@ -33,7 +26,7 @@ async function extractSlidesAsImages(pdfFilePath, slideStart, slideEnd) {
     images.push(image);
   }
 
-  fs.unlinkSync(pdfFilePath); // Clean up uploaded file (بحيث ماياخذ مساحة)
+  // fs.unlinkSync(pdfFilePath); // Clean up uploaded file (بحيث ماياخذ مساحة)
   return images.slice(slideStart - 1, slideEnd);
 }
 
@@ -101,21 +94,21 @@ router.post("/:courseId/:chapterId", upload.single("pdfFile"), async (req, res) 
 
   const { courseId, chapterId } = req.params;
   const { relevantInfo, slideStart, slideEnd, numQuestions } = req.body;
-  const pdfFilePath = req.file?.path;
+  const pdfBuffer = req.file?.buffer;
 
   const course = await Course.findOne({ id: courseId });
   const chapter = course?.chapters.find(chapter => chapter.id === parseInt(chapterId));
 
   if (!course || !chapter) {
-    if (pdfFilePath) fs.unlinkSync(pdfFilePath);
+    // if (pdfFilePath) fs.unlinkSync(pdfFilePath);
     return res.status(404).json({ message: "Course or chapter not found" });
   }
 
   try {
     // 1. Extract slide images from PPT
     let slideImages = [];
-    if (pdfFilePath) {
-      slideImages = await extractSlidesAsImages(pdfFilePath, slideStart, slideEnd);
+    if (pdfBuffer) {
+      slideImages = await extractSlidesAsImages(pdfBuffer, slideStart, slideEnd);
     }
 
     // 2. Generate all questions in a single GPT-4o call
@@ -129,7 +122,7 @@ router.post("/:courseId/:chapterId", upload.single("pdfFile"), async (req, res) 
 
     res.json({ questions });
   } catch (err) {
-    if (pdfFilePath && fs.existsSync(pdfFilePath)) fs.unlinkSync(pdfFilePath);
+    // if (pdfFilePath && fs.existsSync(pdfFilePath)) fs.unlinkSync(pdfFilePath);
 
     if (err instanceof RangeError) {
       return res.status(400).json({ error: "Slide end is greater than the number of slides in the PDF" });
@@ -138,6 +131,12 @@ router.post("/:courseId/:chapterId", upload.single("pdfFile"), async (req, res) 
     console.error(err);
     res.status(500).json({ error: "Failed to generate questions" });
   }
+}, (err, req, res, next) => {
+  if (err.code === "LIMIT_FILE_SIZE") {
+    return res.status(413).json({ error: "File size limit exceeded. Maximum: 5MB." });
+  }
+
+  next(err);
 });
 
 module.exports = router;
