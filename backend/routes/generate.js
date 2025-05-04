@@ -2,7 +2,6 @@ const { pdf } = require("pdf-to-img");
 const { Router } = require("express");
 const multer = require("multer");
 const axios = require("axios");
-const path = require("path");
 const fs = require("fs");
 
 const { isQuestionMaster, isAdmin } = require("../utils");
