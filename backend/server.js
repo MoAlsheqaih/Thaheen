@@ -14,7 +14,7 @@ const adminRoute = require("./routes/admin");
 const authRoute = require("./routes/auth");
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3000;
 
 // Database
 const DB_URI = process.env.DB_URI;
