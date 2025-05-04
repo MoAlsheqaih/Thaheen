@@ -62,7 +62,7 @@ npm install
 node server.js
 ```
 
-4. You may need to modify backend/server.js for PORT.
+4. Check note about PORT in next section.
 
 ### Environment Variables
 frontend/.env
@@ -78,6 +78,8 @@ OPENAI_API_KEY=<key from https://platform.openai.com/ for AI questions>
 RESEND_API_KEY=<key from https://resend.com/ for OTPs>
 
 JWT_SECRET=<secret for signing and unsigning JWT tokens>
+
+PORT=<if not mentioned, default is 3000>
 ```
 
 > Alternatively, you can access our live deployment of the latest commit at https://thaheen.vercel.app.
@@ -115,7 +117,7 @@ All pages should be functional.
 **OTP:** Use anything, the system will not send OTPs to test accounts.
 
 ### OTP
-OTPs arrive from the email address thaheen@resend.dev so make sure it's unblocked. You may need to check junk or spam folders.
+OTPs arrive from the email address thaheen@uaab.dev so make sure it's unblocked. You may need to check junk or spam folders.
 
 The only chapter with questions to view the design is **SWE316 / Introduction to Design** which can be found at http://localhost:3000/course/1/chapter/1 OR https://thaheen.vercel.app/course/1/chapter/1
 
