@@ -3,7 +3,12 @@ const mongoose = require("mongoose");
 const questionSchema = new mongoose.Schema({
   id: { type: Number, required: true },
   text: { type: String, required: true },
-  report: { type: String, default: "" },
+  reports: [
+    {
+      message: { type: String, required: true },
+      date: { type: Date, default: Date.now },
+    }
+  ],
   options: [{
     id: { type: String, required: true },
     text: { type: String, required: true },

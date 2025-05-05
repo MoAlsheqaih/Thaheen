@@ -111,11 +111,22 @@ function QMQuestionCard({ question: initialQuestion, showReported = false, onDel
         </div>
 
         {/* If showReported is true, show the report message in red */}
-        {showReported && (
-          <div className="text-red-600">
-            Reported. {question.report}
+        {showReported && question.reports?.length > 0 && (
+          <div className="mt-4 bg-red-50 p-3 rounded-lg border border-red-200">
+            <h4 className="text-red-600 font-semibold mb-2">Reported Issues:</h4>
+            <ul className="list-disc list-inside text-sm text-red-800">
+              {question.reports.map((report, idx) => (
+                <li key={idx}>
+                  {report.message}
+                  <span className="text-gray-400 text-xs ml-2">
+                    ({new Date(report.date).toLocaleString()})
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
+
       </div>
 
       {viewEditModal && <QMEditModal question={selectedQuestion} onClose={() => setViewEditModal(false)} onSave={updatedQuestion => {

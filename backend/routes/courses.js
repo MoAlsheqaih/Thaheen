@@ -347,4 +347,39 @@ router.delete("/:id/chapters/:chapterId/questions/:questionId", async (req, res)
   }
 });
 
+// Add a report to a specific question
+router.put("/:id/chapters/:chapterId/questions/:questionId/report", async (req, res) => {
+  try {
+    const { message } = req.body;
+    const { questionId } = req.params;
+
+    if (!message || message.trim() === "") {
+      return res.status(400).json({ message: "Report message is required" });
+    }
+
+    const question = await Question.findById(questionId);
+    if (!question) {
+      return res.status(404).json({ message: "Question not found" });
+    }
+
+    if (!Array.isArray(question.reports)) {
+      question.reports = [];
+    }
+
+    question.reports.push({
+      message,
+      date: new Date()
+    });
+
+    await question.save();
+
+    res.status(200).json({ message: "Report submitted successfully" });
+  } catch (error) {
+    console.error("Error reporting question:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+
+
 module.exports = router;

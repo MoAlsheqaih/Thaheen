@@ -353,6 +353,8 @@ function ChapterQuestionsPage() {
                       userRating={currentProgress?.userRating}
                       submitted={currentProgress?.submitted}
                       bookmarked={currentProgress?.bookmarked}
+                      courseId={courseId}
+                      chapterId={chapterId}
                       onSelectAnswer={(answerId) =>
                         updateUserProgress(currentQuestion._id, "selectedAnswerId", answerId)
                       }
@@ -457,9 +459,11 @@ function ChapterQuestionsPage() {
               <h2 className="text-xl font-bold text-[#FD7B06] mt-8">Reported questions</h2>
               {/* Filter questions by those who have a report field and then show the question card with the prop showReported={true} */}
 
-              {questions.filter(q => q.report).map((question) => (
-                <QMQuestionCard key={question.id} question={question} showReported={true} />
+              {questions.filter(q => Array.isArray(q.reports) && q.reports.length > 0).map((question) => (
+                <QMQuestionCard key={question._id} question={question} showReported={true} />
               ))}
+          
+
 
               {viewAddAIQuestionModal && <QMAddAIQuestionModal onClose={(newQuestions) => {
                 setViewAddAIQuestionModal(false);

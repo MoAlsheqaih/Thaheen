@@ -1,6 +1,7 @@
 import { IoBookmarkOutline, IoBookmark } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
 import { useState } from "react";
+import { FaFlag } from "react-icons/fa";
 
 function QuestionCard({
   question,
@@ -14,9 +15,14 @@ function QuestionCard({
   onBookmark,
   progressText,
   progressPercentage,
-  canSolve
+  canSolve,
+  courseId,
+  chapterId,
 }) {
   const [showExplanation, setShowExplanation] = useState(false);
+  const [showReportField, setShowReportField] = useState(false);
+  const [reportText, setReportText] = useState("");
+  const [reportSubmitted, setReportSubmitted] = useState(false);
 
   const handleSelect = (optionId) => {
     if (!submitted && canSolve) {
@@ -69,30 +75,104 @@ function QuestionCard({
 
       {/* Bookmark and Tags */}
       <div className="flex justify-between items-center mb-4">
-        <div className={`cursor-pointer text-2xl ${!canSolve && "opacity-50"}`}>
+        <div
+          className={`flex items-center gap-3 cursor-pointer text-2xl ${
+            !canSolve && "opacity-50"
+          }`}
+        >
           {bookmarked ? (
-            <IoBookmark className="fill-[#FD7B06] text-[#FD7B06]" onClick={handleBookmark} />
+            <IoBookmark
+              className="fill-[#FD7B06] text-[#FD7B06]"
+              onClick={handleBookmark}
+            />
           ) : (
-            <IoBookmarkOutline className="text-[#FD7B06]" onClick={handleBookmark} />
+            <IoBookmarkOutline
+              className="text-[#FD7B06]"
+              onClick={handleBookmark}
+            />
           )}
+          <FaFlag
+            onClick={() => {
+              if (!canSolve) return; 
+              setShowReportField((prev) => !prev);
+            }}
+            className={`text-lg text-red-500 ${canSolve ? "cursor-pointer" : "opacity-50 cursor-not-allowed"}`}
+          />
         </div>
         <div className="flex gap-2">
           <span
-            className={`text-xs font-bold px-2 py-1 rounded-full ${question.type === "AI" ? "bg-teal-100 text-teal-700" : "bg-orange-100 text-orange-700"}`}
+            className={`text-xs font-bold px-2 py-1 rounded-full ${
+              question.type === "AI"
+                ? "bg-teal-100 text-teal-700"
+                : "bg-orange-100 text-orange-700"
+            }`}
           >
             {question.type}
           </span>
           <span
-            className={`text-xs font-bold px-2 py-1 rounded-full ${question.difficulty === "Easy" ? "bg-green-100 text-green-700" : question.difficulty === "Medium" ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"}`}
+            className={`text-xs font-bold px-2 py-1 rounded-full ${
+              question.difficulty === "Easy"
+                ? "bg-green-100 text-green-700"
+                : question.difficulty === "Medium"
+                  ? "bg-yellow-100 text-yellow-700"
+                  : "bg-red-100 text-red-700"
+            }`}
           >
             {question.difficulty}
           </span>
         </div>
       </div>
+      {showReportField && (
+        <div className="mb-4">
+          <textarea
+            className="w-full p-2 border border-gray-300 rounded-md text-sm"
+            placeholder="Describe the issue with this question..."
+            value={reportText}
+            onChange={(e) => setReportText(e.target.value)}
+          />
+          <button
+            onClick={async () => {
+              try {
+                const response = await fetch(
+                  `${process.env.REACT_APP_API_URL}/api/courses/${courseId}/chapters/${chapterId}/questions/${question._id}/report`,
+                  {
+                    method: "PUT",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ message: reportText }),
+                  }
+                );
+
+                if (response.ok) {
+                  setReportText("");
+                  setShowReportField(false);
+                  setReportSubmitted(true);
+                  setTimeout(() => setReportSubmitted(false), 1500);
+                } else {
+                  console.error("Failed to send report");
+                }
+              } catch (error) {
+                console.error("Error submitting report:", error);
+              }
+            }}
+            className="mt-2 bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1 rounded"
+          >
+            Submit Report
+          </button>
+        </div>
+      )}
+      {reportSubmitted && (
+        <div className="mt-2 text-green-600 text-sm font-medium">
+          We received your message. Thank you!
+        </div>
+      )}
 
       {/* Question text */}
       <div className="flex justify-between items-center mb-4">
-        <h3 className="font-semibold text-teal-800 text-wrap">{question.text}</h3>
+        <h3 className="font-semibold text-teal-800 text-wrap">
+          {question.text}
+        </h3>
       </div>
 
       {/* Options */}
@@ -103,7 +183,9 @@ function QuestionCard({
 
           const baseStyle = "p-3 rounded-xl border text-sm font-semibold";
           let answerStyle = "border-gray-300 bg-white";
-          let cursorStyle = canSolve ? "cursor-pointer hover:bg-gray-100" : "cursor-not-allowed";
+          let cursorStyle = canSolve
+            ? "cursor-pointer hover:bg-gray-100"
+            : "cursor-not-allowed";
 
           if (submitted) {
             if (isSelected && isCorrect) {
@@ -155,7 +237,11 @@ function QuestionCard({
                 <FaStar
                   key={star}
                   onClick={() => handleRate(star)}
-                  className={`${canSolve ? "cursor-pointer" : "cursor-not-allowed"} ${star <= userRating ? "text-yellow-400" : "text-gray-300"}`}
+                  className={`${
+                    canSolve ? "cursor-pointer" : "cursor-not-allowed"
+                  } ${
+                    star <= userRating ? "text-yellow-400" : "text-gray-300"
+                  }`}
                 />
               ))}
               <span className="text-xs text-gray-500">
