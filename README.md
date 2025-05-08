@@ -83,7 +83,8 @@ PORT=<if not mentioned, default is 3000>
 ```
 
 > Alternatively, you can access our live deployment of the latest commit at https://thaheen.vercel.app.
-> We recommend running the project locally as Vercel's backend is extremely slow and times out a lot. For ENV variables, you may contact us for ours or use your own.
+> **Note:** the current deployment of the back-end on Heroku causes a time limit on the AI feature because Heroku thinks we're misusing its resources; it will only work if ran locally at the moment. This feature is shown in the demo clearly to prove it does work.
+> For ENV variables, you may contact us for ours or use your own.
 
 
 ## Usage Instructions
