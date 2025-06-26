@@ -82,7 +82,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  if (!isAdmin(req)) {
+  if (!(await isAdmin(req))) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
@@ -107,7 +107,7 @@ router.post("/", async (req, res) => {
 
 // Add a chapter to a course
 router.post("/:id/chapters", async (req, res) => {
-  if (!isQuestionMaster(req) && !isAdmin(req)) {
+  if (!(await isQuestionMaster(req)) && !(await isAdmin(req))) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
@@ -133,7 +133,7 @@ router.post("/:id/chapters", async (req, res) => {
 
 // Delete a chapter from a course
 router.delete("/:id/chapters/:chapterId", async (req, res) => {
-  if (!isQuestionMaster(req) && !isAdmin(req)) {
+  if (!(await isQuestionMaster(req)) && !(await isAdmin(req))) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
@@ -158,7 +158,7 @@ router.delete("/:id/chapters/:chapterId", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-  if (!isAdmin(req)) {
+  if (!(await isAdmin(req))) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
@@ -177,7 +177,7 @@ router.delete("/:id", async (req, res) => {
 
 // Add a question to a chapter
 router.post("/:id/chapters/:chapterId/questions", async (req, res) => {
-  if (!isQuestionMaster(req) && !isAdmin(req)) {
+  if (!(await isQuestionMaster(req)) && !(await isAdmin(req))) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
@@ -223,7 +223,7 @@ router.post("/:id/chapters/:chapterId/questions", async (req, res) => {
 
 // Bulk add questions to a chapter
 router.post("/:id/chapters/:chapterId/questions/bulk", async (req, res) => {
-  if (!isQuestionMaster(req) && !isAdmin(req)) {
+  if (!(await isQuestionMaster(req)) && !(await isAdmin(req))) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
@@ -273,7 +273,7 @@ router.post("/:id/chapters/:chapterId/questions/bulk", async (req, res) => {
 
 // Update a question
 router.put("/:id/chapters/:chapterId/questions/:questionId", async (req, res) => {
-  if (!isQuestionMaster(req) && !isAdmin(req)) {
+  if (!(await isQuestionMaster(req)) && !(await isAdmin(req))) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
@@ -319,7 +319,7 @@ router.put("/:id/chapters/:chapterId/questions/:questionId", async (req, res) =>
 
 // Delete a question from a chapter
 router.delete("/:id/chapters/:chapterId/questions/:questionId", async (req, res) => {
-  if (!isQuestionMaster(req) && !isAdmin(req)) {
+  if (!(await isQuestionMaster(req)) && !(await isAdmin(req))) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 

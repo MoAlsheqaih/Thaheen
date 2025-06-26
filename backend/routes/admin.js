@@ -11,7 +11,7 @@ const router = Router();
 // GET all users
 router.get("/users", async (req, res) => {
     try {
-        if (!isAdmin(req)) {
+        if (!(await isAdmin(req))) {
             return res.status(401).json({ error: "Unauthorized" });
         }
 
@@ -47,7 +47,7 @@ router.get("/users", async (req, res) => {
 // DELETE a user
 router.delete("/users/:userId", async (req, res) => {
     try {
-        if (!isAdmin(req)) {
+        if (!(await isAdmin(req))) {
             return res.status(401).json({ error: "Unauthorized" });
         }
 
@@ -75,7 +75,7 @@ router.delete("/users/:userId", async (req, res) => {
 // PUT to change user role
 router.put("/users/:userId/role", async (req, res) => {
     try {
-        if (!isAdmin(req)) {
+        if (!(await isAdmin(req))) {
             return res.status(401).json({ error: "Unauthorized" });
         }
 
@@ -113,7 +113,7 @@ router.put("/users/:userId/role", async (req, res) => {
 
 router.get("/statistics", async (req, res) => {
     try {
-        if (!isAdmin(req)) {
+        if (!(await isAdmin(req))) {
             return res.status(401).json({ error: "Unauthorized" });
         }
 
@@ -130,7 +130,7 @@ router.get("/statistics", async (req, res) => {
 
 router.get("/most-active", async (req, res) => {
     try {
-        if (!isAdmin(req)) {
+        if (!(await isAdmin(req))) {
             return res.status(401).json({ error: "Unauthorized" });
         }
 

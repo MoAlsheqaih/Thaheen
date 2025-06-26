@@ -88,7 +88,7 @@ Relevant Info: "${relevantInfo}"
 }
 
 router.post("/:courseId/:chapterId", upload.single("pdfFile"), async (req, res) => {
-  if (!isQuestionMaster(req) && !isAdmin(req)) {
+  if (!(await isQuestionMaster(req)) && !(await isAdmin(req))) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
