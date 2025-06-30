@@ -76,9 +76,8 @@ function QuestionCard({
       {/* Bookmark and Tags */}
       <div className="flex justify-between items-center mb-4">
         <div
-          className={`flex items-center gap-3 cursor-pointer text-2xl ${
-            !canSolve && "opacity-50"
-          }`}
+          className={`flex items-center gap-3 cursor-pointer text-2xl ${!canSolve && "opacity-50"
+            }`}
         >
           {bookmarked ? (
             <IoBookmark
@@ -93,7 +92,7 @@ function QuestionCard({
           )}
           <FaFlag
             onClick={() => {
-              if (!canSolve) return; 
+              if (!canSolve) return;
               setShowReportField((prev) => !prev);
             }}
             className={`text-lg text-red-500 ${canSolve ? "cursor-pointer" : "opacity-50 cursor-not-allowed"}`}
@@ -101,22 +100,20 @@ function QuestionCard({
         </div>
         <div className="flex gap-2">
           <span
-            className={`text-xs font-bold px-2 py-1 rounded-full ${
-              question.type === "AI"
+            className={`text-xs font-bold px-2 py-1 rounded-full ${question.type === "AI"
                 ? "bg-teal-100 text-teal-700"
                 : "bg-orange-100 text-orange-700"
-            }`}
+              }`}
           >
             {question.type}
           </span>
           <span
-            className={`text-xs font-bold px-2 py-1 rounded-full ${
-              question.difficulty === "Easy"
+            className={`text-xs font-bold px-2 py-1 rounded-full ${question.difficulty === "Easy"
                 ? "bg-green-100 text-green-700"
                 : question.difficulty === "Medium"
                   ? "bg-yellow-100 text-yellow-700"
                   : "bg-red-100 text-red-700"
-            }`}
+              }`}
           >
             {question.difficulty}
           </span>
@@ -139,6 +136,7 @@ function QuestionCard({
                     method: "PUT",
                     headers: {
                       "Content-Type": "application/json",
+                      "x-auth-token": localStorage.getItem("token"),
                     },
                     body: JSON.stringify({ message: reportText }),
                   }
@@ -237,11 +235,9 @@ function QuestionCard({
                 <FaStar
                   key={star}
                   onClick={() => handleRate(star)}
-                  className={`${
-                    canSolve ? "cursor-pointer" : "cursor-not-allowed"
-                  } ${
-                    star <= userRating ? "text-yellow-400" : "text-gray-300"
-                  }`}
+                  className={`${canSolve ? "cursor-pointer" : "cursor-not-allowed"
+                    } ${star <= userRating ? "text-yellow-400" : "text-gray-300"
+                    }`}
                 />
               ))}
               <span className="text-xs text-gray-500">

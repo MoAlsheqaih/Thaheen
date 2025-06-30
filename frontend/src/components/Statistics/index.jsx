@@ -47,7 +47,11 @@ function StatsCards() {
 
   useEffect(() => {
     const fetchStats = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/statistics`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/statistics`, {
+        headers: {
+          "x-auth-token": localStorage.getItem("token"),
+        },
+      });
       const data = await response.json();
 
       setStats(cardData.map((card) => {

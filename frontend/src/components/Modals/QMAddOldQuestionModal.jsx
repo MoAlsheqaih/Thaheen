@@ -19,7 +19,8 @@ function QMAddOldQuestionModal({ onClose }) {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/courses/${courseId}/chapters/${chapterId}/questions`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "x-auth-token": localStorage.getItem("token"),
         },
         body: JSON.stringify({ type: "Old Exams", question, options, correctOption, explanation, difficulty })
       });

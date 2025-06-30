@@ -63,6 +63,9 @@ function QMAddAIQuestionModal({ onClose }) {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/api/generate/${courseId}/${chapterId}`,
         {
+          headers: {
+            "x-auth-token": localStorage.getItem("token"),
+          },
           method: "POST",
           body: formData,
         }
