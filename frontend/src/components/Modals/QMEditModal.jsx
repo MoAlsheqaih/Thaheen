@@ -19,7 +19,7 @@ function QMEditModal({ question, onClose, onSave }) {
 
   const handleOptionChange = (index, value) => {
     const newOptions = [...editedQuestion.options];
-    newOptions[index] = value;
+    newOptions[index].text = value;
     setEditedQuestion({ ...editedQuestion, options: newOptions });
   };
 
