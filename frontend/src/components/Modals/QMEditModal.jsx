@@ -64,7 +64,7 @@ function QMEditModal({ question, onClose, onSave }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-[#FFF3E6] rounded-[32px] px-8 py-10 shadow-2xl max-w-lg w-full relative">
+      <div className="bg-[#FFF3E6] rounded-[32px] px-8 py-10 shadow-2xl max-w-lg w-full relative max-h-[90vh] overflow-y-auto [&::-webkit-scrollbar]:hidden">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-2xl text-gray-400 hover:text-gray-600"
@@ -132,6 +132,24 @@ function QMEditModal({ question, onClose, onSave }) {
               className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-sm"
               required
             />
+          </div>
+
+          {/* Difficulty */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Difficulty
+            </label>
+
+            <select
+              value={editedQuestion.difficulty}
+              onChange={(e) => setEditedQuestion({ ...editedQuestion, difficulty: e.target.value })}
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl bg-white border border-gray-200 text-sm"
+              required
+            >
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
           </div>
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
