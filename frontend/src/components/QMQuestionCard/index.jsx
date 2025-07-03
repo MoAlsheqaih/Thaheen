@@ -4,6 +4,62 @@ import { useState } from "react";
 
 import QMEditModal from "../Modals/QMEditModal";
 
+import { InlineMath, BlockMath } from "react-katex";
+import "katex/dist/katex.min.css";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { materialLight } from "react-syntax-highlighter/dist/esm/styles/prism";
+
+const parseFormattedText = (text) => {
+  const parts = [];
+
+  // This will match code blocks, math equations, and inline math
+  const regex = /(```[\s\S]*?```|\\\[.*?\\\]|\\\(.*?\\\))/g;
+  let lastIndex = 0;
+
+  const matches = [...text.matchAll(regex)];
+
+  for (const match of matches) {
+    const [fullMatch] = match;
+    const offset = match.index ?? 0;
+
+    // Push plain text before match
+    if (lastIndex < offset) {
+      parts.push(text.slice(lastIndex, offset));
+    }
+
+    if (fullMatch.startsWith("```")) {
+      const lines = fullMatch.split("\n");
+      const firstLine = lines[0]; // ```lang (optional)
+      const language = firstLine.slice(3).trim() || "text";
+      const code = lines.slice(1, -1).join("\n"); // remove ``` and last ```
+      parts.push(
+        <SyntaxHighlighter
+          key={offset}
+          language={language}
+          style={materialLight}
+          customStyle={{ borderRadius: "0.5rem", margin: "0.5em 0", padding: "0.5em" }}
+        >
+          {code}
+        </SyntaxHighlighter>
+      );
+    } else if (fullMatch.startsWith("\\[")) {
+      const content = fullMatch.slice(2, -2);
+      parts.push(<BlockMath key={offset}>{content}</BlockMath>);
+    } else if (fullMatch.startsWith("\\(")) {
+      const content = fullMatch.slice(2, -2);
+      parts.push(<InlineMath key={offset}>{content}</InlineMath>);
+    }
+
+    lastIndex = offset + fullMatch.length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return parts;
+};
+
 function QMQuestionCard({ question: initialQuestion, showReported = false, onDelete }) {
   const [question, setQuestion] = useState(initialQuestion);
   const [viewEditModal, setViewEditModal] = useState(false);
@@ -63,7 +119,7 @@ function QMQuestionCard({ question: initialQuestion, showReported = false, onDel
         </div>
 
         <div className="mb-4">
-          <p className="text-gray-800 font-medium">{question.text}</p>
+          <p className="text-gray-800 font-medium">{parseFormattedText(question.text)}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4 md:mb-0 md:h-0 md:group-hover:h-auto md:overflow-hidden md:opacity-0 md:group-hover:opacity-100 md:group-hover:mb-4 transition-all duration-300">
@@ -72,7 +128,7 @@ function QMQuestionCard({ question: initialQuestion, showReported = false, onDel
               key={option.id}
               className={`p-3 rounded-xl border ${option.id === question.correctOptionId ? "border-green-500 bg-green-50 text-green-800" : "border-gray-300"}`}
             >
-              <span className="font-bold mr-2">{option.id}.</span> {option.text}
+              <span className="font-bold mr-2">{option.id}.</span> {parseFormattedText(option.text)}
             </div>
           ))}
         </div>

@@ -71,7 +71,7 @@ function QMAddOldQuestionModal({ onClose }) {
             <label className="block text-sm font-medium text-gray-700">Options</label>
             {options.map((option, index) => (
               <div key={index} className="flex items-center gap-2 sm:gap-3">
-                <input
+                <textarea
                   type="text"
                   value={option}
                   onChange={(e) => {

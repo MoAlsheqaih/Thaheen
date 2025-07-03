@@ -259,7 +259,7 @@ function QMAddAIQuestionModal({ onClose }) {
                     <label className="block text-sm font-medium text-gray-700">Options</label>
                     {q.options.map((option, oidx) => (
                       <div key={oidx} className="flex items-center gap-2">
-                        <input
+                        <textarea
                           type="text"
                           value={option}
                           onChange={(e) => {

@@ -98,7 +98,7 @@ function QMEditModal({ question, onClose, onSave }) {
             <label className="block text-sm font-medium text-gray-700">Options</label>
             {[0, 1, 2, 3].map((index) => (
               <div key={index} className="flex items-center gap-3">
-                <input
+                <textarea
                   type="text"
                   value={editedQuestion.options[index].text}
                   onChange={(e) => handleOptionChange(index, e.target.value)}

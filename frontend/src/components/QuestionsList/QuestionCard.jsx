@@ -1,7 +1,61 @@
 import { IoBookmarkOutline, IoBookmark } from "react-icons/io5";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaFlag } from "react-icons/fa";
 import { useState } from "react";
-import { FaFlag } from "react-icons/fa";
+import { InlineMath, BlockMath } from "react-katex";
+import "katex/dist/katex.min.css";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { materialLight } from "react-syntax-highlighter/dist/esm/styles/prism";
+
+const parseFormattedText = (text) => {
+  const parts = [];
+
+  // This will match code blocks, math equations, and inline math
+  const regex = /(```[\s\S]*?```|\\\[.*?\\\]|\\\(.*?\\\))/g;
+  let lastIndex = 0;
+
+  const matches = [...text.matchAll(regex)];
+
+  for (const match of matches) {
+    const [fullMatch] = match;
+    const offset = match.index ?? 0;
+
+    // Push plain text before match
+    if (lastIndex < offset) {
+      parts.push(text.slice(lastIndex, offset));
+    }
+
+    if (fullMatch.startsWith("```")) {
+      const lines = fullMatch.split("\n");
+      const firstLine = lines[0]; // ```lang (optional)
+      const language = firstLine.slice(3).trim() || "text";
+      const code = lines.slice(1, -1).join("\n"); // remove ``` and last ```
+      parts.push(
+        <SyntaxHighlighter
+          key={offset}
+          language={language}
+          style={materialLight}
+          customStyle={{ borderRadius: "0.5rem", margin: "0.5em 0", padding: "0.5em" }}
+        >
+          {code}
+        </SyntaxHighlighter>
+      );
+    } else if (fullMatch.startsWith("\\[")) {
+      const content = fullMatch.slice(2, -2);
+      parts.push(<BlockMath key={offset}>{content}</BlockMath>);
+    } else if (fullMatch.startsWith("\\(")) {
+      const content = fullMatch.slice(2, -2);
+      parts.push(<InlineMath key={offset}>{content}</InlineMath>);
+    }
+
+    lastIndex = offset + fullMatch.length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return parts;
+};
 
 function QuestionCard({
   question,
@@ -166,7 +220,7 @@ function QuestionCard({
       {/* Question text */}
       <div className="flex justify-between items-center mb-4">
         <h3 className="font-semibold text-teal-800 text-wrap">
-          {question.text}
+          {parseFormattedText(question.text)}
         </h3>
       </div>
 
@@ -202,7 +256,7 @@ function QuestionCard({
               className={`${baseStyle} ${answerStyle} ${cursorStyle}`}
               onClick={() => handleSelect(option.id)}
             >
-              <span className="font-bold mr-2">{option.id}.</span> {option.text}
+              <span className="font-bold mr-2">{option.id}.</span> {parseFormattedText(option.text)}
               {submitted && (
                 <span className="float-right text-sm text-orange-600 font-medium">
                   {calculatePercentage(option.count)}
