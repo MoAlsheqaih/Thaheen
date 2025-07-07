@@ -11,7 +11,7 @@ const router = Router();
 
 const storage = multer.memoryStorage(); // Changed to memory storage to make this work on Heroku
 
-const upload = multer({ storage, limits: { fileSize: 1024 * 1024 * 5 } }); // 5MB limit because Heroku has ~512MB memory
+const upload = multer({ storage, limits: { fileSize: 1024 * 1024 * 100 } }); // 100MB limit
 
 async function extractSlidesAsImages(pdfBuffer, slideStart, slideEnd) {
   const document = await pdf(pdfBuffer);
@@ -133,7 +133,7 @@ router.post("/:courseId/:chapterId", upload.single("pdfFile"), async (req, res) 
   }
 }, (err, req, res, next) => {
   if (err.code === "LIMIT_FILE_SIZE") {
-    return res.status(413).json({ error: "File size limit exceeded. Maximum: 5MB." });
+    return res.status(413).json({ error: "File size limit exceeded. Maximum: 100MB." });
   }
 
   next(err);
