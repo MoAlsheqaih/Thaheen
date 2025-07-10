@@ -9,8 +9,8 @@ import { materialLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 const parseFormattedText = (text) => {
   const parts = [];
 
-  // This will match code blocks, math equations, and inline math
-  const regex = /(```[\s\S]*?```|\\\[.*?\\\]|\\\(.*?\\\))/g;
+  // This will match code blocks, math equations, inline math, and images
+  const regex = /(```[\s\S]*?```|\\\[.*?\\\]|\\\(.*?\\\)|!\[.*?\]\(.*?\))/g;
   let lastIndex = 0;
 
   const matches = [...text.matchAll(regex)];
@@ -45,7 +45,23 @@ const parseFormattedText = (text) => {
     } else if (fullMatch.startsWith("\\(")) {
       const content = fullMatch.slice(2, -2);
       parts.push(<InlineMath key={offset}>{content}</InlineMath>);
+    } else if (fullMatch.startsWith("![")) {
+      const match = fullMatch.match(/!\[(.*?)\]\((.*?)\)/);
+
+      if (match) {
+        const alt = match[1];
+        const src = match[2];
+        parts.push(
+          <img
+            key={offset}
+            src={src}
+            alt={alt}
+            style={{ maxWidth: "100%", margin: "1em 0", borderRadius: "0.5rem" }}
+          />
+        );
+      }
     }
+
 
     lastIndex = offset + fullMatch.length;
   }
