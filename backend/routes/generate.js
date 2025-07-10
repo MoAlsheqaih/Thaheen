@@ -31,7 +31,7 @@ async function extractSlidesAsImages(pdfBuffer, slideStart, slideEnd) {
 }
 
 // Placeholder utility for generating questions with GPT-4o in a single call
-async function generateQuestionsWithGPT4O({ relevantInfo, slideImages, course, chapter, numQuestions }) {
+async function generateQuestionsWithAI({ relevantInfo, slideImages, course, chapter, numQuestions }) {
   // Compose the system and user prompt
   const systemPrompt = `You are a question generator. Given a course, chapter, relevant information, and slide images, generate an array of ${numQuestions} JSON objects, each with:
 {
@@ -41,7 +41,16 @@ async function generateQuestionsWithGPT4O({ relevantInfo, slideImages, course, c
   "explanation": "...",
   "difficulty": "Easy" | "Medium" | "Hard"
 }
-Return only a valid JSON array. Do NOT include markdown formatting (no triple backticks or \`\`\`json), titles, or extra text.`;
+Return only a valid JSON array. Do NOT use any non-mentioned formatting, titles, or extra text.
+
+Code blocks:
+\`\`\`<language>
+<code>
+\`\`\`
+
+Inline LaTeX: \\( ... \\)
+Block LaTeX:
+\\ [ ... \\ ]`;
 
   // Compose the user message
   let userPrompt = `Course: "${course.name}"
@@ -71,7 +80,7 @@ Relevant Info: "${relevantInfo}"
   const response = await axios.post(
     "https://api.openai.com/v1/chat/completions",
     {
-      model: "gpt-4o",
+      model: "gpt-4.1-nano-2025-04-14",
       messages,
     },
     {
@@ -112,7 +121,7 @@ router.post("/:courseId/:chapterId", upload.single("pdfFile"), async (req, res) 
     }
 
     // 2. Generate all questions in a single GPT-4o call
-    const questions = await generateQuestionsWithGPT4O({
+    const questions = await generateQuestionsWithAI({
       relevantInfo,
       slideImages,
       course,
